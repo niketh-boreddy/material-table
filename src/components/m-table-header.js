@@ -127,9 +127,9 @@ export class MTableHeader extends React.Component {
     if (this.props.showActionsColumn) {
       if (this.props.actionsHeaderIndex >= 0) {
         let endPos = 0;
-        /*if (this.props.hasSelection) {
+        if (this.props.hasSelection) {
           endPos = 1;
-        }*/
+        }
         headers.splice(this.props.actionsHeaderIndex + endPos, 0, this.renderActionsHeader());
       } else if (this.props.actionsHeaderIndex === -1) {
         headers.push(this.renderActionsHeader());

@@ -240,9 +240,15 @@ function (_React$Component) {
     key: "renderActions",
     value: function renderActions() {
       var classes = this.props.classes;
+      var selectedActions = null;
+
+      if (this.props.selectedRows && this.props.selectedRows.length > 0) {
+        selectedActions = this.renderSelectedActions();
+      }
+
       return React.createElement("div", {
         className: classes.actions
-      }, React.createElement("div", null, this.props.selectedRows && this.props.selectedRows.length > 0 ? this.renderSelectedActions() : this.renderDefaultActions()));
+      }, React.createElement("div", null, selectedActions, this.renderDefaultActions()));
     }
   }, {
     key: "renderToolbarTitle",
