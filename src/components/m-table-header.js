@@ -17,7 +17,7 @@ export class MTableHeader extends React.Component {
       .map((columnDef, index) => {
         let content = columnDef.title;
 
-        if(this.props.draggable) {
+        if (this.props.draggable) {
           content = (
             <Draggable
               key={columnDef.tableData.id}
@@ -47,14 +47,14 @@ export class MTableHeader extends React.Component {
                   columnDef.tableData.id !== this.props.orderBy
                     ? 'asc'
                     : this.props.orderDirection === 'asc'
-                    ? 'desc'
-                    : this.props.orderDirection === 'desc' && this.props.thirdSortClick
-                    ? ''
-                    : this.props.orderDirection === 'desc' && !this.props.thirdSortClick
-                    ? 'asc'
-                    : this.props.orderDirection === ''
-                    ? 'asc'
-                    : 'desc';
+                      ? 'desc'
+                      : this.props.orderDirection === 'desc' && this.props.thirdSortClick
+                        ? ''
+                        : this.props.orderDirection === 'desc' && !this.props.thirdSortClick
+                          ? 'asc'
+                          : this.props.orderDirection === ''
+                            ? 'asc'
+                            : 'desc';
                 this.props.onOrderChange(columnDef.tableData.id, orderDirection);
               }}
             >
@@ -111,11 +111,11 @@ export class MTableHeader extends React.Component {
 
   renderDetailPanelColumnCell() {
     return <TableCell
-            padding="none"
-            key="key-detail-panel-column"
-            className={this.props.classes.header}
-            style={{ ...this.props.headerStyle }}
-          />;
+      padding="none"
+      key="key-detail-panel-column"
+      className={this.props.classes.header}
+      style={{ ...this.props.headerStyle }}
+    />;
   }
 
   render() {
@@ -127,9 +127,9 @@ export class MTableHeader extends React.Component {
     if (this.props.showActionsColumn) {
       if (this.props.actionsHeaderIndex >= 0) {
         let endPos = 0;
-        if (this.props.hasSelection) {
+        /*if (this.props.hasSelection) {
           endPos = 1;
-        }
+        }*/
         headers.splice(this.props.actionsHeaderIndex + endPos, 0, this.renderActionsHeader());
       } else if (this.props.actionsHeaderIndex === -1) {
         headers.push(this.renderActionsHeader());
