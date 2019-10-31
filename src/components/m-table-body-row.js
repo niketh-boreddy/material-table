@@ -37,7 +37,7 @@ export default class MTableBodyRow extends React.Component {
     const actions = this.props.actions.filter(a => !a.isFreeAction && !this.props.options.selection);
     return (
       <TableCell size={size} padding="none" key="key-actions-column" style={{ width: baseIconSize * actions.length, padding: '0px 5px', ...this.props.options.actionsCellStyle }}>
-        <div style={{ display: 'flex' }}>
+        <div style={{ justifyContent: 'center', display: 'flex' }}>
           <this.props.components.Actions data={this.props.data} actions={actions} components={this.props.components} size={size} />
         </div>
       </TableCell>
@@ -302,7 +302,7 @@ export default class MTableBodyRow extends React.Component {
                   components={this.props.components}
                   data={data}
                   icons={this.props.icons}
-                  localization={this.props.localization}          
+                  localization={this.props.localization}
                   getFieldValue={this.props.getFieldValue}
                   key={index}
                   mode={data.tableData.editing}
