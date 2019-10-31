@@ -18,11 +18,11 @@ export default class MTableEditRow extends React.Component {
     };
   }
 
-  createRowData(){
-    return this.props.columns.filter(column => (column.initialEditValue || column.initialEditValue === 0) && column.field).reduce((prev,column)=>{
-      prev[column.field]=column.initialEditValue;
+  createRowData() {
+    return this.props.columns.filter(column => (column.initialEditValue || column.initialEditValue === 0) && column.field).reduce((prev, column) => {
+      prev[column.field] = column.initialEditValue;
       return prev;
-    },{});
+    }, {});
   }
 
   renderColumns() {
@@ -49,8 +49,8 @@ export default class MTableEditRow extends React.Component {
         if (columnDef.editable === 'onUpdate' && this.props.mode === 'update') {
           allowEditing = true;
         }
-        if (typeof columnDef.editable == 'function'){
-            allowEditing = columnDef.editable(columnDef, this.props.data);
+        if (typeof columnDef.editable == 'function') {
+          allowEditing = columnDef.editable(columnDef, this.props.data);
         }
         if (!columnDef.field || !allowEditing) {
           const readonlyValue = this.props.getFieldValue(this.state.data, columnDef);
@@ -116,7 +116,7 @@ export default class MTableEditRow extends React.Component {
     ];
     return (
       <TableCell padding="none" key="key-actions-column" style={{ width: 42 * actions.length, padding: '0px 5px' }}>
-        <div style={{ display: 'flex' }}>
+        <div style={{ justifyContent: 'center', display: 'flex' }}>
           <this.props.components.Actions data={this.props.data} actions={actions} components={this.props.components} />
         </div>
       </TableCell>

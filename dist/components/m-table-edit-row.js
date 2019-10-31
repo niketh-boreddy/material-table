@@ -176,6 +176,7 @@ function (_React$Component) {
         }
       }, React.createElement("div", {
         style: {
+          justifyContent: 'center',
           display: 'flex'
         }
       }, React.createElement(this.props.components.Actions, {
