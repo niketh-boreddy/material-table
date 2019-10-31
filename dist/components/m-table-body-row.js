@@ -117,12 +117,11 @@ function (_React$Component) {
         padding: "none",
         key: "key-actions-column",
         style: (0, _objectSpread2["default"])({
-          width: baseIconSize * actions.length,
+          width: baseIconSize * (actions.length > 2 ? 2 : actions.length),
           padding: '0px 5px'
         }, this.props.options.actionsCellStyle)
       }, React.createElement("div", {
         style: {
-          justifyContent: 'center',
           display: 'flex'
         }
       }, React.createElement(this.props.components.Actions, {
