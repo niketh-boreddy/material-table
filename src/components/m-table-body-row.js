@@ -53,10 +53,10 @@ export default class MTableBodyRow extends React.Component {
     const baseIconSize = size === 'medium' ? 42 : 26;
 
     const styles = size === 'medium' ? {
-      marginLeft: this.props.level * 9
+      marginLeft: this.props.level ? this.props.level * 9 : 9
     } : {
         padding: "4px",
-        marginLeft: 5 + this.props.level * 9
+        marginLeft: 5 + (this.props.level ? this.props.level * 9 : 9)
       };
 
     return (

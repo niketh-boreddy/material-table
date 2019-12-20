@@ -145,10 +145,10 @@ function (_React$Component) {
       var size = this.getElementSize();
       var baseIconSize = size === 'medium' ? 42 : 26;
       var styles = size === 'medium' ? {
-        marginLeft: this.props.level * 9
+        marginLeft: this.props.level ? this.props.level * 9 : 9
       } : {
         padding: "4px",
-        marginLeft: 5 + this.props.level * 9
+        marginLeft: 5 + (this.props.level ? this.props.level * 9 : 9)
       };
       return React.createElement(_TableCell["default"], {
         size: this.getElementSize(),

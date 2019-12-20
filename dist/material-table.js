@@ -288,6 +288,13 @@ function (_React$Component) {
         return _this.onSelectionChange(dataClicked);
       });
     });
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onGroupRowSelected", function (event, path, selectedGroup) {
+      _this.dataManager.changeGroupRowSelected(event.target.checked, path, selectedGroup);
+
+      _this.setState(_this.dataManager.getRenderState(), function () {
+        return _this.onSelectionChange(selectedGroup);
+      });
+    });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onSelectionChange", function (dataClicked) {
       if (_this.props.onSelectionChange) {
         var selectedRows = [];
@@ -306,6 +313,8 @@ function (_React$Component) {
 
         _this.props.onSelectionChange(selectedRows, dataClicked);
       }
+    });
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onGroupSelectionChange", function (groupClicked) {//console.log(this.dataManager.getRenderState());
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "onSearchChange", function (searchText) {
       return _this.setState({
@@ -688,6 +697,7 @@ function (_React$Component) {
           isTreeData: _this4.props.parentChildData !== undefined,
           onFilterChanged: _this4.onFilterChange,
           onRowSelected: _this4.onRowSelected,
+          onGroupRowSelected: _this4.onGroupRowSelected,
           onToggleDetailPanel: _this4.onToggleDetailPanel,
           onGroupExpandChanged: _this4.onGroupExpandChanged,
           onTreeExpandChanged: _this4.onTreeExpandChanged,

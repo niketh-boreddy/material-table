@@ -35,6 +35,8 @@ var _IconButton = _interopRequireDefault(require("@material-ui/core/IconButton")
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _Checkbox = _interopRequireDefault(require("@material-ui/core/Checkbox"));
+
 var React = _interopRequireWildcard(require("react"));
 
 /* eslint-disable no-unused-vars */
@@ -171,9 +173,9 @@ function (_React$Component) {
 
       if (typeof title !== "string") {
         title = React.cloneElement(title);
-      }
+      } //let separator = this.props.options.groupRowSeparator || ": ";
 
-      var separator = this.props.options.groupRowSeparator || ": ";
+
       return React.createElement(React.Fragment, null, React.createElement(_TableRow["default"], null, freeCells, React.createElement(this.props.components.Cell, {
         colSpan: colSpan,
         padding: "none",
@@ -187,7 +189,17 @@ function (_React$Component) {
         onClick: function onClick(event) {
           _this2.props.onGroupExpandChanged(_this2.props.path);
         }
-      }, React.createElement(this.props.icons.DetailPanel, null)), React.createElement("b", null, title, separator))), detail);
+      }, React.createElement(this.props.icons.DetailPanel, null)), React.createElement(_Checkbox["default"], {
+        checked: this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount === this.props.groupData.childrenCount,
+        indeterminate: this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount < this.props.groupData.childrenCount,
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        },
+        value: this.props.groupData.value.toString(),
+        onChange: function onChange(event) {
+          return _this2.props.onGroupRowSelected(event, _this2.props.path, _this2.props.groupData);
+        }
+      }))), detail);
     }
   }]);
   return MTableGroupRow;
@@ -215,6 +227,7 @@ MTableGroupRow.propTypes = {
   localization: _propTypes["default"].object,
   onGroupExpandChanged: _propTypes["default"].func,
   onRowSelected: _propTypes["default"].func,
+  onGroupRowSelected: _propTypes["default"].func,
   onRowClick: _propTypes["default"].func,
   onToggleDetailPanel: _propTypes["default"].func.isRequired,
   onTreeExpandChanged: _propTypes["default"].func.isRequired,
@@ -222,4 +235,4 @@ MTableGroupRow.propTypes = {
   onEditingApproved: _propTypes["default"].func,
   options: _propTypes["default"].object,
   path: _propTypes["default"].arrayOf(_propTypes["default"].number)
-};
+}; //<!--<b>{title}{separator}</b>-->

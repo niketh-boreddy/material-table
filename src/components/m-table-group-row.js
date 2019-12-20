@@ -3,6 +3,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
+import Checkbox from '@material-ui/core/Checkbox';
+
 import * as React from 'react';
 /* eslint-enable no-unused-vars */
 
@@ -15,7 +17,7 @@ export default class MTableGroupRow extends React.Component {
 
   render() {
     let colSpan = this.props.columns.filter(columnDef => !columnDef.hidden).length;
-    this.props.options.selection && colSpan++;    
+    this.props.options.selection && colSpan++;
     this.props.detailPanel && colSpan++;
     this.props.actions && this.props.actions.length > 0 && colSpan++;
     const column = this.props.groups[this.props.level];
@@ -32,7 +34,7 @@ export default class MTableGroupRow extends React.Component {
             detailPanel={this.props.detailPanel}
             getFieldValue={this.props.getFieldValue}
             groupData={groupData}
-            groups={this.props.groups}            
+            groups={this.props.groups}
             icons={this.props.icons}
             level={this.props.level + 1}
             path={[...this.props.path, index]}
@@ -99,8 +101,9 @@ export default class MTableGroupRow extends React.Component {
     }
 
     const freeCells = [];
+
     for (let i = 0; i < this.props.level; i++) {
-      freeCells.push(<TableCell padding="checkbox" key={ i } />);
+      freeCells.push(<TableCell padding="checkbox" key={i} />);
     }
 
     let value = this.props.groupData.value;
@@ -113,16 +116,15 @@ export default class MTableGroupRow extends React.Component {
       title = React.cloneElement(title);
     }
 
-    let separator = this.props.options.groupRowSeparator || ": ";
-
-      return (
+    //let separator = this.props.options.groupRowSeparator || ": ";
+    return (
       <>
         <TableRow>
           {freeCells}
-          <this.props.components.Cell 
-            colSpan={colSpan} 
-            padding="none" 
-            columnDef={column} 
+          <this.props.components.Cell
+            colSpan={colSpan}
+            padding="none"
+            columnDef={column}
             value={value}
             icons={this.props.icons}
           >
@@ -134,7 +136,15 @@ export default class MTableGroupRow extends React.Component {
             >
               <this.props.icons.DetailPanel />
             </IconButton>
-            <b>{title}{separator}</b>
+
+            <Checkbox
+              checked={this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount === this.props.groupData.childrenCount}
+              indeterminate={this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount < this.props.groupData.childrenCount}
+              onClick={(e) => e.stopPropagation()}
+              value={this.props.groupData.value.toString()}
+              onChange={(event) => this.props.onGroupRowSelected(event, this.props.path, this.props.groupData)}
+            />
+
           </this.props.components.Cell>
         </TableRow>
         {detail}
@@ -165,7 +175,8 @@ MTableGroupRow.propTypes = {
   localization: PropTypes.object,
   onGroupExpandChanged: PropTypes.func,
   onRowSelected: PropTypes.func,
-  onRowClick: PropTypes.func,  
+  onGroupRowSelected: PropTypes.func,
+  onRowClick: PropTypes.func,
   onToggleDetailPanel: PropTypes.func.isRequired,
   onTreeExpandChanged: PropTypes.func.isRequired,
   onEditingCanceled: PropTypes.func,
@@ -173,3 +184,5 @@ MTableGroupRow.propTypes = {
   options: PropTypes.object,
   path: PropTypes.arrayOf(PropTypes.number),
 };
+
+            //<!--<b>{title}{separator}</b>-->

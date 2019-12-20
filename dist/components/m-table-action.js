@@ -65,6 +65,7 @@ function (_React$Component) {
 
       var handleOnClick = function handleOnClick(event) {
         if (action.onClick) {
+          event.preventDefault();
           action.onClick(event, _this.props.data);
           event.stopPropagation();
         }

@@ -112,6 +112,34 @@ export default class DataManager {
     this.filtered = false;
   }
 
+  changeGroupRowSelected(checked, path, selectedGroup) {
+    const grp = this.groupedData.find(grp => grp.value == selectedGroup.value);
+
+    var diffCount = this.getSelectionCountDiff(grp, checked);
+    this.selectedCount = this.selectedCount + (checked ? diffCount : -diffCount);
+
+    grp.data.map(row => row.tableData.checked = checked);
+    this.updateGroupSelectionCount(grp);
+
+    this.grouped = false;
+    this.filtered = false;
+  }
+
+  //Get the number of children whose checked state will change because of the Group checkbox click
+  getSelectionCountDiff(group, checked) {
+    var diffCount = 0;
+    group.data.map(row => { if (row.tableData.checked != checked) { diffCount++ } });
+    return diffCount;
+  }
+
+  updateGroupSelectionCount(group) {
+    var selected = 0;
+    if (group.data) {
+      group.data.map(row => { if (row.tableData.checked) { selected++ } });
+    }
+    group.selectedCount = selected;
+  }
+
   changeRowSelected(checked, path) {
     const rowData = this.findDataByPath(this.sortedData, path);
     rowData.tableData.checked = checked;
@@ -130,6 +158,10 @@ export default class DataManager {
     };
 
     checkChildRows(rowData);
+
+    if (this.grouped) {
+      this.grouped = false;
+    }
 
     this.filtered = false;
   }
@@ -211,6 +243,7 @@ export default class DataManager {
     }
 
     this.selectedCount = checked ? selectedCount : 0;
+    this.grouped = false;
   }
 
   changeOrder(orderBy, orderDirection) {
@@ -234,7 +267,7 @@ export default class DataManager {
     this.sorted = false;
   }
 
-  changeColumnHidden(column, hidden) {    
+  changeColumnHidden(column, hidden) {
     column.hidden = hidden;
   }
 
@@ -618,9 +651,20 @@ export default class DataManager {
 
         if (!group) {
           const path = [...(o.path || []), value];
-          let oldGroup = this.findGroupByGroupPath(this.groupedData, path) || { isExpanded: (typeof this.defaultExpanded ==='boolean') ? this.defaultExpanded : false };
+          let oldGroup = this.findGroupByGroupPath(this.groupedData, path) || { isExpanded: (typeof this.defaultExpanded === 'boolean') ? this.defaultExpanded : false };
+          this.updateGroupSelectionCount(oldGroup);
 
-          group = { value, groups: [], groupsIndex: {}, data: [], isExpanded: oldGroup.isExpanded, path: path };
+          group = {
+            value,
+            groups: [],
+            groupsIndex: {},
+            data: [],
+            isExpanded: oldGroup.isExpanded,
+            path: path,
+            childrenCount: oldGroup.data ? oldGroup.data.length : 0,
+            selectedCount: oldGroup.selectedCount || 0
+          };
+
           o.groups.push(group);
           o.groupsIndex[value] = o.groups.length - 1;
         }
@@ -707,9 +751,9 @@ export default class DataManager {
     this.data.forEach(rowData => {
       if (!this.searchText && !this.columns.some(columnDef => columnDef.tableData.filterValue)) {
         if (rowData.tableData.isTreeExpanded === undefined) {
-          var isExpanded = (typeof this.defaultExpanded ==='boolean') ? this.defaultExpanded : this.defaultExpanded(rowData);
+          var isExpanded = (typeof this.defaultExpanded === 'boolean') ? this.defaultExpanded : this.defaultExpanded(rowData);
           rowData.tableData.isTreeExpanded = isExpanded;
-        } 
+        }
       }
       const hasSearchMatchedChildren = rowData.tableData.isTreeExpanded;
 

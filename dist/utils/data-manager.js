@@ -351,6 +351,48 @@ function () {
       this.filtered = false;
     }
   }, {
+    key: "changeGroupRowSelected",
+    value: function changeGroupRowSelected(checked, path, selectedGroup) {
+      var grp = this.groupedData.find(function (grp) {
+        return grp.value == selectedGroup.value;
+      });
+      var diffCount = this.getSelectionCountDiff(grp, checked);
+      this.selectedCount = this.selectedCount + (checked ? diffCount : -diffCount);
+      grp.data.map(function (row) {
+        return row.tableData.checked = checked;
+      });
+      this.updateGroupSelectionCount(grp);
+      this.grouped = false;
+      this.filtered = false;
+    } //Get the number of children whose checked state will change because of the Group checkbox click
+
+  }, {
+    key: "getSelectionCountDiff",
+    value: function getSelectionCountDiff(group, checked) {
+      var diffCount = 0;
+      group.data.map(function (row) {
+        if (row.tableData.checked != checked) {
+          diffCount++;
+        }
+      });
+      return diffCount;
+    }
+  }, {
+    key: "updateGroupSelectionCount",
+    value: function updateGroupSelectionCount(group) {
+      var selected = 0;
+
+      if (group.data) {
+        group.data.map(function (row) {
+          if (row.tableData.checked) {
+            selected++;
+          }
+        });
+      }
+
+      group.selectedCount = selected;
+    }
+  }, {
     key: "changeRowSelected",
     value: function changeRowSelected(checked, path) {
       var _this3 = this;
@@ -373,6 +415,11 @@ function () {
       };
 
       checkChildRows(rowData);
+
+      if (this.grouped) {
+        this.grouped = false;
+      }
+
       this.filtered = false;
     }
   }, {
@@ -454,6 +501,7 @@ function () {
       }
 
       this.selectedCount = checked ? selectedCount : 0;
+      this.grouped = false;
     }
   }, {
     key: "changeOrder",
@@ -682,13 +730,18 @@ function () {
             var oldGroup = _this5.findGroupByGroupPath(_this5.groupedData, path) || {
               isExpanded: typeof _this5.defaultExpanded === 'boolean' ? _this5.defaultExpanded : false
             };
+
+            _this5.updateGroupSelectionCount(oldGroup);
+
             group = {
               value: value,
               groups: [],
               groupsIndex: {},
               data: [],
               isExpanded: oldGroup.isExpanded,
-              path: path
+              path: path,
+              childrenCount: oldGroup.data ? oldGroup.data.length : 0,
+              selectedCount: oldGroup.selectedCount || 0
             };
             o.groups.push(group);
             o.groupsIndex[value] = o.groups.length - 1;

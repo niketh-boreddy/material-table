@@ -103,8 +103,8 @@ export default class MaterialTable extends React.Component {
     calculatedProps.components = { ...MaterialTable.defaultProps.components, ...calculatedProps.components };
     calculatedProps.icons = { ...MaterialTable.defaultProps.icons, ...calculatedProps.icons };
     calculatedProps.options = { ...MaterialTable.defaultProps.options, ...calculatedProps.options };
-		
-    const localization =  { ...MaterialTable.defaultProps.localization.body, ...calculatedProps.localization.body };
+
+    const localization = { ...MaterialTable.defaultProps.localization.body, ...calculatedProps.localization.body };
 
     calculatedProps.actions = [...(calculatedProps.actions || [])];
     if (calculatedProps.editable) {
@@ -207,6 +207,7 @@ export default class MaterialTable extends React.Component {
       if (!this.isOutsidePageNumbers(this.props)) {
         this.dataManager.changeCurrentPage(page);
       }
+
       this.setState(this.dataManager.getRenderState(), () => {
         this.props.onChangePage && this.props.onChangePage(page);
       });
@@ -356,6 +357,11 @@ export default class MaterialTable extends React.Component {
     this.setState(this.dataManager.getRenderState(), () => this.onSelectionChange(dataClicked));
   }
 
+  onGroupRowSelected = (event, path, selectedGroup) => {
+    this.dataManager.changeGroupRowSelected(event.target.checked, path, selectedGroup);
+    this.setState(this.dataManager.getRenderState(), () => this.onSelectionChange(selectedGroup));
+  }
+
   onSelectionChange = (dataClicked) => {
     if (this.props.onSelectionChange) {
       const selectedRows = [];
@@ -373,6 +379,10 @@ export default class MaterialTable extends React.Component {
       findSelecteds(this.state.originalData);
       this.props.onSelectionChange(selectedRows, dataClicked);
     }
+  }
+
+  onGroupSelectionChange = (groupClicked) => {
+    //console.log(this.dataManager.getRenderState());
   }
 
   onSearchChange = searchText => this.setState({ searchText }, this.onSearchChangeDebounce)
@@ -576,6 +586,7 @@ export default class MaterialTable extends React.Component {
                         isTreeData={this.props.parentChildData !== undefined}
                         onFilterChanged={this.onFilterChange}
                         onRowSelected={this.onRowSelected}
+                        onGroupRowSelected={this.onGroupRowSelected}
                         onToggleDetailPanel={this.onToggleDetailPanel}
                         onGroupExpandChanged={this.onGroupExpandChanged}
                         onTreeExpandChanged={this.onTreeExpandChanged}

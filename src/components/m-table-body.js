@@ -106,6 +106,7 @@ class MTableBody extends React.Component {
         path={[index + this.props.pageSize * this.props.currentPage]}
         onGroupExpandChanged={this.props.onGroupExpandChanged}
         onRowSelected={this.props.onRowSelected}
+        onGroupRowSelected={this.props.onGroupRowSelected}
         onRowClick={this.props.onRowClick}
         onEditingCanceled={this.props.onEditingCanceled}
         onEditingApproved={this.props.onEditingApproved}
@@ -228,6 +229,7 @@ MTableBody.propTypes = {
   localization: PropTypes.object,
   onFilterChanged: PropTypes.func,
   onGroupExpandChanged: PropTypes.func,
+  onGroupRowSelected: PropTypes.func,
   onToggleDetailPanel: PropTypes.func.isRequired,
   onTreeExpandChanged: PropTypes.func.isRequired,
   onRowClick: PropTypes.func,
