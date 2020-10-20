@@ -239,9 +239,7 @@ function (_React$Component) {
     key: "renderActions",
     value: function renderActions() {
       var classes = this.props.classes;
-      var selectedActions = null;
-
-      // if (this.props.selectedRows && this.props.selectedRows.length > 0) {
+      var selectedActions = null; // if (this.props.selectedRows && this.props.selectedRows.length > 0) {
       //   //selectedActions = this.renderSelectedActions();
       // }
 

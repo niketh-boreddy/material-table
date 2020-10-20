@@ -105,8 +105,6 @@ function (_React$Component) {
   }, {
     key: "renderActions",
     value: function renderActions() {
-      var _this3 = this;
-
       var size = this.getElementSize();
       var baseIconSize = size === 'medium' ? 42 : 26;
       var actions = this.props.actions.filter(function (a) {
@@ -134,7 +132,7 @@ function (_React$Component) {
   }, {
     key: "renderSelectionColumn",
     value: function renderSelectionColumn() {
-      var _this4 = this;
+      var _this3 = this;
 
       var checkboxProps = this.props.options.selectionProps || {};
 
@@ -165,7 +163,7 @@ function (_React$Component) {
         },
         value: this.props.data.tableData.id.toString(),
         onChange: function onChange(event) {
-          return _this4.props.onRowSelected(event, _this4.props.path, _this4.props.data);
+          return _this3.props.onRowSelected(event, _this3.props.path, _this3.props.data);
         },
         style: styles
       }, checkboxProps)));
@@ -173,7 +171,7 @@ function (_React$Component) {
   }, {
     key: "renderDetailPanelColumn",
     value: function renderDetailPanelColumn() {
-      var _this5 = this;
+      var _this4 = this;
 
       var CustomIcon = function CustomIcon(_ref) {
         var icon = _ref.icon,
@@ -196,7 +194,7 @@ function (_React$Component) {
             transition: 'all ease 200ms'
           }, this.rotateIconStyle(this.props.data.tableData.showDetailPanel)),
           onClick: function onClick(event) {
-            _this5.props.onToggleDetailPanel(_this5.props.path, _this5.props.detailPanel);
+            _this4.props.onToggleDetailPanel(_this4.props.path, _this4.props.detailPanel);
 
             event.stopPropagation();
           }
@@ -214,11 +212,11 @@ function (_React$Component) {
           }
         }, this.props.detailPanel.map(function (panel, index) {
           if (typeof panel === "function") {
-            panel = panel(_this5.props.data);
+            panel = panel(_this4.props.data);
           }
 
-          var isOpen = (_this5.props.data.tableData.showDetailPanel || '').toString() === panel.render.toString();
-          var iconButton = React.createElement(_this5.props.icons.DetailPanel, null);
+          var isOpen = (_this4.props.data.tableData.showDetailPanel || '').toString() === panel.render.toString();
+          var iconButton = React.createElement(_this4.props.icons.DetailPanel, null);
           var animation = true;
 
           if (isOpen) {
@@ -243,14 +241,14 @@ function (_React$Component) {
           }
 
           iconButton = React.createElement(_IconButton["default"], {
-            size: _this5.getElementSize(),
+            size: _this4.getElementSize(),
             key: "key-detail-panel-" + index,
             style: (0, _objectSpread2["default"])({
               transition: 'all ease 200ms'
-            }, _this5.rotateIconStyle(animation && isOpen)),
+            }, _this4.rotateIconStyle(animation && isOpen)),
             disabled: panel.disabled,
             onClick: function onClick(event) {
-              _this5.props.onToggleDetailPanel(_this5.props.path, panel.render);
+              _this4.props.onToggleDetailPanel(_this4.props.path, panel.render);
 
               event.stopPropagation();
             }
@@ -293,7 +291,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this5 = this;
 
       var renderColumns = this.renderColumns();
 
@@ -333,7 +331,7 @@ function (_React$Component) {
               marginLeft: this.props.level * 9
             }, this.rotateIconStyle(this.props.data.tableData.isTreeExpanded)),
             onClick: function onClick(event) {
-              _this6.props.onTreeExpandChanged(_this6.props.path, _this6.props.data);
+              _this5.props.onTreeExpandChanged(_this5.props.path, _this5.props.data);
 
               event.stopPropagation();
             }
@@ -359,7 +357,7 @@ function (_React$Component) {
         return columnDef.tableData.groupOrder > -1;
       }).forEach(function (columnDef) {
         renderColumns.splice(0, 0, React.createElement(_TableCell["default"], {
-          size: _this6.getElementSize(),
+          size: _this5.getElementSize(),
           padding: "none",
           key: "key-group-cell" + columnDef.tableData.id
         }));
@@ -390,51 +388,51 @@ function (_React$Component) {
         hover: onRowClick ? true : false,
         style: this.getStyle(this.props.index, this.props.level),
         onClick: function onClick(event) {
-          onRowClick && onRowClick(event, _this6.props.data, function (panelIndex) {
+          onRowClick && onRowClick(event, _this5.props.data, function (panelIndex) {
             var panel = detailPanel;
 
             if (Array.isArray(panel)) {
               panel = panel[panelIndex || 0];
 
               if (typeof panel === "function") {
-                panel = panel(_this6.props.data);
+                panel = panel(_this5.props.data);
               }
 
               panel = panel.render;
             }
 
-            onToggleDetailPanel(_this6.props.path, panel);
+            onToggleDetailPanel(_this5.props.path, panel);
           });
         }
       }), renderColumns), this.props.data.tableData.childRows && this.props.data.tableData.isTreeExpanded && this.props.data.tableData.childRows.map(function (data, index) {
         if (data.tableData.editing) {
-          return React.createElement(_this6.props.components.EditRow, {
-            columns: _this6.props.columns.filter(function (columnDef) {
+          return React.createElement(_this5.props.components.EditRow, {
+            columns: _this5.props.columns.filter(function (columnDef) {
               return !columnDef.hidden;
             }),
-            components: _this6.props.components,
+            components: _this5.props.components,
             data: data,
-            icons: _this6.props.icons,
-            localization: _this6.props.localization,
-            getFieldValue: _this6.props.getFieldValue,
+            icons: _this5.props.icons,
+            localization: _this5.props.localization,
+            getFieldValue: _this5.props.getFieldValue,
             key: index,
             mode: data.tableData.editing,
-            options: _this6.props.options,
-            isTreeData: _this6.props.isTreeData,
-            detailPanel: _this6.props.detailPanel,
+            options: _this5.props.options,
+            isTreeData: _this5.props.isTreeData,
+            detailPanel: _this5.props.detailPanel,
             onEditingCanceled: onEditingCanceled,
             onEditingApproved: onEditingApproved
           });
         } else {
-          return React.createElement(_this6.props.components.Row, (0, _extends2["default"])({}, _this6.props, {
+          return React.createElement(_this5.props.components.Row, (0, _extends2["default"])({}, _this5.props, {
             data: data,
             index: index,
             key: index,
-            level: _this6.props.level + 1,
-            path: [].concat((0, _toConsumableArray2["default"])(_this6.props.path), [index]),
+            level: _this5.props.level + 1,
+            path: [].concat((0, _toConsumableArray2["default"])(_this5.props.path), [index]),
             onEditingCanceled: onEditingCanceled,
             onEditingApproved: onEditingApproved,
-            hasAnyEditingRow: _this6.props.hasAnyEditingRow,
+            hasAnyEditingRow: _this5.props.hasAnyEditingRow,
             treeDataMaxLevel: treeDataMaxLevel
           }));
         }
