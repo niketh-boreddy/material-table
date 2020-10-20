@@ -110,7 +110,7 @@ function (_React$Component) {
       var size = this.getElementSize();
       var baseIconSize = size === 'medium' ? 42 : 26;
       var actions = this.props.actions.filter(function (a) {
-        return !a.isFreeAction && !_this3.props.options.selection;
+        return !a.isFreeAction;
       });
       return React.createElement(_TableCell["default"], {
         size: size,
@@ -302,7 +302,7 @@ function (_React$Component) {
       }
 
       if (this.props.actions && this.props.actions.filter(function (a) {
-        return !a.isFreeAction && !_this6.props.options.selection;
+        return !a.isFreeAction;
       }).length > 0) {
         if (this.props.options.actionsColumnIndex === -1) {
           renderColumns.push(this.renderActions());

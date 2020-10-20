@@ -241,9 +241,9 @@ function (_React$Component) {
       var classes = this.props.classes;
       var selectedActions = null;
 
-      if (this.props.selectedRows && this.props.selectedRows.length > 0) {
-        selectedActions = this.renderSelectedActions();
-      }
+      // if (this.props.selectedRows && this.props.selectedRows.length > 0) {
+      //   //selectedActions = this.renderSelectedActions();
+      // }
 
       return React.createElement("div", {
         className: classes.actions
