@@ -182,9 +182,9 @@ export class MTableToolbar extends React.Component {
     const { classes } = this.props;
 
     var selectedActions = null;
-    if (this.props.selectedRows && this.props.selectedRows.length > 0) {
-      selectedActions = this.renderSelectedActions();
-    }
+    // if (this.props.selectedRows && this.props.selectedRows.length > 0) {
+    //   //selectedActions = this.renderSelectedActions();
+    // }
 
     return (
       <div className={classes.actions}>
