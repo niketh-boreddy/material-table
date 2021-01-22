@@ -35,6 +35,7 @@ var _components = require("./components");
 Object.keys(_components).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _components[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
@@ -66,7 +67,7 @@ var styles = function styles(theme) {
 var _default = (0, _withStyles["default"])(styles, {
   withTheme: true
 })(function (props) {
-  return _react["default"].createElement(_materialTable["default"], (0, _extends2["default"])({}, props, {
+  return /*#__PURE__*/_react["default"].createElement(_materialTable["default"], (0, _extends2["default"])({}, props, {
     ref: props.tableRef
   }));
 });

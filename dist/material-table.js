@@ -19,13 +19,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -49,19 +49,21 @@ var _dataManager = _interopRequireDefault(require("./utils/data-manager"));
 
 var _debounce = require("debounce");
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /* eslint-enable no-unused-vars */
-var MaterialTable =
-/*#__PURE__*/
-function (_React$Component) {
+var MaterialTable = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MaterialTable, _React$Component);
+
+  var _super = _createSuper(MaterialTable);
 
   function MaterialTable(_props) {
     var _this;
 
     (0, _classCallCheck2["default"])(this, MaterialTable);
-    _this = (0, _possibleConstructorReturn2["default"])(this, (0, _getPrototypeOf2["default"])(MaterialTable).call(this, _props));
+    _this = _super.call(this, _props);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "dataManager", new _dataManager["default"]());
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "isRemoteData", function (props) {
       return !Array.isArray((props || _this.props).data);
@@ -543,11 +545,11 @@ function (_React$Component) {
         var isOutsidePageNumbers = this.isOutsidePageNumbers(props);
         var currentPage = isOutsidePageNumbers ? Math.min(props.page, Math.floor(props.totalCount / this.state.pageSize)) : this.state.currentPage;
         var totalCount = isOutsidePageNumbers ? props.totalCount : this.state.data.length;
-        return React.createElement(_Table["default"], null, React.createElement(_TableFooter["default"], {
+        return /*#__PURE__*/React.createElement(_Table["default"], null, /*#__PURE__*/React.createElement(_TableFooter["default"], {
           style: {
             display: 'grid'
           }
-        }, React.createElement(_TableRow["default"], null, React.createElement(props.components.Pagination, {
+        }, /*#__PURE__*/React.createElement(_TableRow["default"], null, /*#__PURE__*/React.createElement(props.components.Pagination, {
           classes: {
             root: props.classes.paginationRoot,
             toolbar: props.classes.paginationToolbar,
@@ -565,7 +567,7 @@ function (_React$Component) {
           rowsPerPageOptions: props.options.pageSizeOptions,
           SelectProps: {
             renderValue: function renderValue(value) {
-              return React.createElement("div", {
+              return /*#__PURE__*/React.createElement("div", {
                 style: {
                   padding: '0px 5px'
                 }
@@ -576,11 +578,11 @@ function (_React$Component) {
           onChangePage: this.onChangePage,
           onChangeRowsPerPage: this.onChangeRowsPerPage,
           ActionsComponent: function ActionsComponent(subProps) {
-            return props.options.paginationType === 'normal' ? React.createElement(_components.MTablePagination, (0, _extends2["default"])({}, subProps, {
+            return props.options.paginationType === 'normal' ? /*#__PURE__*/React.createElement(_components.MTablePagination, (0, _extends2["default"])({}, subProps, {
               icons: props.icons,
               localization: localization,
               showFirstLastPageButtons: props.options.showFirstLastPageButtons
-            })) : React.createElement(_components.MTableSteppedPagination, (0, _extends2["default"])({}, subProps, {
+            })) : /*#__PURE__*/React.createElement(_components.MTableSteppedPagination, (0, _extends2["default"])({}, subProps, {
               icons: props.icons,
               localization: localization
             }));
@@ -598,13 +600,13 @@ function (_React$Component) {
       var _this4 = this;
 
       var props = this.getProps();
-      return React.createElement(_reactBeautifulDnd.DragDropContext, {
+      return /*#__PURE__*/React.createElement(_reactBeautifulDnd.DragDropContext, {
         onDragEnd: this.onDragEnd
-      }, React.createElement(props.components.Container, {
+      }, /*#__PURE__*/React.createElement(props.components.Container, {
         style: (0, _objectSpread2["default"])({
           position: 'relative'
         }, props.style)
-      }, props.options.toolbar && React.createElement(props.components.Toolbar, {
+      }, props.options.toolbar && /*#__PURE__*/React.createElement(props.components.Toolbar, {
         actions: props.actions,
         components: props.components,
         selectedRows: this.state.selectedCount > 0 ? this.state.originalData.filter(function (a) {
@@ -632,7 +634,7 @@ function (_React$Component) {
         onSearchChanged: this.onSearchChange,
         onColumnsChanged: this.onChangeColumnHidden,
         localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.toolbar, this.props.localization.toolbar)
-      }), props.options.grouping && React.createElement(props.components.Groupbar, {
+      }), props.options.grouping && /*#__PURE__*/React.createElement(props.components.Groupbar, {
         icons: props.icons,
         localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.grouping, props.localization.grouping),
         groupColumns: this.state.columns.filter(function (col) {
@@ -642,21 +644,21 @@ function (_React$Component) {
         }),
         onSortChanged: this.onChangeGroupOrder,
         onGroupRemoved: this.onGroupRemoved
-      }), React.createElement(ScrollBar, {
+      }), /*#__PURE__*/React.createElement(ScrollBar, {
         "double": props.options.doubleHorizontalScroll
-      }, React.createElement(_reactBeautifulDnd.Droppable, {
+      }, /*#__PURE__*/React.createElement(_reactBeautifulDnd.Droppable, {
         droppableId: "headers",
         direction: "horizontal"
       }, function (provided, snapshot) {
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           ref: provided.innerRef
-        }, React.createElement("div", {
+        }, /*#__PURE__*/React.createElement("div", {
           style: {
             maxHeight: props.options.maxBodyHeight,
             minHeight: props.options.minBodyHeight,
             overflowY: 'auto'
           }
-        }, React.createElement(_Table["default"], null, props.options.header && React.createElement(props.components.Header, {
+        }, /*#__PURE__*/React.createElement(_Table["default"], null, props.options.header && /*#__PURE__*/React.createElement(props.components.Header, {
           localization: (0, _objectSpread2["default"])({}, MaterialTable.defaultProps.localization.header, _this4.props.localization.header),
           columns: _this4.state.columns,
           hasSelection: props.options.selection,
@@ -682,7 +684,7 @@ function (_React$Component) {
           isTreeData: _this4.props.parentChildData !== undefined,
           draggable: props.options.draggable,
           thirdSortClick: props.options.thirdSortClick
-        }), React.createElement(props.components.Body, {
+        }), /*#__PURE__*/React.createElement(props.components.Body, {
           actions: props.actions,
           components: props.components,
           icons: props.icons,
@@ -710,12 +712,12 @@ function (_React$Component) {
           hasDetailPanel: !!props.detailPanel,
           treeDataMaxLevel: _this4.state.treeDataMaxLevel
         }))), provided.placeholder);
-      })), (this.state.isLoading || props.isLoading) && props.options.loadingType === "linear" && React.createElement("div", {
+      })), (this.state.isLoading || props.isLoading) && props.options.loadingType === "linear" && /*#__PURE__*/React.createElement("div", {
         style: {
           position: 'relative',
           width: '100%'
         }
-      }, React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("div", {
         style: {
           position: 'absolute',
           top: 0,
@@ -723,7 +725,7 @@ function (_React$Component) {
           height: '100%',
           width: '100%'
         }
-      }, React.createElement(_LinearProgress["default"], null))), this.renderFooter(), (this.state.isLoading || props.isLoading) && props.options.loadingType === 'overlay' && React.createElement("div", {
+      }, /*#__PURE__*/React.createElement(_LinearProgress["default"], null))), this.renderFooter(), (this.state.isLoading || props.isLoading) && props.options.loadingType === 'overlay' && /*#__PURE__*/React.createElement("div", {
         style: {
           position: 'absolute',
           top: 0,
@@ -732,7 +734,7 @@ function (_React$Component) {
           width: '100%',
           zIndex: 11
         }
-      }, React.createElement(props.components.OverlayLoading, {
+      }, /*#__PURE__*/React.createElement(props.components.OverlayLoading, {
         theme: props.theme
       }))));
     }
@@ -747,9 +749,9 @@ var ScrollBar = function ScrollBar(_ref) {
       children = _ref.children;
 
   if (_double) {
-    return React.createElement(_reactDoubleScrollbar["default"], null, children);
+    return /*#__PURE__*/React.createElement(_reactDoubleScrollbar["default"], null, children);
   } else {
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       style: {
         overflowX: 'auto'
       }

@@ -19,13 +19,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -35,17 +35,17 @@ var _TableCell = _interopRequireDefault(require("@material-ui/core/TableCell"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /* eslint-enable no-unused-vars */
-var MTableCell =
-/*#__PURE__*/
-function (_React$Component) {
+var MTableCell = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MTableCell, _React$Component);
 
-  function MTableCell() {
-    var _getPrototypeOf2;
+  var _super = _createSuper(MTableCell);
 
+  function MTableCell() {
     var _this;
 
     (0, _classCallCheck2["default"])(this, MTableCell);
@@ -54,7 +54,7 @@ function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = (0, _possibleConstructorReturn2["default"])(this, (_getPrototypeOf2 = (0, _getPrototypeOf3["default"])(MTableCell)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "handleClickCell", function (e) {
       if (_this.props.columnDef.disableClick) {
         e.stopPropagation();
@@ -101,11 +101,11 @@ function (_React$Component) {
         };
 
         if (this.props.value) {
-          return React.createElement(this.props.icons.Check, {
+          return /*#__PURE__*/React.createElement(this.props.icons.Check, {
             style: style
           });
         } else {
-          return React.createElement(this.props.icons.ThirdStateCheck, {
+          return /*#__PURE__*/React.createElement(this.props.icons.ThirdStateCheck, {
             style: style
           });
         }
@@ -167,7 +167,7 @@ function (_React$Component) {
           columnDef = _this$props.columnDef,
           rowData = _this$props.rowData,
           cellProps = (0, _objectWithoutProperties2["default"])(_this$props, ["icons", "columnDef", "rowData"]);
-      return React.createElement(_TableCell["default"], (0, _extends2["default"])({
+      return /*#__PURE__*/React.createElement(_TableCell["default"], (0, _extends2["default"])({
         size: this.props.size
       }, cellProps, {
         style: this.getStyle(),

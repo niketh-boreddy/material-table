@@ -17,11 +17,11 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 
 var _TableBody = _interopRequireDefault(require("@material-ui/core/TableBody"));
 
@@ -33,17 +33,19 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var React = _interopRequireWildcard(require("react"));
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /* eslint-enable no-unused-vars */
-var MTableBody =
-/*#__PURE__*/
-function (_React$Component) {
+var MTableBody = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MTableBody, _React$Component);
+
+  var _super = _createSuper(MTableBody);
 
   function MTableBody() {
     (0, _classCallCheck2["default"])(this, MTableBody);
-    return (0, _possibleConstructorReturn2["default"])(this, (0, _getPrototypeOf2["default"])(MTableBody).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   (0, _createClass2["default"])(MTableBody, [{
@@ -69,12 +71,12 @@ function (_React$Component) {
           addColumn++;
         }
 
-        return React.createElement(_TableRow["default"], {
+        return /*#__PURE__*/React.createElement(_TableRow["default"], {
           style: {
             height: rowHeight * (this.props.options.paging && this.props.options.emptyRowsWhenPaging ? this.props.pageSize : 1)
           },
           key: 'empty-' + 0
-        }, React.createElement(_TableCell["default"], {
+        }, /*#__PURE__*/React.createElement(_TableCell["default"], {
           style: {
             paddingTop: 0,
             paddingBottom: 0,
@@ -84,14 +86,14 @@ function (_React$Component) {
           key: "empty-"
         }, localization.emptyDataSourceMessage));
       } else if (this.props.options.emptyRowsWhenPaging) {
-        return React.createElement(React.Fragment, null, (0, _toConsumableArray2["default"])(Array(emptyRowCount)).map(function (r, index) {
-          return React.createElement(_TableRow["default"], {
+        return /*#__PURE__*/React.createElement(React.Fragment, null, (0, _toConsumableArray2["default"])(Array(emptyRowCount)).map(function (r, index) {
+          return /*#__PURE__*/React.createElement(_TableRow["default"], {
             style: {
               height: rowHeight
             },
             key: 'empty-' + index
           });
-        }), emptyRowCount > 0 && React.createElement(_TableRow["default"], {
+        }), emptyRowCount > 0 && /*#__PURE__*/React.createElement(_TableRow["default"], {
           style: {
             height: 1
           },
@@ -106,7 +108,7 @@ function (_React$Component) {
 
       return renderData.map(function (data, index) {
         if (data.tableData.editing) {
-          return React.createElement(_this.props.components.EditRow, {
+          return /*#__PURE__*/React.createElement(_this.props.components.EditRow, {
             columns: _this.props.columns.filter(function (columnDef) {
               return !columnDef.hidden;
             }),
@@ -124,7 +126,7 @@ function (_React$Component) {
             getFieldValue: _this.props.getFieldValue
           });
         } else {
-          return React.createElement(_this.props.components.Row, {
+          return /*#__PURE__*/React.createElement(_this.props.components.Row, {
             components: _this.props.components,
             icons: _this.props.icons,
             data: data,
@@ -157,7 +159,7 @@ function (_React$Component) {
       var _this2 = this;
 
       return renderData.map(function (groupData, index) {
-        return React.createElement(_this2.props.components.GroupRow, {
+        return /*#__PURE__*/React.createElement(_this2.props.components.GroupRow, {
           actions: _this2.props.actions,
           key: groupData.value == null ? '' + index : groupData.value,
           columns: _this2.props.columns,
@@ -199,7 +201,7 @@ function (_React$Component) {
         emptyRowCount = this.props.pageSize - renderData.length;
       }
 
-      return React.createElement(_TableBody["default"], null, this.props.options.filtering && React.createElement(this.props.components.FilterRow, {
+      return /*#__PURE__*/React.createElement(_TableBody["default"], null, this.props.options.filtering && /*#__PURE__*/React.createElement(this.props.components.FilterRow, {
         columns: this.props.columns.filter(function (columnDef) {
           return !columnDef.hidden;
         }),
@@ -217,7 +219,7 @@ function (_React$Component) {
         hasDetailPanel: !!this.props.detailPanel,
         isTreeData: this.props.isTreeData,
         filterCellStyle: this.props.options.filterCellStyle
-      }), this.props.showAddRow && this.props.options.addRowPosition === "first" && React.createElement(this.props.components.EditRow, {
+      }), this.props.showAddRow && this.props.options.addRowPosition === "first" && /*#__PURE__*/React.createElement(this.props.components.EditRow, {
         columns: this.props.columns.filter(function (columnDef) {
           return !columnDef.hidden;
         }),
@@ -233,7 +235,7 @@ function (_React$Component) {
         onEditingCanceled: this.props.onEditingCanceled,
         onEditingApproved: this.props.onEditingApproved,
         getFieldValue: this.props.getFieldValue
-      }), groups.length > 0 ? this.renderGroupedRows(groups, renderData) : this.renderUngroupedRows(renderData), this.props.showAddRow && this.props.options.addRowPosition === "last" && React.createElement(this.props.components.EditRow, {
+      }), groups.length > 0 ? this.renderGroupedRows(groups, renderData) : this.renderUngroupedRows(renderData), this.props.showAddRow && this.props.options.addRowPosition === "last" && /*#__PURE__*/React.createElement(this.props.components.EditRow, {
         columns: this.props.columns.filter(function (columnDef) {
           return !columnDef.hidden;
         }),

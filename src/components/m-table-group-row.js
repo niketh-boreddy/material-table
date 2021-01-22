@@ -40,6 +40,7 @@ export default class MTableGroupRow extends React.Component {
             path={[...this.props.path, index]}
             onGroupExpandChanged={this.props.onGroupExpandChanged}
             onRowSelected={this.props.onRowSelected}
+            onGroupRowSelected={this.props.onGroupRowSelected}
             onRowClick={this.props.onRowClick}
             onToggleDetailPanel={this.props.onToggleDetailPanel}
             onTreeExpandChanged={this.props.onTreeExpandChanged}
@@ -48,6 +49,7 @@ export default class MTableGroupRow extends React.Component {
             options={this.props.options}
             hasAnyEditingRow={this.props.hasAnyEditingRow}
             isTreeData={this.props.isTreeData}
+            localization={{ ...this.props.components.Body.defaultProps.localization.editRow, ...this.props.localization.editRow }}
           />
         ));
       }

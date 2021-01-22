@@ -113,13 +113,22 @@ export default class DataManager {
   }
 
   changeGroupRowSelected(checked, path, selectedGroup) {
-    const grp = this.groupedData.find(grp => grp.value == selectedGroup.value);
-
+    let grp = {groups: this.sortedData};
+    path.forEach((val) => {
+      grp = grp.groups[val];
+    });
+    
     var diffCount = this.getSelectionCountDiff(grp, checked);
     this.selectedCount = this.selectedCount + (checked ? diffCount : -diffCount);
-
-    grp.data.map(row => row.tableData.checked = checked);
-    this.updateGroupSelectionCount(grp);
+    this.selectGroupChildren(grp, checked);
+    var selectedrows = this.updateGroupSelectionCount(grp);
+    if(path && path.length > 1) {
+      grp = {groups: this.sortedData};
+      path.forEach((val, idx) => {
+        grp = grp.groups[val];
+        if (idx != path.length-1) grp.selectedCount += selectedrows;
+      });
+    }
 
     this.grouped = false;
     this.filtered = false;
@@ -129,15 +138,45 @@ export default class DataManager {
   getSelectionCountDiff(group, checked) {
     var diffCount = 0;
     group.data.map(row => { if (row.tableData.checked != checked) { diffCount++ } });
+    group.groups.forEach((subGroup) => {
+      diffCount += this.getSelectionCountDiff(subGroup, checked);
+    });
     return diffCount;
+  }
+
+  selectGroupChildren(group, checked) {
+    group.data.map(row => row.tableData.checked = checked);
+    group.groups.forEach(subGroup => {
+      this.selectGroupChildren(subGroup, checked);
+    });
   }
 
   updateGroupSelectionCount(group) {
     var selected = 0;
-    if (group.data) {
-      group.data.map(row => { if (row.tableData.checked) { selected++ } });
-    }
+    if (!group) return 0;
+    if (group.data) group.data.forEach(row => { 
+      if (row.tableData.checked) selected++;
+    });
+    if (group.groups) group.groups.forEach(subGroup => {
+      selected += this.updateGroupSelectionCount(subGroup);
+    });
     group.selectedCount = selected;
+    return selected;
+  }
+
+  updateGroupChildrenCount(group) {
+    var children = 0;
+    if (!group) return 0;
+    if (group.data) {
+      children += group.data.length;
+    }
+    if (group.groups) {
+      group.groups.forEach((subGroup) => {
+        children += this.updateGroupChildrenCount(subGroup);
+      });
+    }
+    group.childrenCount = children;
+    return children;
   }
 
   changeRowSelected(checked, path) {
@@ -408,12 +447,8 @@ export default class DataManager {
         return undefined;
       }
 
-      if (result.groupsIndex[current] !== undefined) {
-        return result.groups[result.groupsIndex[current]];
-      }
-      return undefined;
-      // const group = result.groups.find(a => a.value === current);
-      // return group;
+      const group = result.groups.find(a => a.value === current);
+      return group;
     }, data);
     return node;
   }
@@ -677,9 +712,14 @@ export default class DataManager {
       return result;
     }, { groups: [], groupsIndex: {} });
 
+    subData.groups.forEach((group) => {
+      this.updateGroupChildrenCount(group);
+      this.updateGroupSelectionCount(group);
+    });
+
     this.groupedData = subData.groups;
-    this.grouped = true;
     this.rootGroupsIndex = subData.groupsIndex;
+    this.grouped = true;
   }
 
   treefyData() {

@@ -1,12 +1,8 @@
 import { Grid, MuiThemeProvider, Button } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import MaterialTable from '../src';
-import Typography from "@material-ui/core/Typography";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 let direction = 'ltr';
 // direction = 'rtl';
@@ -104,31 +100,13 @@ const App = () => {
                 title="Demo Title"
                 options={{
                   columnsButton: true,
-                  //searchText: 'a6',
-                  //filtering: true,
                   selection: true,
+                  grouping: true,
                   defaultExpanded: row => row.surname === 'C'
                 }}
-                /*actions={[
-                  rowData => ({
-                    icon: () => <CloudUploadIcon />,
-                    tooltip: 'Deploy',
-                    onClick: (event, rowData) => {
-                      rowData.status = 'SHOW_CIRCLE';
-                      { handleClick(event, rowData) };
-                    },
-                    hidden: rowData.status === "SHOW_CIRCLE"
-                  }),
-                  rowData => ({
-                    icon: () => <CheckCircleOutlineIcon />,
-                    tooltip: 'Deployment in Progress',
-                    hidden: rowData.status !== "SHOW_CIRCLE"
-                  })
-                ]}*/
                 onChangePage={(page) => { handlePageChange(page); }}
                 onSearchChange={(e) => console.log("search changed: " + e)}
                 onColumnDragged={(oldPos, newPos) => console.log("Dropped column from " + oldPos + " to position " + newPos)}
-              // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
               />
             </Grid>
           </Grid>

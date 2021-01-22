@@ -15,13 +15,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -57,19 +57,21 @@ var _propTypes = _interopRequireWildcard(require("prop-types"));
 
 var React = _interopRequireWildcard(require("react"));
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /* eslint-enable no-unused-vars */
-var MTableToolbar =
-/*#__PURE__*/
-function (_React$Component) {
+var MTableToolbar = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MTableToolbar, _React$Component);
+
+  var _super = _createSuper(MTableToolbar);
 
   function MTableToolbar(props) {
     var _this;
 
     (0, _classCallCheck2["default"])(this, MTableToolbar);
-    _this = (0, _possibleConstructorReturn2["default"])(this, (0, _getPrototypeOf2["default"])(MTableToolbar).call(this, props));
+    _this = _super.call(this, props);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "defaultExportCsv", function () {
       var columns = _this.props.columns.filter(function (columnDef) {
         return !columnDef.hidden && columnDef.field && columnDef["export"] !== false;
@@ -114,7 +116,7 @@ function (_React$Component) {
       var localization = (0, _objectSpread2["default"])({}, MTableToolbar.defaultProps.localization, this.props.localization);
 
       if (this.props.search) {
-        return React.createElement(_TextField["default"], {
+        return /*#__PURE__*/React.createElement(_TextField["default"], {
           className: this.props.searchFieldAlignment === 'left' && this.props.showTitle === false ? null : this.props.classes.searchField,
           value: this.props.searchText,
           onChange: function onChange(event) {
@@ -122,22 +124,22 @@ function (_React$Component) {
           },
           placeholder: localization.searchPlaceholder,
           InputProps: {
-            startAdornment: React.createElement(_InputAdornment["default"], {
+            startAdornment: /*#__PURE__*/React.createElement(_InputAdornment["default"], {
               position: "start"
-            }, React.createElement(_Tooltip["default"], {
+            }, /*#__PURE__*/React.createElement(_Tooltip["default"], {
               title: localization.searchTooltip
-            }, React.createElement(this.props.icons.Search, {
+            }, /*#__PURE__*/React.createElement(this.props.icons.Search, {
               color: "inherit",
               fontSize: "small"
             }))),
-            endAdornment: React.createElement(_InputAdornment["default"], {
+            endAdornment: /*#__PURE__*/React.createElement(_InputAdornment["default"], {
               position: "end"
-            }, React.createElement(_IconButton["default"], {
+            }, /*#__PURE__*/React.createElement(_IconButton["default"], {
               disabled: !this.props.searchText,
               onClick: function onClick() {
                 return _this2.props.onSearchChanged("");
               }
-            }, React.createElement(this.props.icons.ResetSearch, {
+            }, /*#__PURE__*/React.createElement(this.props.icons.ResetSearch, {
               color: "inherit",
               fontSize: "small"
             }))),
@@ -155,9 +157,9 @@ function (_React$Component) {
 
       var localization = (0, _objectSpread2["default"])({}, MTableToolbar.defaultProps.localization, this.props.localization);
       var classes = this.props.classes;
-      return React.createElement("div", null, this.props.columnsButton && React.createElement("span", null, React.createElement(_Tooltip["default"], {
+      return /*#__PURE__*/React.createElement("div", null, this.props.columnsButton && /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(_Tooltip["default"], {
         title: localization.showColumnsTitle
-      }, React.createElement(_IconButton["default"], {
+      }, /*#__PURE__*/React.createElement(_IconButton["default"], {
         color: "inherit",
         onClick: function onClick(event) {
           return _this3.setState({
@@ -165,7 +167,7 @@ function (_React$Component) {
           });
         },
         "aria-label": localization.showColumnsAriaLabel
-      }, React.createElement(this.props.icons.ViewColumn, null))), React.createElement(_Menu["default"], {
+      }, /*#__PURE__*/React.createElement(this.props.icons.ViewColumn, null))), /*#__PURE__*/React.createElement(_Menu["default"], {
         anchorEl: this.state.columnsButtonAnchorEl,
         open: Boolean(this.state.columnsButtonAnchorEl),
         onClose: function onClose() {
@@ -173,7 +175,7 @@ function (_React$Component) {
             columnsButtonAnchorEl: null
           });
         }
-      }, React.createElement(_MenuItem["default"], {
+      }, /*#__PURE__*/React.createElement(_MenuItem["default"], {
         key: "text",
         disabled: true,
         style: {
@@ -182,23 +184,23 @@ function (_React$Component) {
           fontSize: 12
         }
       }, localization.addRemoveColumns), this.props.columns.map(function (col) {
-        return React.createElement("li", {
+        return /*#__PURE__*/React.createElement("li", {
           key: col.tableData.id
-        }, React.createElement(_MenuItem["default"], {
+        }, /*#__PURE__*/React.createElement(_MenuItem["default"], {
           className: classes.formControlLabel,
           component: "label",
           htmlFor: "column-toggle-".concat(col.tableData.id),
           disabled: col.removable === false
-        }, React.createElement(_Checkbox["default"], {
+        }, /*#__PURE__*/React.createElement(_Checkbox["default"], {
           checked: !col.hidden,
           id: "column-toggle-".concat(col.tableData.id),
           onChange: function onChange() {
             return _this3.props.onColumnsChanged(col, !col.hidden);
           }
-        }), React.createElement("span", null, col.title)));
-      }))), this.props.exportButton && React.createElement("span", null, React.createElement(_Tooltip["default"], {
+        }), /*#__PURE__*/React.createElement("span", null, col.title)));
+      }))), this.props.exportButton && /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(_Tooltip["default"], {
         title: localization.exportTitle
-      }, React.createElement(_IconButton["default"], {
+      }, /*#__PURE__*/React.createElement(_IconButton["default"], {
         color: "inherit",
         onClick: function onClick(event) {
           return _this3.setState({
@@ -206,7 +208,7 @@ function (_React$Component) {
           });
         },
         "aria-label": localization.exportAriaLabel
-      }, React.createElement(this.props.icons.Export, null))), React.createElement(_Menu["default"], {
+      }, /*#__PURE__*/React.createElement(this.props.icons.Export, null))), /*#__PURE__*/React.createElement(_Menu["default"], {
         anchorEl: this.state.exportButtonAnchorEl,
         open: Boolean(this.state.exportButtonAnchorEl),
         onClose: function onClose() {
@@ -214,10 +216,10 @@ function (_React$Component) {
             exportButtonAnchorEl: null
           });
         }
-      }, React.createElement(_MenuItem["default"], {
+      }, /*#__PURE__*/React.createElement(_MenuItem["default"], {
         key: "export-csv",
         onClick: this.exportCsv
-      }, localization.exportName))), React.createElement("span", null, React.createElement(this.props.components.Actions, {
+      }, localization.exportName))), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(this.props.components.Actions, {
         actions: this.props.actions && this.props.actions.filter(function (a) {
           return a.isFreeAction;
         }),
@@ -227,7 +229,7 @@ function (_React$Component) {
   }, {
     key: "renderSelectedActions",
     value: function renderSelectedActions() {
-      return React.createElement(React.Fragment, null, React.createElement(this.props.components.Actions, {
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(this.props.components.Actions, {
         actions: this.props.actions.filter(function (a) {
           return !a.isFreeAction;
         }),
@@ -243,18 +245,18 @@ function (_React$Component) {
       //   //selectedActions = this.renderSelectedActions();
       // }
 
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: classes.actions
-      }, React.createElement("div", null, selectedActions, this.renderDefaultActions()));
+      }, /*#__PURE__*/React.createElement("div", null, selectedActions, this.renderDefaultActions()));
     }
   }, {
     key: "renderToolbarTitle",
     value: function renderToolbarTitle(title) {
       var classes = this.props.classes;
-      var toolBarTitle = typeof title === 'string' ? React.createElement(_Typography["default"], {
+      var toolBarTitle = typeof title === 'string' ? /*#__PURE__*/React.createElement(_Typography["default"], {
         variant: "h6"
       }, title) : title;
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         className: classes.title
       }, toolBarTitle);
     }
@@ -264,9 +266,9 @@ function (_React$Component) {
       var classes = this.props.classes;
       var localization = (0, _objectSpread2["default"])({}, MTableToolbar.defaultProps.localization, this.props.localization);
       var title = this.props.showTextRowsSelected && this.props.selectedRows && this.props.selectedRows.length > 0 ? localization.nRowsSelected.replace('{0}', this.props.selectedRows.length) : this.props.showTitle ? this.props.title : null;
-      return React.createElement(_Toolbar["default"], {
+      return /*#__PURE__*/React.createElement(_Toolbar["default"], {
         className: (0, _classnames["default"])(classes.root, (0, _defineProperty2["default"])({}, classes.highlight, this.props.showTextRowsSelected && this.props.selectedRows && this.props.selectedRows.length > 0))
-      }, title && this.renderToolbarTitle(title), this.props.searchFieldAlignment === 'left' && this.renderSearch(), this.props.toolbarButtonAlignment === 'left' && this.renderActions(), React.createElement("div", {
+      }, title && this.renderToolbarTitle(title), this.props.searchFieldAlignment === 'left' && this.renderSearch(), this.props.toolbarButtonAlignment === 'left' && this.renderActions(), /*#__PURE__*/React.createElement("div", {
         className: classes.spacer
       }), this.props.searchFieldAlignment === 'right' && this.renderSearch(), this.props.toolbarButtonAlignment === 'right' && this.renderActions());
     }

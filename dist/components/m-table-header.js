@@ -17,11 +17,11 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 
 var React = _interopRequireWildcard(require("react"));
 
@@ -41,17 +41,19 @@ var _withStyles = _interopRequireDefault(require("@material-ui/core/styles/withS
 
 var _reactBeautifulDnd = require("react-beautiful-dnd");
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /* eslint-enable no-unused-vars */
-var MTableHeader =
-/*#__PURE__*/
-function (_React$Component) {
+var MTableHeader = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MTableHeader, _React$Component);
+
+  var _super = _createSuper(MTableHeader);
 
   function MTableHeader() {
     (0, _classCallCheck2["default"])(this, MTableHeader);
-    return (0, _possibleConstructorReturn2["default"])(this, (0, _getPrototypeOf2["default"])(MTableHeader).apply(this, arguments));
+    return _super.apply(this, arguments);
   }
 
   (0, _createClass2["default"])(MTableHeader, [{
@@ -67,19 +69,19 @@ function (_React$Component) {
         var content = columnDef.title;
 
         if (_this.props.draggable) {
-          content = React.createElement(_reactBeautifulDnd.Draggable, {
+          content = /*#__PURE__*/React.createElement(_reactBeautifulDnd.Draggable, {
             key: columnDef.tableData.id,
             draggableId: columnDef.tableData.id.toString(),
             index: index
           }, function (provided, snapshot) {
-            return React.createElement("div", (0, _extends2["default"])({
+            return /*#__PURE__*/React.createElement("div", (0, _extends2["default"])({
               ref: provided.innerRef
             }, provided.draggableProps, provided.dragHandleProps), columnDef.title);
           });
         }
 
         if (columnDef.sorting !== false && _this.props.sorting) {
-          content = React.createElement(_TableSortLabel["default"], {
+          content = /*#__PURE__*/React.createElement(_TableSortLabel["default"], {
             IconComponent: _this.props.icons.SortArrow,
             active: _this.props.orderBy === columnDef.tableData.id,
             direction: _this.props.orderDirection || 'asc',
@@ -91,7 +93,7 @@ function (_React$Component) {
           }, content);
         }
 
-        return React.createElement(_TableCell["default"], {
+        return /*#__PURE__*/React.createElement(_TableCell["default"], {
           key: columnDef.tableData.id,
           align: ['numeric'].indexOf(columnDef.type) !== -1 ? "right" : "left",
           className: _this.props.classes.header,
@@ -104,14 +106,14 @@ function (_React$Component) {
     key: "renderActionsHeader",
     value: function renderActionsHeader() {
       var localization = (0, _objectSpread2["default"])({}, MTableHeader.defaultProps.localization, this.props.localization);
-      return React.createElement(_TableCell["default"], {
+      return /*#__PURE__*/React.createElement(_TableCell["default"], {
         key: "key-actions-column",
         padding: "checkbox",
         className: this.props.classes.header,
         style: (0, _objectSpread2["default"])({}, this.props.headerStyle, {
           textAlign: 'center'
         })
-      }, React.createElement(_TableSortLabel["default"], {
+      }, /*#__PURE__*/React.createElement(_TableSortLabel["default"], {
         disabled: true
       }, localization.actions));
     }
@@ -120,12 +122,12 @@ function (_React$Component) {
     value: function renderSelectionHeader() {
       var _this2 = this;
 
-      return React.createElement(_TableCell["default"], {
+      return /*#__PURE__*/React.createElement(_TableCell["default"], {
         padding: "none",
         key: "key-selection-column",
         className: this.props.classes.header,
         style: (0, _objectSpread2["default"])({}, this.props.headerStyle)
-      }, this.props.showSelectAllCheckbox && React.createElement(_Checkbox["default"], {
+      }, this.props.showSelectAllCheckbox && /*#__PURE__*/React.createElement(_Checkbox["default"], {
         indeterminate: this.props.selectedCount > 0 && this.props.selectedCount < this.props.dataCount,
         checked: this.props.dataCount > 0 && this.props.selectedCount === this.props.dataCount,
         onChange: function onChange(event, checked) {
@@ -136,7 +138,7 @@ function (_React$Component) {
   }, {
     key: "renderDetailPanelColumnCell",
     value: function renderDetailPanelColumnCell() {
-      return React.createElement(_TableCell["default"], {
+      return /*#__PURE__*/React.createElement(_TableCell["default"], {
         padding: "none",
         key: "key-detail-panel-column",
         className: this.props.classes.header,
@@ -177,7 +179,7 @@ function (_React$Component) {
       }
 
       if (this.props.isTreeData > 0) {
-        headers.splice(0, 0, React.createElement(_TableCell["default"], {
+        headers.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "none",
           key: "key-tree-data-header",
           className: this.props.classes.header,
@@ -188,13 +190,13 @@ function (_React$Component) {
       this.props.columns.filter(function (columnDef) {
         return columnDef.tableData.groupOrder > -1;
       }).forEach(function (columnDef) {
-        headers.splice(0, 0, React.createElement(_TableCell["default"], {
+        headers.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "checkbox",
           key: "key-group-header" + columnDef.tableData.id,
           className: _this3.props.classes.header
         }));
       });
-      return React.createElement(_TableHead["default"], null, React.createElement(_TableRow["default"], null, headers));
+      return /*#__PURE__*/React.createElement(_TableHead["default"], null, /*#__PURE__*/React.createElement(_TableRow["default"], null, headers));
     }
   }]);
   return MTableHeader;

@@ -15,13 +15,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
-var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
-var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
@@ -59,7 +59,10 @@ var _dateFns = _interopRequireDefault(require("@date-io/date-fns"));
 
 var _pickers = require("@material-ui/pickers");
 
-/* eslint-disable no-unused-vars */
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 var ITEM_HEIGHT = 48;
 var ITEM_PADDING_TOP = 8;
 var MenuProps = {
@@ -71,14 +74,13 @@ var MenuProps = {
   }
 };
 
-var MTableFilterRow =
-/*#__PURE__*/
-function (_React$Component) {
+var MTableFilterRow = /*#__PURE__*/function (_React$Component) {
   (0, _inherits2["default"])(MTableFilterRow, _React$Component);
 
+  var _super = _createSuper(MTableFilterRow);
+
   function MTableFilterRow() {
-    var _getPrototypeOf2,
-        _this2 = this;
+    var _this2 = this;
 
     var _this;
 
@@ -88,21 +90,21 @@ function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    _this = (0, _possibleConstructorReturn2["default"])(this, (_getPrototypeOf2 = (0, _getPrototypeOf3["default"])(MTableFilterRow)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _super.call.apply(_super, [this].concat(args));
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "renderLookupFilter", function (columnDef) {
-      return React.createElement(_FormControl["default"], {
+      return /*#__PURE__*/React.createElement(_FormControl["default"], {
         style: {
           width: '100%'
         }
-      }, React.createElement(_InputLabel["default"], {
+      }, /*#__PURE__*/React.createElement(_InputLabel["default"], {
         htmlFor: "select-multiple-checkbox"
-      }, columnDef.filterPlaceholder), React.createElement(_Select["default"], {
+      }, columnDef.filterPlaceholder), /*#__PURE__*/React.createElement(_Select["default"], {
         multiple: true,
         value: columnDef.tableData.filterValue || [],
         onChange: function onChange(event) {
           _this.props.onFilterChanged(columnDef.tableData.id, event.target.value);
         },
-        input: React.createElement(_Input["default"], {
+        input: /*#__PURE__*/React.createElement(_Input["default"], {
           id: "select-multiple-checkbox"
         }),
         renderValue: function renderValue(selecteds) {
@@ -112,18 +114,18 @@ function (_React$Component) {
         },
         MenuProps: MenuProps
       }, Object.keys(columnDef.lookup).map(function (key) {
-        return React.createElement(_MenuItem["default"], {
+        return /*#__PURE__*/React.createElement(_MenuItem["default"], {
           key: key,
           value: key
-        }, React.createElement(_Checkbox["default"], {
+        }, /*#__PURE__*/React.createElement(_Checkbox["default"], {
           checked: columnDef.tableData.filterValue ? columnDef.tableData.filterValue.indexOf(key.toString()) > -1 : false
-        }), React.createElement(_ListItemText["default"], {
+        }), /*#__PURE__*/React.createElement(_ListItemText["default"], {
           primary: columnDef.lookup[key]
         }));
       })));
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "renderBooleanFilter", function (columnDef) {
-      return React.createElement(_Checkbox["default"], {
+      return /*#__PURE__*/React.createElement(_Checkbox["default"], {
         indeterminate: columnDef.tableData.filterValue === undefined,
         checked: columnDef.tableData.filterValue === 'checked',
         onChange: function onChange() {
@@ -141,7 +143,7 @@ function (_React$Component) {
     });
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "renderDefaultFilter", function (columnDef) {
       var localization = (0, _objectSpread2["default"])({}, MTableFilterRow.defaultProps.localization, _this.props.localization);
-      return React.createElement(_TextField["default"], {
+      return /*#__PURE__*/React.createElement(_TextField["default"], {
         style: columnDef.type === 'numeric' ? {
           "float": 'right'
         } : {},
@@ -152,11 +154,11 @@ function (_React$Component) {
           _this.props.onFilterChanged(columnDef.tableData.id, event.target.value);
         },
         InputProps: {
-          startAdornment: React.createElement(_InputAdornment["default"], {
+          startAdornment: /*#__PURE__*/React.createElement(_InputAdornment["default"], {
             position: "start"
-          }, React.createElement(_Tooltip["default"], {
+          }, /*#__PURE__*/React.createElement(_Tooltip["default"], {
             title: localization.filterTooltip
-          }, React.createElement(_this2.props.icons.Filter, null)))
+          }, /*#__PURE__*/React.createElement(_this2.props.icons.Filter, null)))
         }
       });
     });
@@ -168,26 +170,26 @@ function (_React$Component) {
       };
 
       if (columnDef.type === 'date') {
-        dateInputElement = React.createElement(_pickers.DatePicker, {
+        dateInputElement = /*#__PURE__*/React.createElement(_pickers.DatePicker, {
           value: columnDef.tableData.filterValue || null,
           onChange: onDateInputChange,
           clearable: true
         });
       } else if (columnDef.type === 'datetime') {
-        dateInputElement = React.createElement(_pickers.DateTimePicker, {
+        dateInputElement = /*#__PURE__*/React.createElement(_pickers.DateTimePicker, {
           value: columnDef.tableData.filterValue || null,
           onChange: onDateInputChange,
           clearable: true
         });
       } else if (columnDef.type === 'time') {
-        dateInputElement = React.createElement(_pickers.TimePicker, {
+        dateInputElement = /*#__PURE__*/React.createElement(_pickers.TimePicker, {
           value: columnDef.tableData.filterValue || null,
           onChange: onDateInputChange,
           clearable: true
         });
       }
 
-      return React.createElement(_pickers.MuiPickersUtilsProvider, {
+      return /*#__PURE__*/React.createElement(_pickers.MuiPickersUtilsProvider, {
         utils: _dateFns["default"]
       }, dateInputElement);
     });
@@ -223,14 +225,14 @@ function (_React$Component) {
       }).sort(function (a, b) {
         return a.tableData.columnOrder - b.tableData.columnOrder;
       }).map(function (columnDef) {
-        return React.createElement(_TableCell["default"], {
+        return /*#__PURE__*/React.createElement(_TableCell["default"], {
           key: columnDef.tableData.id,
           style: (0, _objectSpread2["default"])({}, _this3.props.filterCellStyle, columnDef.filterCellStyle)
         }, _this3.getComponentForColumn(columnDef));
       });
 
       if (this.props.selection) {
-        columns.splice(0, 0, React.createElement(_TableCell["default"], {
+        columns.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "none",
           key: "key-selection-column"
         }));
@@ -238,7 +240,7 @@ function (_React$Component) {
 
       if (this.props.emptyCell && this.props.hasActions) {
         if (this.props.actionsColumnIndex === -1) {
-          columns.push(React.createElement(_TableCell["default"], {
+          columns.push( /*#__PURE__*/React.createElement(_TableCell["default"], {
             key: "key-action-column"
           }));
         } else {
@@ -248,21 +250,21 @@ function (_React$Component) {
             endPos = 1;
           }
 
-          columns.splice(this.props.actionsColumnIndex + endPos, 0, React.createElement(_TableCell["default"], {
+          columns.splice(this.props.actionsColumnIndex + endPos, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
             key: "key-action-column"
           }));
         }
       }
 
       if (this.props.hasDetailPanel) {
-        columns.splice(0, 0, React.createElement(_TableCell["default"], {
+        columns.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "none",
           key: "key-detail-panel-column"
         }));
       }
 
       if (this.props.isTreeData > 0) {
-        columns.splice(0, 0, React.createElement(_TableCell["default"], {
+        columns.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "none",
           key: "key-tree-data-filter"
         }));
@@ -271,12 +273,12 @@ function (_React$Component) {
       this.props.columns.filter(function (columnDef) {
         return columnDef.tableData.groupOrder > -1;
       }).forEach(function (columnDef) {
-        columns.splice(0, 0, React.createElement(_TableCell["default"], {
+        columns.splice(0, 0, /*#__PURE__*/React.createElement(_TableCell["default"], {
           padding: "checkbox",
           key: "key-group-filter" + columnDef.tableData.id
         }));
       });
-      return React.createElement(_TableRow["default"], {
+      return /*#__PURE__*/React.createElement(_TableRow["default"], {
         style: {
           height: 10
         }
