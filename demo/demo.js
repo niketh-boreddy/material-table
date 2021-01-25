@@ -194,11 +194,23 @@ const App = () => {
       },
     ],
     columns: [
-      { title: "Adı", field: "name", filterPlaceholder: "Adı filter" },
+      {
+        title: "Adı",
+        field: "name",
+        filterPlaceholder: "Adı filter",
+        editable: (_, rowData) => rowData.name === "A1",
+      },
       {
         title: "Soyadı",
         field: "surname",
         initialEditValue: "test",
+        render: (rowData, type) => {
+          if (type === "group") {
+            return <span>{rowData}</span>;
+          } else {
+            return <span>{rowData.surname}</span>;
+          }
+        },
         defaultGroupOrder: 0,
       },
       { title: "Evli", field: "isMarried", type: "boolean" },
@@ -268,6 +280,20 @@ const App = () => {
                 }}
                 onChangePage={(page) => {
                   handlePageChange(page);
+                }}
+                cellEditable={{
+                  onCellEditApproved: (
+                    newValue,
+                    oldValue,
+                    rowData,
+                    columnDef
+                  ) => {
+                    //console.log(rowData.author, state.user, rowData.author === state.user);
+                    return new Promise((resolve, reject) => {
+                      console.log("newValue: " + newValue);
+                      setTimeout(resolve, 1000);
+                    });
+                  },
                 }}
                 onSearchChange={(e) => console.log("search changed: " + e)}
                 onColumnDragged={(oldPos, newPos) =>

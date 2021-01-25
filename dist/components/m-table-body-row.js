@@ -199,6 +199,10 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
                   rowData: _this2.props.data,
                   cellEditable:
                     columnDef.editable !== "never" &&
+                    !(
+                      typeof columnDef.editable === "function" &&
+                      !columnDef.editable(columnDef, _this2.props.data)
+                    ) &&
                     !!_this2.props.cellEditable,
                   onCellEditStarted: _this2.props.onCellEditStarted,
                   scrollWidth: _this2.props.scrollWidth,
