@@ -1,31 +1,31 @@
-import { Grid, MuiThemeProvider, Button } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import MaterialTable from '../src';
+import { Grid, MuiThemeProvider, Button } from "@material-ui/core";
+import { createMuiTheme } from "@material-ui/core/styles";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import MaterialTable from "../src";
 
-let direction = 'ltr';
+let direction = "ltr";
 // direction = 'rtl';
 const theme = createMuiTheme({
   direction: direction,
   palette: {
-    type: 'light'
-  }
+    type: "light",
+  },
 });
 
 const bigData = [];
 for (let i = 0; i < 1; i++) {
   const d = {
     id: i + 1,
-    name: 'Name' + i,
-    surname: 'Surname' + Math.round(i / 10),
+    name: "Name" + i,
+    surname: "Surname" + Math.round(i / 10),
     isMarried: i % 2 ? true : false,
     birthDate: new Date(1987, 1, 1),
     birthCity: 0,
-    sex: i % 2 ? 'Male' : 'Female',
-    type: 'adult',
+    sex: i % 2 ? "Male" : "Female",
+    type: "adult",
     insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-    time: new Date(1900, 1, 1, 14, 23, 35)
+    time: new Date(1900, 1, 1, 14, 23, 35),
   };
   bigData.push(d);
 }
@@ -37,40 +37,203 @@ const App = () => {
 
   var currPage1 = 0;
   const state = {
-    text: 'text',
+    text: "text",
     selecteds: 0,
     data: [
-      { id: 1, name: 'A1', surname: 'Bo', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 0, sex: 'Male', type: 'adult', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35) },
-      { id: 2, name: 'A2', surname: 'B', isMarried: false, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'adult', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 1 },
-      { id: 3, name: 'A3', surname: 'Bee', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 1 },
-      { id: 4, name: 'A4', surname: 'Dede', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 3 },
-      { id: 5, name: 'A5', surname: 'Ci', isMarried: false, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35) },
-      { id: 6, name: 'A6', surname: 'C', isMarried: true, birthDate: new Date(1989, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 5 },
-      { id: 7, name: 'A7', surname: 'B', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 0, sex: 'Male', type: 'adult', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35) },
-      { id: 8, name: 'A8', surname: 'Bee', isMarried: false, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'adult', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 1 },
-      { id: 9, name: 'A9', surname: 'Bo', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 1 },
-      { id: 10, name: 'A10', surname: 'Dede', isMarried: true, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 3 },
-      { id: 11, name: 'A11', surname: 'C', isMarried: false, birthDate: new Date(1987, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35) },
-      { id: 12, name: 'A12', surname: 'Ci', isMarried: true, birthDate: new Date(1989, 1, 1), birthCity: 34, sex: 'Female', type: 'child', insertDateTime: new Date(2018, 1, 1, 12, 23, 44), time: new Date(1900, 1, 1, 14, 23, 35), parentId: 5 },
+      {
+        id: 1,
+        name: "A1",
+        surname: "Bo",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 0,
+        sex: "Male",
+        type: "adult",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+      },
+      {
+        id: 2,
+        name: "A2",
+        surname: "B",
+        isMarried: false,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "adult",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 1,
+      },
+      {
+        id: 3,
+        name: "A3",
+        surname: "Bee",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 1,
+      },
+      {
+        id: 4,
+        name: "A4",
+        surname: "Dede",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 3,
+      },
+      {
+        id: 5,
+        name: "A5",
+        surname: "Ci",
+        isMarried: false,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+      },
+      {
+        id: 6,
+        name: "A6",
+        surname: "C",
+        isMarried: true,
+        birthDate: new Date(1989, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 5,
+      },
+      {
+        id: 7,
+        name: "A7",
+        surname: "B",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 0,
+        sex: "Male",
+        type: "adult",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+      },
+      {
+        id: 8,
+        name: "A8",
+        surname: "Bee",
+        isMarried: false,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "adult",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 1,
+      },
+      {
+        id: 9,
+        name: "A9",
+        surname: "Bo",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 1,
+      },
+      {
+        id: 10,
+        name: "A10",
+        surname: "Dede",
+        isMarried: true,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 3,
+      },
+      {
+        id: 11,
+        name: "A11",
+        surname: "C",
+        isMarried: false,
+        birthDate: new Date(1987, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+      },
+      {
+        id: 12,
+        name: "A12",
+        surname: "Ci",
+        isMarried: true,
+        birthDate: new Date(1989, 1, 1),
+        birthCity: 34,
+        sex: "Female",
+        type: "child",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
+        time: new Date(1900, 1, 1, 14, 23, 35),
+        parentId: 5,
+      },
     ],
     columns: [
-      { title: 'Adı', field: 'name', filterPlaceholder: 'Adı filter' },
-      { title: 'Soyadı', field: 'surname', initialEditValue: 'test', defaultGroupOrder: 0 },
-      { title: 'Evli', field: 'isMarried', type: 'boolean' },
-      { title: 'Cinsiyet', field: 'sex', disableClick: true, editable: 'onAdd' },
-      { title: 'Tipi', field: 'type', removable: false, editable: 'never' },
-      { title: 'Doğum Yılı', field: 'birthDate', type: 'date' },
-      { title: 'Doğum Yeri', field: 'birthCity', lookup: { 34: 'İstanbul', 0: 'Şanlıurfa' } },
-      { title: 'Kayıt Tarihi', field: 'insertDateTime', type: 'datetime' },
-      { title: 'Zaman', field: 'time', type: 'time' }
+      { title: "Adı", field: "name", filterPlaceholder: "Adı filter" },
+      {
+        title: "Soyadı",
+        field: "surname",
+        initialEditValue: "test",
+        defaultGroupOrder: 0,
+      },
+      { title: "Evli", field: "isMarried", type: "boolean" },
+      {
+        title: "Cinsiyet",
+        field: "sex",
+        disableClick: true,
+        editable: "onAdd",
+      },
+      { title: "Tipi", field: "type", removable: false, editable: "never" },
+      { title: "Doğum Yılı", field: "birthDate", type: "date" },
+      {
+        title: "Doğum Yeri",
+        field: "birthCity",
+        lookup: { 34: "İstanbul", 0: "Şanlıurfa" },
+      },
+      { title: "Kayıt Tarihi", field: "insertDateTime", type: "datetime" },
+      { title: "Zaman", field: "time", type: "time" },
     ],
     remoteColumns: [
-      { title: 'Avatar', field: 'avatar', render: rowData => <img style={{ height: 36, borderRadius: '50%' }} src={rowData.avatar} /> },
-      { title: 'Id', field: 'id' },
-      { title: 'First Name', field: 'first_name', defaultFilter: 'De' },
-      { title: 'Last Name', field: 'last_name' },
-    ]
-  }
+      {
+        title: "Avatar",
+        field: "avatar",
+        render: (rowData) => (
+          <img
+            style={{ height: 36, borderRadius: "50%" }}
+            src={rowData.avatar}
+          />
+        ),
+      },
+      { title: "Id", field: "id" },
+      { title: "First Name", field: "first_name", defaultFilter: "De" },
+      { title: "Last Name", field: "last_name" },
+    ],
+  };
 
   const handleClick = (event, rowData) => {
     console.log(rowData);
@@ -78,19 +241,18 @@ const App = () => {
     var data1 = state.data;
     state.data = data1;
     tableRef.current.onChangePage(null, currPage1);
-  }
+  };
 
   const handlePageChange = (page) => {
     console.log(page);
     //setCurrPage(page);
     currPage1 = page;
-  }
-
+  };
 
   return (
     <>
       <MuiThemeProvider theme={theme}>
-        <div style={{ maxWidth: '100%', direction }}>
+        <div style={{ maxWidth: "100%", direction }}>
           <Grid container>
             <Grid item xs={12}>
               <MaterialTable
@@ -102,11 +264,17 @@ const App = () => {
                   columnsButton: true,
                   selection: true,
                   grouping: true,
-                  defaultExpanded: row => row.surname === 'C'
+                  defaultExpanded: (row) => row.surname === "C",
                 }}
-                onChangePage={(page) => { handlePageChange(page); }}
+                onChangePage={(page) => {
+                  handlePageChange(page);
+                }}
                 onSearchChange={(e) => console.log("search changed: " + e)}
-                onColumnDragged={(oldPos, newPos) => console.log("Dropped column from " + oldPos + " to position " + newPos)}
+                onColumnDragged={(oldPos, newPos) =>
+                  console.log(
+                    "Dropped column from " + oldPos + " to position " + newPos
+                  )
+                }
               />
             </Grid>
           </Grid>
@@ -114,11 +282,8 @@ const App = () => {
       </MuiThemeProvider>
     </>
   );
-}
+};
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('app')
-);
+ReactDOM.render(<App />, document.getElementById("app"));
 
 module.hot.accept();
