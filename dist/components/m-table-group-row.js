@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _objectSpread2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectSpread")
@@ -62,15 +62,15 @@ var React = _interopRequireWildcard(require("react"));
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
-    var Super = (0, _getPrototypeOf2["default"])(Derived),
+    var Super = (0, _getPrototypeOf2.default)(Derived),
       result;
     if (hasNativeReflectConstruct) {
-      var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor;
+      var NewTarget = (0, _getPrototypeOf2.default)(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
       result = Super.apply(this, arguments);
     }
-    return (0, _possibleConstructorReturn2["default"])(this, result);
+    return (0, _possibleConstructorReturn2.default)(this, result);
   };
 }
 
@@ -88,14 +88,14 @@ function _isNativeReflectConstruct() {
 
 /* eslint-enable no-unused-vars */
 var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
-  (0, _inherits2["default"])(MTableGroupRow, _React$Component);
+  (0, _inherits2.default)(MTableGroupRow, _React$Component);
 
   var _super = _createSuper(MTableGroupRow);
 
   function MTableGroupRow() {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MTableGroupRow);
+    (0, _classCallCheck2.default)(this, MTableGroupRow);
 
     for (
       var _len = arguments.length, args = new Array(_len), _key = 0;
@@ -106,8 +106,8 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
     }
 
     _this = _super.call.apply(_super, [this].concat(args));
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "rotateIconStyle",
       function (isOpen) {
         return {
@@ -118,7 +118,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
     return _this;
   }
 
-  (0, _createClass2["default"])(MTableGroupRow, [
+  (0, _createClass2.default)(MTableGroupRow, [
     {
       key: "render",
       value: function render() {
@@ -154,11 +154,12 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                   icons: _this2.props.icons,
                   level: _this2.props.level + 1,
                   path: [].concat(
-                    (0, _toConsumableArray2["default"])(_this2.props.path),
+                    (0, _toConsumableArray2.default)(_this2.props.path),
                     [index]
                   ),
                   onGroupExpandChanged: _this2.props.onGroupExpandChanged,
                   onRowSelected: _this2.props.onRowSelected,
+                  onGroupRowSelected: _this2.props.onGroupRowSelected,
                   onRowClick: _this2.props.onRowClick,
                   onToggleDetailPanel: _this2.props.onToggleDetailPanel,
                   onTreeExpandChanged: _this2.props.onTreeExpandChanged,
@@ -167,6 +168,16 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                   options: _this2.props.options,
                   hasAnyEditingRow: _this2.props.hasAnyEditingRow,
                   isTreeData: _this2.props.isTreeData,
+                  localization: (0, _objectSpread2.default)(
+                    {},
+                    _this2.props.components.Body.defaultProps.localization
+                      .editRow,
+                    _this2.props.localization.editRow
+                  ),
+                  cellEditable: _this2.props.cellEditable,
+                  onCellEditStarted: _this2.props.onCellEditStarted,
+                  onCellEditFinished: _this2.props.onCellEditFinished,
+                  scrollWidth: _this2.props.scrollWidth,
                 }
               );
             });
@@ -181,7 +192,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                     data: rowData,
                     icons: _this2.props.icons,
                     path: [].concat(
-                      (0, _toConsumableArray2["default"])(_this2.props.path),
+                      (0, _toConsumableArray2.default)(_this2.props.path),
                       [index]
                     ),
                     localization: _this2.props.localization,
@@ -193,6 +204,8 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                     onEditingCanceled: _this2.props.onEditingCanceled,
                     onEditingApproved: _this2.props.onEditingApproved,
                     getFieldValue: _this2.props.getFieldValue,
+                    onBulkEditRowChanged: _this2.props.onBulkEditRowChanged,
+                    scrollWidth: _this2.props.scrollWidth,
                   }
                 );
               } else {
@@ -208,7 +221,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                     getFieldValue: _this2.props.getFieldValue,
                     icons: _this2.props.icons,
                     path: [].concat(
-                      (0, _toConsumableArray2["default"])(_this2.props.path),
+                      (0, _toConsumableArray2.default)(_this2.props.path),
                       [index]
                     ),
                     onRowSelected: _this2.props.onRowSelected,
@@ -220,6 +233,10 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                     onEditingCanceled: _this2.props.onEditingCanceled,
                     onEditingApproved: _this2.props.onEditingApproved,
                     hasAnyEditingRow: _this2.props.hasAnyEditingRow,
+                    cellEditable: _this2.props.cellEditable,
+                    onCellEditStarted: _this2.props.onCellEditStarted,
+                    onCellEditFinished: _this2.props.onCellEditFinished,
+                    scrollWidth: _this2.props.scrollWidth,
                   }
                 );
               }
@@ -231,7 +248,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
 
         for (var i = 0; i < this.props.level; i++) {
           freeCells.push(
-            /*#__PURE__*/ React.createElement(_TableCell["default"], {
+            /*#__PURE__*/ React.createElement(_TableCell.default, {
               padding: "checkbox",
               key: i,
             })
@@ -246,7 +263,9 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
 
         var title = column.title;
 
-        if (typeof title !== "string") {
+        if (typeof this.props.options.groupTitle === "function") {
+          title = this.props.options.groupTitle(this.props.groupData);
+        } else if (typeof title !== "string") {
           title = React.cloneElement(title);
         } //let separator = this.props.options.groupRowSeparator || ": ";
 
@@ -254,7 +273,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
           React.Fragment,
           null,
           /*#__PURE__*/ React.createElement(
-            _TableRow["default"],
+            _TableRow.default,
             null,
             freeCells,
             /*#__PURE__*/ React.createElement(
@@ -267,9 +286,9 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                 icons: this.props.icons,
               },
               /*#__PURE__*/ React.createElement(
-                _IconButton["default"],
+                _IconButton.default,
                 {
-                  style: (0, _objectSpread2["default"])(
+                  style: (0, _objectSpread2.default)(
                     {
                       transition: "all ease 200ms",
                     },
@@ -284,7 +303,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                   null
                 )
               ),
-              /*#__PURE__*/ React.createElement(_Checkbox["default"], {
+              /*#__PURE__*/ React.createElement(_Checkbox.default, {
                 checked:
                   this.props.groupData.selectedCount > 0 &&
                   this.props.groupData.selectedCount ===
@@ -315,7 +334,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
   return MTableGroupRow;
 })(React.Component);
 
-exports["default"] = MTableGroupRow;
+exports.default = MTableGroupRow;
 MTableGroupRow.defaultProps = {
   columns: [],
   groups: [],
@@ -323,29 +342,34 @@ MTableGroupRow.defaultProps = {
   level: 0,
 };
 MTableGroupRow.propTypes = {
-  actions: _propTypes["default"].array,
-  columns: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  components: _propTypes["default"].object,
-  detailPanel: _propTypes["default"].oneOfType([
-    _propTypes["default"].func,
-    _propTypes["default"].arrayOf(_propTypes["default"].object),
+  actions: _propTypes.default.array,
+  columns: _propTypes.default.arrayOf(_propTypes.default.object),
+  components: _propTypes.default.object,
+  detailPanel: _propTypes.default.oneOfType([
+    _propTypes.default.func,
+    _propTypes.default.arrayOf(_propTypes.default.object),
   ]),
-  getFieldValue: _propTypes["default"].func,
-  groupData: _propTypes["default"].object,
-  groups: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  hasAnyEditingRow: _propTypes["default"].bool,
-  icons: _propTypes["default"].object,
-  isTreeData: _propTypes["default"].bool.isRequired,
-  level: _propTypes["default"].number,
-  localization: _propTypes["default"].object,
-  onGroupExpandChanged: _propTypes["default"].func,
-  onRowSelected: _propTypes["default"].func,
-  onGroupRowSelected: _propTypes["default"].func,
-  onRowClick: _propTypes["default"].func,
-  onToggleDetailPanel: _propTypes["default"].func.isRequired,
-  onTreeExpandChanged: _propTypes["default"].func.isRequired,
-  onEditingCanceled: _propTypes["default"].func,
-  onEditingApproved: _propTypes["default"].func,
-  options: _propTypes["default"].object,
-  path: _propTypes["default"].arrayOf(_propTypes["default"].number),
+  getFieldValue: _propTypes.default.func,
+  groupData: _propTypes.default.object,
+  groups: _propTypes.default.arrayOf(_propTypes.default.object),
+  hasAnyEditingRow: _propTypes.default.bool,
+  icons: _propTypes.default.object,
+  isTreeData: _propTypes.default.bool.isRequired,
+  level: _propTypes.default.number,
+  localization: _propTypes.default.object,
+  onGroupExpandChanged: _propTypes.default.func,
+  onRowSelected: _propTypes.default.func,
+  onGroupRowSelected: _propTypes.default.func,
+  onRowClick: _propTypes.default.func,
+  onToggleDetailPanel: _propTypes.default.func.isRequired,
+  onTreeExpandChanged: _propTypes.default.func.isRequired,
+  onEditingCanceled: _propTypes.default.func,
+  onEditingApproved: _propTypes.default.func,
+  options: _propTypes.default.object,
+  path: _propTypes.default.arrayOf(_propTypes.default.number),
+  scrollWidth: _propTypes.default.number.isRequired,
+  cellEditable: _propTypes.default.object,
+  onCellEditStarted: _propTypes.default.func,
+  onCellEditFinished: _propTypes.default.func,
+  onBulkEditRowChanged: _propTypes.default.func,
 }; //<!--<b>{title}{separator}</b>-->

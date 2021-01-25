@@ -7,10 +7,14 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = exports.styles = exports.MTableToolbar = void 0;
+exports.default = exports.styles = exports.MTableToolbar = void 0;
 
 var _objectSpread2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectSpread")
+);
+
+var _slicedToArray2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/slicedToArray")
 );
 
 var _classCallCheck2 = _interopRequireDefault(
@@ -81,20 +85,22 @@ var _filefy = require("filefy");
 
 var _propTypes = _interopRequireWildcard(require("prop-types"));
 
+require("jspdf-autotable");
+
 var React = _interopRequireWildcard(require("react"));
 
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
-    var Super = (0, _getPrototypeOf2["default"])(Derived),
+    var Super = (0, _getPrototypeOf2.default)(Derived),
       result;
     if (hasNativeReflectConstruct) {
-      var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor;
+      var NewTarget = (0, _getPrototypeOf2.default)(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
       result = Super.apply(this, arguments);
     }
-    return (0, _possibleConstructorReturn2["default"])(this, result);
+    return (0, _possibleConstructorReturn2.default)(this, result);
   };
 }
 
@@ -110,44 +116,82 @@ function _isNativeReflectConstruct() {
   }
 }
 
+var jsPDF = typeof window !== "undefined" ? require("jspdf").jsPDF : null;
 /* eslint-enable no-unused-vars */
+
 var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
-  (0, _inherits2["default"])(MTableToolbar, _React$Component);
+  (0, _inherits2.default)(MTableToolbar, _React$Component);
 
   var _super = _createSuper(MTableToolbar);
 
   function MTableToolbar(props) {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MTableToolbar);
+    (0, _classCallCheck2.default)(this, MTableToolbar);
     _this = _super.call(this, props);
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
-      "defaultExportCsv",
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "onSearchChange",
+      function (searchText) {
+        _this.props.dataManager.changeSearchText(searchText);
+
+        _this.setState(
+          {
+            searchText: searchText,
+          },
+          _this.props.onSearchChanged(searchText)
+        );
+      }
+    );
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "getTableData",
       function () {
         var columns = _this.props.columns
           .filter(function (columnDef) {
             return (
-              !columnDef.hidden &&
-              columnDef.field &&
-              columnDef["export"] !== false
+              (!columnDef.hidden || columnDef.export === true) &&
+              columnDef.export !== false &&
+              columnDef.field
             );
           })
           .sort(function (a, b) {
             return a.tableData.columnOrder > b.tableData.columnOrder ? 1 : -1;
           });
 
-        var dataToExport = _this.props.exportAllData
+        var data = (_this.props.exportAllData
           ? _this.props.data
-          : _this.props.renderData;
-        var data = dataToExport.map(function (rowData) {
+          : _this.props.renderData
+        ).map(function (rowData) {
           return columns.map(function (columnDef) {
             return _this.props.getFieldValue(rowData, columnDef);
           });
         });
-        var builder = new _filefy.CsvBuilder(
-          (_this.props.exportFileName || _this.props.title || "data") + ".csv"
-        );
+        return [columns, data];
+      }
+    );
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "defaultExportCsv",
+      function () {
+        var _this$getTableData = _this.getTableData(),
+          _this$getTableData2 = (0, _slicedToArray2.default)(
+            _this$getTableData,
+            2
+          ),
+          columns = _this$getTableData2[0],
+          data = _this$getTableData2[1];
+
+        var fileName = _this.props.title || "data";
+
+        if (_this.props.exportFileName) {
+          fileName =
+            typeof _this.props.exportFileName === "function"
+              ? _this.props.exportFileName()
+              : _this.props.exportFileName;
+        }
+
+        var builder = new _filefy.CsvBuilder(fileName + ".csv");
         builder
           .setDelimeter(_this.props.exportDelimiter)
           .setColumns(
@@ -159,8 +203,43 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
           .exportFile();
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "defaultExportPdf",
+      function () {
+        if (jsPDF !== null) {
+          var _this$getTableData3 = _this.getTableData(),
+            _this$getTableData4 = (0, _slicedToArray2.default)(
+              _this$getTableData3,
+              2
+            ),
+            columns = _this$getTableData4[0],
+            data = _this$getTableData4[1];
+
+          var content = {
+            startY: 50,
+            head: [
+              columns.map(function (columnDef) {
+                return columnDef.title;
+              }),
+            ],
+            body: data,
+          };
+          var unit = "pt";
+          var size = "A4";
+          var orientation = "landscape";
+          var doc = new jsPDF(orientation, unit, size);
+          doc.setFontSize(15);
+          doc.text(_this.props.exportFileName || _this.props.title, 40, 40);
+          doc.autoTable(content);
+          doc.save(
+            (_this.props.exportFileName || _this.props.title || "data") + ".pdf"
+          );
+        }
+      }
+    );
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "exportCsv",
       function () {
         if (_this.props.exportCsv) {
@@ -174,77 +253,98 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
         });
       }
     );
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "exportPdf",
+      function () {
+        if (_this.props.exportPdf) {
+          _this.props.exportPdf(_this.props.columns, _this.props.data);
+        } else {
+          _this.defaultExportPdf();
+        }
+
+        _this.setState({
+          exportButtonAnchorEl: null,
+        });
+      }
+    );
     _this.state = {
       columnsButtonAnchorEl: null,
       exportButtonAnchorEl: null,
+      searchText: props.searchText,
     };
     return _this;
   }
 
-  (0, _createClass2["default"])(MTableToolbar, [
+  (0, _createClass2.default)(MTableToolbar, [
     {
       key: "renderSearch",
       value: function renderSearch() {
         var _this2 = this;
 
-        var localization = (0, _objectSpread2["default"])(
+        var localization = (0, _objectSpread2.default)(
           {},
           MTableToolbar.defaultProps.localization,
           this.props.localization
         );
 
         if (this.props.search) {
-          return /*#__PURE__*/ React.createElement(_TextField["default"], {
+          return /*#__PURE__*/ React.createElement(_TextField.default, {
+            autoFocus: this.props.searchAutoFocus,
             className:
               this.props.searchFieldAlignment === "left" &&
               this.props.showTitle === false
                 ? null
                 : this.props.classes.searchField,
-            value: this.props.searchText,
+            value: this.state.searchText,
             onChange: function onChange(event) {
-              return _this2.props.onSearchChanged(event.target.value);
+              return _this2.onSearchChange(event.target.value);
             },
             placeholder: localization.searchPlaceholder,
+            variant: this.props.searchFieldVariant,
             InputProps: {
               startAdornment: /*#__PURE__*/ React.createElement(
-                _InputAdornment["default"],
+                _InputAdornment.default,
                 {
                   position: "start",
                 },
                 /*#__PURE__*/ React.createElement(
-                  _Tooltip["default"],
+                  _Tooltip.default,
                   {
                     title: localization.searchTooltip,
                   },
                   /*#__PURE__*/ React.createElement(this.props.icons.Search, {
-                    color: "inherit",
                     fontSize: "small",
                   })
                 )
               ),
               endAdornment: /*#__PURE__*/ React.createElement(
-                _InputAdornment["default"],
+                _InputAdornment.default,
                 {
                   position: "end",
                 },
                 /*#__PURE__*/ React.createElement(
-                  _IconButton["default"],
+                  _IconButton.default,
                   {
-                    disabled: !this.props.searchText,
+                    disabled: !this.state.searchText,
                     onClick: function onClick() {
-                      return _this2.props.onSearchChanged("");
+                      return _this2.onSearchChange("");
                     },
+                    "aria-label": localization.clearSearchAriaLabel,
                   },
                   /*#__PURE__*/ React.createElement(
                     this.props.icons.ResetSearch,
                     {
-                      color: "inherit",
                       fontSize: "small",
+                      "aria-label": "clear",
                     }
                   )
                 )
               ),
               style: this.props.searchFieldStyle,
+              inputProps: {
+                "aria-label": localization.searchAriaLabel,
+              },
             },
           });
         } else {
@@ -257,7 +357,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
       value: function renderDefaultActions() {
         var _this3 = this;
 
-        var localization = (0, _objectSpread2["default"])(
+        var localization = (0, _objectSpread2.default)(
           {},
           MTableToolbar.defaultProps.localization,
           this.props.localization
@@ -271,12 +371,12 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
               "span",
               null,
               /*#__PURE__*/ React.createElement(
-                _Tooltip["default"],
+                _Tooltip.default,
                 {
                   title: localization.showColumnsTitle,
                 },
                 /*#__PURE__*/ React.createElement(
-                  _IconButton["default"],
+                  _IconButton.default,
                   {
                     color: "inherit",
                     onClick: function onClick(event) {
@@ -293,7 +393,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
                 )
               ),
               /*#__PURE__*/ React.createElement(
-                _Menu["default"],
+                _Menu.default,
                 {
                   anchorEl: this.state.columnsButtonAnchorEl,
                   open: Boolean(this.state.columnsButtonAnchorEl),
@@ -304,7 +404,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
                   },
                 },
                 /*#__PURE__*/ React.createElement(
-                  _MenuItem["default"],
+                  _MenuItem.default,
                   {
                     key: "text",
                     disabled: true,
@@ -317,32 +417,40 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
                   localization.addRemoveColumns
                 ),
                 this.props.columns.map(function (col) {
-                  return /*#__PURE__*/ React.createElement(
-                    "li",
-                    {
-                      key: col.tableData.id,
-                    },
-                    /*#__PURE__*/ React.createElement(
-                      _MenuItem["default"],
+                  if (!col.hidden || col.hiddenByColumnsButton) {
+                    return /*#__PURE__*/ React.createElement(
+                      "li",
                       {
-                        className: classes.formControlLabel,
-                        component: "label",
-                        htmlFor: "column-toggle-".concat(col.tableData.id),
-                        disabled: col.removable === false,
+                        key: col.tableData.id,
                       },
-                      /*#__PURE__*/ React.createElement(_Checkbox["default"], {
-                        checked: !col.hidden,
-                        id: "column-toggle-".concat(col.tableData.id),
-                        onChange: function onChange() {
-                          return _this3.props.onColumnsChanged(
-                            col,
-                            !col.hidden
-                          );
+                      /*#__PURE__*/ React.createElement(
+                        _MenuItem.default,
+                        {
+                          className: classes.formControlLabel,
+                          component: "label",
+                          htmlFor: "column-toggle-".concat(col.tableData.id),
+                          disabled: col.removable === false,
                         },
-                      }),
-                      /*#__PURE__*/ React.createElement("span", null, col.title)
-                    )
-                  );
+                        /*#__PURE__*/ React.createElement(_Checkbox.default, {
+                          checked: !col.hidden,
+                          id: "column-toggle-".concat(col.tableData.id),
+                          onChange: function onChange() {
+                            return _this3.props.onColumnsChanged(
+                              col,
+                              !col.hidden
+                            );
+                          },
+                        }),
+                        /*#__PURE__*/ React.createElement(
+                          "span",
+                          null,
+                          col.title
+                        )
+                      )
+                    );
+                  }
+
+                  return null;
                 })
               )
             ),
@@ -351,12 +459,12 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
               "span",
               null,
               /*#__PURE__*/ React.createElement(
-                _Tooltip["default"],
+                _Tooltip.default,
                 {
                   title: localization.exportTitle,
                 },
                 /*#__PURE__*/ React.createElement(
-                  _IconButton["default"],
+                  _IconButton.default,
                   {
                     color: "inherit",
                     onClick: function onClick(event) {
@@ -373,7 +481,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
                 )
               ),
               /*#__PURE__*/ React.createElement(
-                _Menu["default"],
+                _Menu.default,
                 {
                   anchorEl: this.state.exportButtonAnchorEl,
                   open: Boolean(this.state.exportButtonAnchorEl),
@@ -383,14 +491,26 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
                     });
                   },
                 },
-                /*#__PURE__*/ React.createElement(
-                  _MenuItem["default"],
-                  {
-                    key: "export-csv",
-                    onClick: this.exportCsv,
-                  },
-                  localization.exportName
-                )
+                (this.props.exportButton === true ||
+                  this.props.exportButton.csv) &&
+                  /*#__PURE__*/ React.createElement(
+                    _MenuItem.default,
+                    {
+                      key: "export-csv",
+                      onClick: this.exportCsv,
+                    },
+                    localization.exportCSVName
+                  ),
+                (this.props.exportButton === true ||
+                  this.props.exportButton.pdf) &&
+                  /*#__PURE__*/ React.createElement(
+                    _MenuItem.default,
+                    {
+                      key: "export-pdf",
+                      onClick: this.exportPdf,
+                    },
+                    localization.exportPDFName
+                  )
               )
             ),
           /*#__PURE__*/ React.createElement(
@@ -400,7 +520,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
               actions:
                 this.props.actions &&
                 this.props.actions.filter(function (a) {
-                  return a.isFreeAction;
+                  return a.position === "toolbar";
                 }),
               components: this.props.components,
             })
@@ -416,7 +536,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
           null,
           /*#__PURE__*/ React.createElement(this.props.components.Actions, {
             actions: this.props.actions.filter(function (a) {
-              return !a.isFreeAction;
+              return a.position === "toolbarOnSelect";
             }),
             data: this.props.selectedRows,
             components: this.props.components,
@@ -453,9 +573,14 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
         var toolBarTitle =
           typeof title === "string"
             ? /*#__PURE__*/ React.createElement(
-                _Typography["default"],
+                _Typography.default,
                 {
                   variant: "h6",
+                  style: {
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  },
                 },
                 title
               )
@@ -473,7 +598,7 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
       key: "render",
       value: function render() {
         var classes = this.props.classes;
-        var localization = (0, _objectSpread2["default"])(
+        var localization = (0, _objectSpread2.default)(
           {},
           MTableToolbar.defaultProps.localization,
           this.props.localization
@@ -482,19 +607,21 @@ var MTableToolbar = /*#__PURE__*/ (function (_React$Component) {
           this.props.showTextRowsSelected &&
           this.props.selectedRows &&
           this.props.selectedRows.length > 0
-            ? localization.nRowsSelected.replace(
-                "{0}",
-                this.props.selectedRows.length
-              )
+            ? typeof localization.nRowsSelected === "function"
+              ? localization.nRowsSelected(this.props.selectedRows.length)
+              : localization.nRowsSelected.replace(
+                  "{0}",
+                  this.props.selectedRows.length
+                )
             : this.props.showTitle
             ? this.props.title
             : null;
         return /*#__PURE__*/ React.createElement(
-          _Toolbar["default"],
+          _Toolbar.default,
           {
-            className: (0, _classnames["default"])(
+            className: (0, _classnames.default)(
               classes.root,
-              (0, _defineProperty2["default"])(
+              (0, _defineProperty2.default)(
                 {},
                 classes.highlight,
                 this.props.showTextRowsSelected &&
@@ -530,48 +657,66 @@ MTableToolbar.defaultProps = {
     showColumnsAriaLabel: "Show Columns",
     exportTitle: "Export",
     exportAriaLabel: "Export",
-    exportName: "Export as CSV",
+    exportCSVName: "Export as CSV",
+    exportPDFName: "Export as PDF",
     searchTooltip: "Search",
     searchPlaceholder: "Search",
+    searchAriaLabel: "Search",
+    clearSearchAriaLabel: "Clear Search",
   },
   search: true,
   showTitle: true,
+  searchText: "",
   showTextRowsSelected: true,
   toolbarButtonAlignment: "right",
+  searchAutoFocus: false,
   searchFieldAlignment: "right",
-  searchText: "",
+  searchFieldVariant: "standard",
   selectedRows: [],
   title: "No Title!",
 };
 MTableToolbar.propTypes = {
-  actions: _propTypes["default"].array,
-  columns: _propTypes["default"].array,
-  columnsButton: _propTypes["default"].bool,
-  components: _propTypes["default"].object.isRequired,
-  getFieldValue: _propTypes["default"].func.isRequired,
-  localization: _propTypes["default"].object.isRequired,
-  onColumnsChanged: _propTypes["default"].func.isRequired,
-  onSearchChanged: _propTypes["default"].func.isRequired,
-  search: _propTypes["default"].bool.isRequired,
-  searchFieldStyle: _propTypes["default"].object,
-  searchText: _propTypes["default"].string.isRequired,
-  selectedRows: _propTypes["default"].array,
-  title: _propTypes["default"].oneOfType([
-    _propTypes["default"].element,
-    _propTypes["default"].string,
+  actions: _propTypes.default.array,
+  columns: _propTypes.default.array,
+  columnsButton: _propTypes.default.bool,
+  components: _propTypes.default.object.isRequired,
+  getFieldValue: _propTypes.default.func.isRequired,
+  localization: _propTypes.default.object.isRequired,
+  onColumnsChanged: _propTypes.default.func.isRequired,
+  dataManager: _propTypes.default.object.isRequired,
+  searchText: _propTypes.default.string,
+  onSearchChanged: _propTypes.default.func.isRequired,
+  search: _propTypes.default.bool.isRequired,
+  searchFieldStyle: _propTypes.default.object,
+  searchFieldVariant: _propTypes.default.string,
+  selectedRows: _propTypes.default.array,
+  title: _propTypes.default.oneOfType([
+    _propTypes.default.element,
+    _propTypes.default.string,
   ]),
-  showTitle: _propTypes["default"].bool.isRequired,
-  showTextRowsSelected: _propTypes["default"].bool.isRequired,
-  toolbarButtonAlignment: _propTypes["default"].string.isRequired,
-  searchFieldAlignment: _propTypes["default"].string.isRequired,
-  renderData: _propTypes["default"].array,
-  data: _propTypes["default"].array,
-  exportAllData: _propTypes["default"].bool,
-  exportButton: _propTypes["default"].bool,
-  exportDelimiter: _propTypes["default"].string,
-  exportFileName: _propTypes["default"].string,
-  exportCsv: _propTypes["default"].func,
-  classes: _propTypes["default"].object,
+  showTitle: _propTypes.default.bool.isRequired,
+  showTextRowsSelected: _propTypes.default.bool.isRequired,
+  toolbarButtonAlignment: _propTypes.default.string.isRequired,
+  searchFieldAlignment: _propTypes.default.string.isRequired,
+  renderData: _propTypes.default.array,
+  data: _propTypes.default.array,
+  exportAllData: _propTypes.default.bool,
+  exportButton: _propTypes.default.oneOfType([
+    _propTypes.default.bool,
+    _propTypes.default.shape({
+      csv: _propTypes.default.bool,
+      pdf: _propTypes.default.bool,
+    }),
+  ]),
+  exportDelimiter: _propTypes.default.string,
+  exportFileName: _propTypes.default.oneOfType([
+    _propTypes.default.string,
+    _propTypes.default.func,
+  ]),
+  exportCsv: _propTypes.default.func,
+  exportPdf: _propTypes.default.func,
+  classes: _propTypes.default.object,
+  searchAutoFocus: _propTypes.default.bool,
 };
 
 var styles = function styles(theme) {
@@ -599,9 +744,10 @@ var styles = function styles(theme) {
       color: theme.palette.text.secondary,
     },
     title: {
-      flex: "0 0 auto",
+      overflow: "hidden",
     },
     searchField: {
+      minWidth: 150,
       paddingLeft: theme.spacing(2),
     },
     formControlLabel: {
@@ -613,6 +759,6 @@ var styles = function styles(theme) {
 
 exports.styles = styles;
 
-var _default = (0, _withStyles["default"])(styles)(MTableToolbar);
+var _default = (0, _withStyles.default)(styles)(MTableToolbar);
 
-exports["default"] = _default;
+exports.default = _default;

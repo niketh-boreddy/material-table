@@ -11,10 +11,10 @@ var _exportNames = {
 Object.defineProperty(exports, "MTable", {
   enumerable: true,
   get: function get() {
-    return _materialTable["default"];
+    return _materialTable.default;
   },
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(
   require("@babel/runtime/helpers/extends")
@@ -47,8 +47,8 @@ Object.keys(_components).forEach(function (key) {
     },
   });
 });
-_materialTable["default"].defaultProps = _defaultProps.defaultProps;
-_materialTable["default"].propTypes = _propTypes.propTypes;
+_materialTable.default.defaultProps = _defaultProps.defaultProps;
+_materialTable.default.propTypes = _propTypes.propTypes;
 
 var styles = function styles(theme) {
   return {
@@ -68,15 +68,15 @@ var styles = function styles(theme) {
   };
 };
 
-var _default = (0, _withStyles["default"])(styles, {
+var _default = (0, _withStyles.default)(styles, {
   withTheme: true,
 })(function (props) {
-  return /*#__PURE__*/ _react["default"].createElement(
-    _materialTable["default"],
-    (0, _extends2["default"])({}, props, {
+  return /*#__PURE__*/ _react.default.createElement(
+    _materialTable.default,
+    (0, _extends2.default)({}, props, {
       ref: props.tableRef,
     })
   );
 });
 
-exports["default"] = _default;
+exports.default = _default;

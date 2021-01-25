@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _objectSpread2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectSpread")
@@ -62,15 +62,15 @@ var React = _interopRequireWildcard(require("react"));
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
-    var Super = (0, _getPrototypeOf2["default"])(Derived),
+    var Super = (0, _getPrototypeOf2.default)(Derived),
       result;
     if (hasNativeReflectConstruct) {
-      var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor;
+      var NewTarget = (0, _getPrototypeOf2.default)(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
       result = Super.apply(this, arguments);
     }
-    return (0, _possibleConstructorReturn2["default"])(this, result);
+    return (0, _possibleConstructorReturn2.default)(this, result);
   };
 }
 
@@ -88,14 +88,14 @@ function _isNativeReflectConstruct() {
 
 /* eslint-enable no-unused-vars */
 var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
-  (0, _inherits2["default"])(MTablePaginationInner, _React$Component);
+  (0, _inherits2.default)(MTablePaginationInner, _React$Component);
 
   var _super = _createSuper(MTablePaginationInner);
 
   function MTablePaginationInner() {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MTablePaginationInner);
+    (0, _classCallCheck2.default)(this, MTablePaginationInner);
 
     for (
       var _len = arguments.length, args = new Array(_len), _key = 0;
@@ -106,29 +106,29 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
     }
 
     _this = _super.call.apply(_super, [this].concat(args));
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "handleFirstPageButtonClick",
       function (event) {
         _this.props.onChangePage(event, 0);
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "handleBackButtonClick",
       function (event) {
         _this.props.onChangePage(event, _this.props.page - 1);
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "handleNextButtonClick",
       function (event) {
         _this.props.onChangePage(event, _this.props.page + 1);
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "handleNumberButtonClick",
       function (number) {
         return function (event) {
@@ -136,8 +136,8 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
         };
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "handleLastPageButtonClick",
       function (event) {
         _this.props.onChangePage(
@@ -152,7 +152,7 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
     return _this;
   }
 
-  (0, _createClass2["default"])(MTablePaginationInner, [
+  (0, _createClass2.default)(MTablePaginationInner, [
     {
       key: "renderPagesButton",
       value: function renderPagesButton(start, end) {
@@ -162,7 +162,7 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
           var buttonVariant = p === this.props.page ? "contained" : "text";
           buttons.push(
             /*#__PURE__*/ React.createElement(
-              _Button["default"],
+              _Button.default,
               {
                 size: "small",
                 style: {
@@ -192,8 +192,10 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
           classes = _this$props.classes,
           count = _this$props.count,
           page = _this$props.page,
-          rowsPerPage = _this$props.rowsPerPage;
-        var localization = (0, _objectSpread2["default"])(
+          rowsPerPage = _this$props.rowsPerPage,
+          theme = _this$props.theme,
+          showFirstLastPageButtons = _this$props.showFirstLastPageButtons;
+        var localization = (0, _objectSpread2.default)(
           {},
           MTablePaginationInner.defaultProps.localization,
           this.props.localization
@@ -206,8 +208,36 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
           {
             className: classes.root,
           },
+          showFirstLastPageButtons &&
+            /*#__PURE__*/ React.createElement(
+              _Tooltip.default,
+              {
+                title: localization.firstTooltip,
+              },
+              /*#__PURE__*/ React.createElement(
+                "span",
+                null,
+                /*#__PURE__*/ React.createElement(
+                  _IconButton.default,
+                  {
+                    onClick: this.handleFirstPageButtonClick,
+                    disabled: page === 0,
+                    "aria-label": localization.firstAriaLabel,
+                  },
+                  theme.direction === "rtl"
+                    ? /*#__PURE__*/ React.createElement(
+                        this.props.icons.LastPage,
+                        null
+                      )
+                    : /*#__PURE__*/ React.createElement(
+                        this.props.icons.FirstPage,
+                        null
+                      )
+                )
+              )
+            ),
           /*#__PURE__*/ React.createElement(
-            _Tooltip["default"],
+            _Tooltip.default,
             {
               title: localization.previousTooltip,
             },
@@ -215,7 +245,7 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
               "span",
               null,
               /*#__PURE__*/ React.createElement(
-                _IconButton["default"],
+                _IconButton.default,
                 {
                   onClick: this.handleBackButtonClick,
                   disabled: page === 0,
@@ -229,14 +259,14 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
             )
           ),
           /*#__PURE__*/ React.createElement(
-            _Hidden["default"],
+            _Hidden.default,
             {
               smDown: true,
             },
             this.renderPagesButton(pageStart, pageEnd)
           ),
           /*#__PURE__*/ React.createElement(
-            _Tooltip["default"],
+            _Tooltip.default,
             {
               title: localization.nextTooltip,
             },
@@ -244,7 +274,7 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
               "span",
               null,
               /*#__PURE__*/ React.createElement(
-                _IconButton["default"],
+                _IconButton.default,
                 {
                   onClick: this.handleNextButtonClick,
                   disabled: page >= maxPages,
@@ -256,7 +286,35 @@ var MTablePaginationInner = /*#__PURE__*/ (function (_React$Component) {
                 )
               )
             )
-          )
+          ),
+          showFirstLastPageButtons &&
+            /*#__PURE__*/ React.createElement(
+              _Tooltip.default,
+              {
+                title: localization.lastTooltip,
+              },
+              /*#__PURE__*/ React.createElement(
+                "span",
+                null,
+                /*#__PURE__*/ React.createElement(
+                  _IconButton.default,
+                  {
+                    onClick: this.handleLastPageButtonClick,
+                    disabled: page >= Math.ceil(count / rowsPerPage) - 1,
+                    "aria-label": localization.lastAriaLabel,
+                  },
+                  theme.direction === "rtl"
+                    ? /*#__PURE__*/ React.createElement(
+                        this.props.icons.FirstPage,
+                        null
+                      )
+                    : /*#__PURE__*/ React.createElement(
+                        this.props.icons.LastPage,
+                        null
+                      )
+                )
+              )
+            )
         );
       },
     },
@@ -275,23 +333,28 @@ var actionsStyles = function actionsStyles(theme) {
 };
 
 MTablePaginationInner.propTypes = {
-  onChangePage: _propTypes["default"].func,
-  page: _propTypes["default"].number,
-  count: _propTypes["default"].number,
-  rowsPerPage: _propTypes["default"].number,
-  classes: _propTypes["default"].object,
-  localization: _propTypes["default"].object,
+  onChangePage: _propTypes.default.func,
+  page: _propTypes.default.number,
+  count: _propTypes.default.number,
+  rowsPerPage: _propTypes.default.number,
+  classes: _propTypes.default.object,
+  localization: _propTypes.default.object,
+  theme: _propTypes.default.any,
+  showFirstLastPageButtons: _propTypes.default.bool,
 };
 MTablePaginationInner.defaultProps = {
+  showFirstLastPageButtons: true,
   localization: {
+    firstTooltip: "First Page",
     previousTooltip: "Previous Page",
     nextTooltip: "Next Page",
+    lastTooltip: "Last Page",
     labelDisplayedRows: "{from}-{to} of {count}",
     labelRowsPerPage: "Rows per page:",
   },
 };
-var MTablePagination = (0, _withStyles["default"])(actionsStyles, {
+var MTableSteppedPagination = (0, _withStyles.default)(actionsStyles, {
   withTheme: true,
 })(MTablePaginationInner);
-var _default = MTablePagination;
-exports["default"] = _default;
+var _default = MTableSteppedPagination;
+exports.default = _default;

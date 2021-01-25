@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _objectSpread2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectSpread")
@@ -35,43 +35,83 @@ var DataManager = /*#__PURE__*/ (function () {
   function DataManager() {
     var _this = this;
 
-    (0, _classCallCheck2["default"])(this, DataManager);
-    (0, _defineProperty2["default"])(this, "applyFilters", false);
-    (0, _defineProperty2["default"])(this, "applySearch", false);
-    (0, _defineProperty2["default"])(this, "currentPage", 0);
-    (0, _defineProperty2["default"])(this, "detailPanelType", "multiple");
-    (0, _defineProperty2["default"])(this, "lastDetailPanelRow", undefined);
-    (0, _defineProperty2["default"])(this, "lastEditingRow", undefined);
-    (0, _defineProperty2["default"])(this, "orderBy", -1);
-    (0, _defineProperty2["default"])(this, "orderDirection", "");
-    (0, _defineProperty2["default"])(this, "pageSize", 5);
-    (0, _defineProperty2["default"])(this, "paging", true);
-    (0, _defineProperty2["default"])(this, "parentFunc", null);
-    (0, _defineProperty2["default"])(this, "searchText", "");
-    (0, _defineProperty2["default"])(this, "selectedCount", 0);
-    (0, _defineProperty2["default"])(this, "treefiedDataLength", 0);
-    (0, _defineProperty2["default"])(this, "treeDataMaxLevel", 0);
-    (0, _defineProperty2["default"])(this, "groupedDataLength", 0);
-    (0, _defineProperty2["default"])(this, "defaultExpanded", false);
-    (0, _defineProperty2["default"])(this, "data", []);
-    (0, _defineProperty2["default"])(this, "columns", []);
-    (0, _defineProperty2["default"])(this, "filteredData", []);
-    (0, _defineProperty2["default"])(this, "searchedData", []);
-    (0, _defineProperty2["default"])(this, "groupedData", []);
-    (0, _defineProperty2["default"])(this, "treefiedData", []);
-    (0, _defineProperty2["default"])(this, "sortedData", []);
-    (0, _defineProperty2["default"])(this, "pagedData", []);
-    (0, _defineProperty2["default"])(this, "renderData", []);
-    (0, _defineProperty2["default"])(this, "filtered", false);
-    (0, _defineProperty2["default"])(this, "searched", false);
-    (0, _defineProperty2["default"])(this, "grouped", false);
-    (0, _defineProperty2["default"])(this, "treefied", false);
-    (0, _defineProperty2["default"])(this, "sorted", false);
-    (0, _defineProperty2["default"])(this, "paged", false);
-    (0, _defineProperty2["default"])(this, "rootGroupsIndex", {});
-    (0, _defineProperty2["default"])(this, "expandTreeForNodes", function (
-      data
+    (0, _classCallCheck2.default)(this, DataManager);
+    (0, _defineProperty2.default)(this, "applyFilters", false);
+    (0, _defineProperty2.default)(this, "applySearch", false);
+    (0, _defineProperty2.default)(this, "applySort", false);
+    (0, _defineProperty2.default)(this, "currentPage", 0);
+    (0, _defineProperty2.default)(this, "detailPanelType", "multiple");
+    (0, _defineProperty2.default)(this, "lastDetailPanelRow", undefined);
+    (0, _defineProperty2.default)(this, "lastEditingRow", undefined);
+    (0, _defineProperty2.default)(this, "orderBy", -1);
+    (0, _defineProperty2.default)(this, "orderDirection", "");
+    (0, _defineProperty2.default)(this, "pageSize", 5);
+    (0, _defineProperty2.default)(this, "paging", true);
+    (0, _defineProperty2.default)(this, "parentFunc", null);
+    (0, _defineProperty2.default)(this, "searchText", "");
+    (0, _defineProperty2.default)(this, "selectedCount", 0);
+    (0, _defineProperty2.default)(this, "treefiedDataLength", 0);
+    (0, _defineProperty2.default)(this, "treeDataMaxLevel", 0);
+    (0, _defineProperty2.default)(this, "groupedDataLength", 0);
+    (0, _defineProperty2.default)(this, "defaultExpanded", false);
+    (0, _defineProperty2.default)(this, "bulkEditOpen", false);
+    (0, _defineProperty2.default)(this, "bulkEditChangedRows", {});
+    (0, _defineProperty2.default)(this, "data", []);
+    (0, _defineProperty2.default)(this, "columns", []);
+    (0, _defineProperty2.default)(this, "filteredData", []);
+    (0, _defineProperty2.default)(this, "searchedData", []);
+    (0, _defineProperty2.default)(this, "groupedData", []);
+    (0, _defineProperty2.default)(this, "treefiedData", []);
+    (0, _defineProperty2.default)(this, "sortedData", []);
+    (0, _defineProperty2.default)(this, "pagedData", []);
+    (0, _defineProperty2.default)(this, "renderData", []);
+    (0, _defineProperty2.default)(this, "filtered", false);
+    (0, _defineProperty2.default)(this, "searched", false);
+    (0, _defineProperty2.default)(this, "grouped", false);
+    (0, _defineProperty2.default)(this, "treefied", false);
+    (0, _defineProperty2.default)(this, "sorted", false);
+    (0, _defineProperty2.default)(this, "paged", false);
+    (0, _defineProperty2.default)(this, "rootGroupsIndex", {});
+    (0, _defineProperty2.default)(this, "startCellEditable", function (
+      rowData,
+      columnDef
     ) {
+      rowData.tableData.editCellList = [].concat(
+        (0, _toConsumableArray2.default)(rowData.tableData.editCellList || []),
+        [columnDef]
+      );
+    });
+    (0, _defineProperty2.default)(this, "finishCellEditable", function (
+      rowData,
+      columnDef
+    ) {
+      if (rowData.tableData.editCellList) {
+        var index = rowData.tableData.editCellList.findIndex(function (c) {
+          return c.tableData.id === columnDef.tableData.id;
+        });
+
+        if (index !== -1) {
+          rowData.tableData.editCellList.splice(index, 1);
+        }
+      }
+    });
+    (0, _defineProperty2.default)(
+      this,
+      "clearBulkEditChangedRows",
+      function () {
+        _this.bulkEditChangedRows = {};
+      }
+    );
+    (0, _defineProperty2.default)(this, "onBulkEditRowChanged", function (
+      oldData,
+      newData
+    ) {
+      _this.bulkEditChangedRows[oldData.tableData.id] = {
+        oldData: oldData,
+        newData: newData,
+      };
+    });
+    (0, _defineProperty2.default)(this, "expandTreeForNodes", function (data) {
       data.forEach(function (row) {
         var currentRow = row;
 
@@ -86,7 +126,7 @@ var DataManager = /*#__PURE__*/ (function () {
         }
       });
     });
-    (0, _defineProperty2["default"])(this, "findDataByPath", function (
+    (0, _defineProperty2.default)(this, "findDataByPath", function (
       renderData,
       path
     ) {
@@ -125,7 +165,7 @@ var DataManager = /*#__PURE__*/ (function () {
         return _node;
       }
     });
-    (0, _defineProperty2["default"])(this, "getFieldValue", function (
+    (0, _defineProperty2.default)(this, "getFieldValue", function (
       rowData,
       columnDef
     ) {
@@ -144,7 +184,7 @@ var DataManager = /*#__PURE__*/ (function () {
 
       return value;
     });
-    (0, _defineProperty2["default"])(this, "getRenderState", function () {
+    (0, _defineProperty2.default)(this, "getRenderState", function () {
       if (_this.filtered === false) {
         _this.filterData();
       }
@@ -186,9 +226,9 @@ var DataManager = /*#__PURE__*/ (function () {
         groupedDataLength: _this.groupedDataLength,
       };
     });
-    (0, _defineProperty2["default"])(this, "filterData", function () {
+    (0, _defineProperty2.default)(this, "filterData", function () {
       _this.searched = _this.grouped = _this.treefied = _this.sorted = _this.paged = false;
-      _this.filteredData = (0, _toConsumableArray2["default"])(_this.data);
+      _this.filteredData = (0, _toConsumableArray2.default)(_this.data);
 
       if (_this.applyFilters) {
         _this.columns
@@ -217,7 +257,7 @@ var DataManager = /*#__PURE__*/ (function () {
                     !tableData.filterValue ||
                     tableData.filterValue.length === 0 ||
                     tableData.filterValue.indexOf(
-                      value !== undefined && value.toString()
+                      value !== undefined && value !== null && value.toString()
                     ) > -1
                   );
                 });
@@ -251,20 +291,20 @@ var DataManager = /*#__PURE__*/ (function () {
                     var selectedDateToCompare = "";
 
                     if (type === "date") {
-                      currentDateToCompare = (0, _format["default"])(
+                      currentDateToCompare = (0, _format.default)(
                         currentDate,
                         "MM/dd/yyyy"
                       );
-                      selectedDateToCompare = (0, _format["default"])(
+                      selectedDateToCompare = (0, _format.default)(
                         selectedDate,
                         "MM/dd/yyyy"
                       );
                     } else if (type === "datetime") {
-                      currentDateToCompare = (0, _format["default"])(
+                      currentDateToCompare = (0, _format.default)(
                         currentDate,
                         "MM/dd/yyyy - HH:mm"
                       );
-                      selectedDateToCompare = (0, _format["default"])(
+                      selectedDateToCompare = (0, _format.default)(
                         selectedDate,
                         "MM/dd/yyyy - HH:mm"
                       );
@@ -283,7 +323,7 @@ var DataManager = /*#__PURE__*/ (function () {
 
                   if (currentHour) {
                     var selectedHour = tableData.filterValue;
-                    var currentHourToCompare = (0, _format["default"])(
+                    var currentHourToCompare = (0, _format.default)(
                       selectedHour,
                       "HH:mm"
                     );
@@ -311,13 +351,13 @@ var DataManager = /*#__PURE__*/ (function () {
 
       _this.filtered = true;
     });
-    (0, _defineProperty2["default"])(this, "searchData", function () {
+    (0, _defineProperty2.default)(this, "searchData", function () {
       _this.grouped = _this.treefied = _this.sorted = _this.paged = false;
-      _this.searchedData = (0, _toConsumableArray2["default"])(
-        _this.filteredData
-      );
+      _this.searchedData = (0, _toConsumableArray2.default)(_this.filteredData);
 
       if (_this.searchText && _this.applySearch) {
+        var trimmedSearchText = _this.searchText.trim();
+
         _this.searchedData = _this.searchedData.filter(function (row) {
           return _this.columns
             .filter(function (columnDef) {
@@ -328,7 +368,7 @@ var DataManager = /*#__PURE__*/ (function () {
             .some(function (columnDef) {
               if (columnDef.customFilterAndSearch) {
                 return !!columnDef.customFilterAndSearch(
-                  _this.searchText,
+                  trimmedSearchText,
                   row,
                   columnDef
                 );
@@ -339,7 +379,7 @@ var DataManager = /*#__PURE__*/ (function () {
                   return value
                     .toString()
                     .toUpperCase()
-                    .includes(_this.searchText.toUpperCase());
+                    .includes(trimmedSearchText.toUpperCase());
                 }
               }
             });
@@ -350,7 +390,7 @@ var DataManager = /*#__PURE__*/ (function () {
     });
   }
 
-  (0, _createClass2["default"])(DataManager, [
+  (0, _createClass2.default)(DataManager, [
     {
       key: "setData",
       value: function setData(data) {
@@ -358,17 +398,15 @@ var DataManager = /*#__PURE__*/ (function () {
 
         this.selectedCount = 0;
         this.data = data.map(function (row, index) {
-          var localRow = (0, _objectSpread2["default"])({}, row, {
-            tableData: (0, _objectSpread2["default"])({}, row.tableData, {
-              id: index,
-            }),
+          row.tableData = (0, _objectSpread2.default)({}, row.tableData, {
+            id: index,
           });
 
-          if (localRow.tableData.checked) {
+          if (row.tableData.checked) {
             _this2.selectedCount++;
           }
 
-          return localRow;
+          return row;
         });
         this.filtered = false;
       },
@@ -376,20 +414,46 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "setColumns",
       value: function setColumns(columns) {
+        var undefinedWidthColumns = columns.filter(function (c) {
+          return c.width === undefined && c.columnDef
+            ? c.columnDef.tableData.width === undefined
+            : true && !c.hidden;
+        });
+        var usedWidth = ["0px"];
         this.columns = columns.map(function (columnDef, index) {
-          columnDef.tableData = (0, _objectSpread2["default"])(
+          columnDef.tableData = (0, _objectSpread2.default)(
             {
               columnOrder: index,
               filterValue: columnDef.defaultFilter,
               groupOrder: columnDef.defaultGroupOrder,
               groupSort: columnDef.defaultGroupSort || "asc",
+              width:
+                typeof columnDef.width === "number"
+                  ? columnDef.width + "px"
+                  : columnDef.width,
+              initialWidth:
+                typeof columnDef.width === "number"
+                  ? columnDef.width + "px"
+                  : columnDef.width,
+              additionalWidth: 0,
             },
             columnDef.tableData,
             {
               id: index,
             }
           );
+
+          if (columnDef.tableData.width !== undefined) {
+            usedWidth.push(columnDef.tableData.width);
+          }
+
           return columnDef;
+        });
+        usedWidth = "(" + usedWidth.join(" + ") + ")";
+        undefinedWidthColumns.forEach(function (columnDef) {
+          columnDef.tableData.width = columnDef.tableData.initialWidth = "calc((100% - "
+            .concat(usedWidth, ") / ")
+            .concat(undefinedWidthColumns.length, ")");
         });
       },
     },
@@ -411,6 +475,13 @@ var DataManager = /*#__PURE__*/ (function () {
       value: function changeApplyFilters(applyFilters) {
         this.applyFilters = applyFilters;
         this.filtered = false;
+      },
+    },
+    {
+      key: "changeApplySort",
+      value: function changeApplySort(applySort) {
+        this.applySort = applySort;
+        this.sorted = false;
       },
     },
     {
@@ -450,16 +521,28 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "changeGroupRowSelected",
       value: function changeGroupRowSelected(checked, path, selectedGroup) {
-        var grp = this.groupedData.find(function (grp) {
-          return grp.value == selectedGroup.value;
+        var grp = {
+          groups: this.sortedData,
+        };
+        path.forEach(function (val) {
+          grp = grp.groups[val];
         });
         var diffCount = this.getSelectionCountDiff(grp, checked);
         this.selectedCount =
           this.selectedCount + (checked ? diffCount : -diffCount);
-        grp.data.map(function (row) {
-          return (row.tableData.checked = checked);
-        });
-        this.updateGroupSelectionCount(grp);
+        this.selectGroupChildren(grp, checked);
+        var selectedrows = this.updateGroupSelectionCount(grp);
+
+        if (path && path.length > 1) {
+          grp = {
+            groups: this.sortedData,
+          };
+          path.forEach(function (val, idx) {
+            grp = grp.groups[val];
+            if (idx != path.length - 1) grp.selectedCount += selectedrows;
+          });
+        }
+
         this.grouped = false;
         this.filtered = false;
       }, //Get the number of children whose checked state will change because of the Group checkbox click
@@ -467,35 +550,78 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "getSelectionCountDiff",
       value: function getSelectionCountDiff(group, checked) {
+        var _this3 = this;
+
         var diffCount = 0;
         group.data.map(function (row) {
           if (row.tableData.checked != checked) {
             diffCount++;
           }
         });
+        group.groups.forEach(function (subGroup) {
+          diffCount += _this3.getSelectionCountDiff(subGroup, checked);
+        });
         return diffCount;
+      },
+    },
+    {
+      key: "selectGroupChildren",
+      value: function selectGroupChildren(group, checked) {
+        var _this4 = this;
+
+        group.data.map(function (row) {
+          return (row.tableData.checked = checked);
+        });
+        group.groups.forEach(function (subGroup) {
+          _this4.selectGroupChildren(subGroup, checked);
+        });
       },
     },
     {
       key: "updateGroupSelectionCount",
       value: function updateGroupSelectionCount(group) {
+        var _this5 = this;
+
         var selected = 0;
+        if (!group) return 0;
+        if (group.data)
+          group.data.forEach(function (row) {
+            if (row.tableData.checked) selected++;
+          });
+        if (group.groups)
+          group.groups.forEach(function (subGroup) {
+            selected += _this5.updateGroupSelectionCount(subGroup);
+          });
+        group.selectedCount = selected;
+        return selected;
+      },
+    },
+    {
+      key: "updateGroupChildrenCount",
+      value: function updateGroupChildrenCount(group) {
+        var _this6 = this;
+
+        var children = 0;
+        if (!group) return 0;
 
         if (group.data) {
-          group.data.map(function (row) {
-            if (row.tableData.checked) {
-              selected++;
-            }
+          children += group.data.length;
+        }
+
+        if (group.groups) {
+          group.groups.forEach(function (subGroup) {
+            children += _this6.updateGroupChildrenCount(subGroup);
           });
         }
 
-        group.selectedCount = selected;
+        group.childrenCount = children;
+        return children;
       },
     },
     {
       key: "changeRowSelected",
       value: function changeRowSelected(checked, path) {
-        var _this3 = this;
+        var _this7 = this;
 
         var rowData = this.findDataByPath(this.sortedData, path);
         rowData.tableData.checked = checked;
@@ -506,8 +632,8 @@ var DataManager = /*#__PURE__*/ (function () {
             rowData.tableData.childRows.forEach(function (childRow) {
               if (childRow.tableData.checked !== checked) {
                 childRow.tableData.checked = checked;
-                _this3.selectedCount =
-                  _this3.selectedCount + (checked ? 1 : -1);
+                _this7.selectedCount =
+                  _this7.selectedCount + (checked ? 1 : -1);
               }
 
               checkChildRows(childRow);
@@ -586,6 +712,12 @@ var DataManager = /*#__PURE__*/ (function () {
       },
     },
     {
+      key: "changeBulkEditOpen",
+      value: function changeBulkEditOpen(bulkEditOpen) {
+        this.bulkEditOpen = bulkEditOpen;
+      },
+    },
+    {
       key: "changeAllSelected",
       value: function changeAllSelected(checked) {
         var selectedCount = 0;
@@ -597,7 +729,7 @@ var DataManager = /*#__PURE__*/ (function () {
                 setCheck(element.groups);
               } else {
                 element.data.forEach(function (d) {
-                  d.tableData.checked = checked;
+                  d.tableData.checked = d.tableData.disabled ? false : checked;
                   selectedCount++;
                 });
               }
@@ -607,7 +739,7 @@ var DataManager = /*#__PURE__*/ (function () {
           setCheck(this.groupedData);
         } else {
           this.searchedData.map(function (row) {
-            row.tableData.checked = checked;
+            row.tableData.checked = row.tableData.disabled ? false : checked;
             return row;
           });
           selectedCount = this.searchedData.length;
@@ -646,6 +778,7 @@ var DataManager = /*#__PURE__*/ (function () {
       key: "changeColumnHidden",
       value: function changeColumnHidden(column, hidden) {
         column.hidden = hidden;
+        column.hiddenByColumnsButton = hidden;
       },
     },
     {
@@ -719,16 +852,44 @@ var DataManager = /*#__PURE__*/ (function () {
         ) {
           start = Math.min(result.destination.index, result.source.index);
 
-          var _end = Math.max(result.destination.index, result.source.index);
+          var _end = Math.max(result.destination.index, result.source.index); // get the effective start and end considering hidden columns
 
-          var colsToMov = this.columns
+          var sorted = this.columns
             .sort(function (a, b) {
               return a.tableData.columnOrder - b.tableData.columnOrder;
             })
             .filter(function (column) {
               return column.tableData.groupOrder === undefined;
-            })
-            .slice(start, _end + 1);
+            });
+          var numHiddenBeforeStart = 0;
+          var numVisibleBeforeStart = 0;
+
+          for (
+            var i = 0;
+            i < sorted.length && numVisibleBeforeStart <= start;
+            i++
+          ) {
+            if (sorted[i].hidden) {
+              numHiddenBeforeStart++;
+            } else {
+              numVisibleBeforeStart++;
+            }
+          }
+
+          var effectiveStart = start + numHiddenBeforeStart;
+          var effectiveEnd = effectiveStart;
+
+          for (
+            var numVisibleInRange = 0;
+            numVisibleInRange < _end - start && effectiveEnd < sorted.length;
+            effectiveEnd++
+          ) {
+            if (!sorted[effectiveEnd].hidden) {
+              numVisibleInRange++;
+            }
+          }
+
+          var colsToMov = sorted.slice(effectiveStart, effectiveEnd + 1);
 
           if (result.destination.index < result.source.index) {
             // Take last and add as first
@@ -742,8 +903,8 @@ var DataManager = /*#__PURE__*/ (function () {
             colsToMov.push(_last3);
           }
 
-          for (var i = 0; i < colsToMov.length; i++) {
-            colsToMov[i].tableData.columnOrder = start + i;
+          for (var _i = 0; _i < colsToMov.length; _i++) {
+            colsToMov[_i].tableData.columnOrder = effectiveStart + _i;
           }
 
           return;
@@ -751,11 +912,35 @@ var DataManager = /*#__PURE__*/ (function () {
           return;
         }
 
-        for (var _i = 0; _i < groups.length; _i++) {
-          groups[_i].tableData.groupOrder = start + _i;
+        for (var _i2 = 0; _i2 < groups.length; _i2++) {
+          groups[_i2].tableData.groupOrder = start + _i2;
         }
 
         this.sorted = this.grouped = false;
+      },
+    },
+    {
+      key: "onColumnResized",
+      value: function onColumnResized(id, additionalWidth) {
+        var column = this.columns.find(function (c) {
+          return c.tableData.id === id;
+        });
+        if (!column) return;
+        var nextColumn = this.columns.find(function (c) {
+          return c.tableData.id === id + 1;
+        });
+        if (!nextColumn) return; // console.log("S i: " + column.tableData.initialWidth);
+        // console.log("S a: " + column.tableData.additionalWidth);
+        // console.log("S w: " + column.tableData.width);
+
+        column.tableData.additionalWidth = additionalWidth;
+        column.tableData.width = "calc("
+          .concat(column.tableData.initialWidth, " + ")
+          .concat(column.tableData.additionalWidth, "px)"); // nextColumn.tableData.additionalWidth = -1 * additionalWidth;
+        // nextColumn.tableData.width = `calc(${nextColumn.tableData.initialWidth} + ${nextColumn.tableData.additionalWidth}px)`;
+        // console.log("F i: " + column.tableData.initialWidth);
+        // console.log("F a: " + column.tableData.additionalWidth);
+        // console.log("F w: " + column.tableData.width);
       },
     },
     {
@@ -770,12 +955,10 @@ var DataManager = /*#__PURE__*/ (function () {
             return undefined;
           }
 
-          if (result.groupsIndex[current] !== undefined) {
-            return result.groups[result.groupsIndex[current]];
-          }
-
-          return undefined; // const group = result.groups.find(a => a.value === current);
-          // return group;
+          var group = result.groups.find(function (a) {
+            return a.value === current;
+          });
+          return group;
         }, data);
         return node;
       },
@@ -817,17 +1000,17 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "sortList",
       value: function sortList(list) {
-        var _this4 = this;
+        var _this8 = this;
 
         var columnDef = this.columns.find(function (_) {
-          return _.tableData.id === _this4.orderBy;
+          return _.tableData.id === _this8.orderBy;
         });
         var result = list;
 
         if (columnDef.customSort) {
           if (this.orderDirection === "desc") {
             result = list.sort(function (a, b) {
-              return columnDef.customSort(b, a, "row");
+              return columnDef.customSort(b, a, "row", "desc");
             });
           } else {
             result = list.sort(function (a, b) {
@@ -838,16 +1021,16 @@ var DataManager = /*#__PURE__*/ (function () {
           result = list.sort(
             this.orderDirection === "desc"
               ? function (a, b) {
-                  return _this4.sort(
-                    _this4.getFieldValue(b, columnDef),
-                    _this4.getFieldValue(a, columnDef),
+                  return _this8.sort(
+                    _this8.getFieldValue(b, columnDef),
+                    _this8.getFieldValue(a, columnDef),
                     columnDef.type
                   );
                 }
               : function (a, b) {
-                  return _this4.sort(
-                    _this4.getFieldValue(a, columnDef),
-                    _this4.getFieldValue(b, columnDef),
+                  return _this8.sort(
+                    _this8.getFieldValue(a, columnDef),
+                    _this8.getFieldValue(b, columnDef),
                     columnDef.type
                   );
                 }
@@ -860,11 +1043,11 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "groupData",
       value: function groupData() {
-        var _this5 = this;
+        var _this9 = this;
 
         this.sorted = this.paged = false;
         this.groupedDataLength = 0;
-        var tmpData = (0, _toConsumableArray2["default"])(this.searchedData);
+        var tmpData = (0, _toConsumableArray2.default)(this.searchedData);
         var groups = this.columns
           .filter(function (col) {
             return col.tableData.groupOrder > -1;
@@ -887,20 +1070,20 @@ var DataManager = /*#__PURE__*/ (function () {
 
               if (!group) {
                 var path = [].concat(
-                  (0, _toConsumableArray2["default"])(o.path || []),
+                  (0, _toConsumableArray2.default)(o.path || []),
                   [value]
                 );
-                var oldGroup = _this5.findGroupByGroupPath(
-                  _this5.groupedData,
+                var oldGroup = _this9.findGroupByGroupPath(
+                  _this9.groupedData,
                   path
                 ) || {
                   isExpanded:
-                    typeof _this5.defaultExpanded === "boolean"
-                      ? _this5.defaultExpanded
+                    typeof _this9.defaultExpanded === "boolean"
+                      ? _this9.defaultExpanded
                       : false,
                 };
 
-                _this5.updateGroupSelectionCount(oldGroup);
+                _this9.updateGroupSelectionCount(oldGroup);
 
                 group = {
                   value: value,
@@ -919,7 +1102,7 @@ var DataManager = /*#__PURE__*/ (function () {
               return group;
             }, object);
             object.data.push(currentRow);
-            _this5.groupedDataLength++;
+            _this9.groupedDataLength++;
             return result;
           },
           {
@@ -927,15 +1110,20 @@ var DataManager = /*#__PURE__*/ (function () {
             groupsIndex: {},
           }
         );
+        subData.groups.forEach(function (group) {
+          _this9.updateGroupChildrenCount(group);
+
+          _this9.updateGroupSelectionCount(group);
+        });
         this.groupedData = subData.groups;
-        this.grouped = true;
         this.rootGroupsIndex = subData.groupsIndex;
+        this.grouped = true;
       },
     },
     {
       key: "treefyData",
       value: function treefyData() {
-        var _this6 = this;
+        var _this10 = this;
 
         this.sorted = this.paged = false;
         this.data.forEach(function (a) {
@@ -961,31 +1149,31 @@ var DataManager = /*#__PURE__*/ (function () {
         var addRow = function addRow(rowData) {
           rowData.tableData.markedForTreeRemove = false;
 
-          var parent = _this6.parentFunc(rowData, _this6.data);
+          var parent = _this10.parentFunc(rowData, _this10.data);
 
           if (parent) {
             parent.tableData.childRows = parent.tableData.childRows || [];
 
             if (!parent.tableData.childRows.includes(rowData)) {
               parent.tableData.childRows.push(rowData);
-              _this6.treefiedDataLength++;
+              _this10.treefiedDataLength++;
             }
 
             addRow(parent);
             rowData.tableData.path = [].concat(
-              (0, _toConsumableArray2["default"])(parent.tableData.path),
+              (0, _toConsumableArray2.default)(parent.tableData.path),
               [parent.tableData.childRows.length - 1]
             );
-            _this6.treeDataMaxLevel = Math.max(
-              _this6.treeDataMaxLevel,
+            _this10.treeDataMaxLevel = Math.max(
+              _this10.treeDataMaxLevel,
               rowData.tableData.path.length
             );
           } else {
-            if (!_this6.treefiedData.includes(rowData)) {
-              _this6.treefiedData.push(rowData);
+            if (!_this10.treefiedData.includes(rowData)) {
+              _this10.treefiedData.push(rowData);
 
-              _this6.treefiedDataLength++;
-              rowData.tableData.path = [_this6.treefiedData.length - 1];
+              _this10.treefiedDataLength++;
+              rowData.tableData.path = [_this10.treefiedData.length - 1];
             }
           }
         }; // Add all rows initially
@@ -995,7 +1183,7 @@ var DataManager = /*#__PURE__*/ (function () {
         });
 
         var markForTreeRemove = function markForTreeRemove(rowData) {
-          var pointer = _this6.treefiedData;
+          var pointer = _this10.treefiedData;
           rowData.tableData.path.forEach(function (pathPart) {
             if (pointer.tableData && pointer.tableData.childRows) {
               pointer = pointer.tableData.childRows;
@@ -1020,16 +1208,16 @@ var DataManager = /*#__PURE__*/ (function () {
 
         this.data.forEach(function (rowData) {
           if (
-            !_this6.searchText &&
-            !_this6.columns.some(function (columnDef) {
+            !_this10.searchText &&
+            !_this10.columns.some(function (columnDef) {
               return columnDef.tableData.filterValue;
             })
           ) {
             if (rowData.tableData.isTreeExpanded === undefined) {
               var isExpanded =
-                typeof _this6.defaultExpanded === "boolean"
-                  ? _this6.defaultExpanded
-                  : _this6.defaultExpanded(rowData);
+                typeof _this10.defaultExpanded === "boolean"
+                  ? _this10.defaultExpanded
+                  : _this10.defaultExpanded(rowData);
               rowData.tableData.isTreeExpanded = isExpanded;
             }
           }
@@ -1038,14 +1226,14 @@ var DataManager = /*#__PURE__*/ (function () {
 
           if (
             !hasSearchMatchedChildren &&
-            _this6.searchedData.indexOf(rowData) < 0
+            _this10.searchedData.indexOf(rowData) < 0
           ) {
             markForTreeRemove(rowData);
           }
         }); // preserve all children of nodes that are matched by search or filters
 
         this.data.forEach(function (rowData) {
-          if (_this6.searchedData.indexOf(rowData) > -1) {
+          if (_this10.searchedData.indexOf(rowData) > -1) {
             traverseChildrenAndUnmark(rowData);
           }
         });
@@ -1071,14 +1259,12 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "sortData",
       value: function sortData() {
-        var _this7 = this;
+        var _this11 = this;
 
         this.paged = false;
 
         if (this.isDataType("group")) {
-          this.sortedData = (0, _toConsumableArray2["default"])(
-            this.groupedData
-          );
+          this.sortedData = (0, _toConsumableArray2.default)(this.groupedData);
           var groups = this.columns
             .filter(function (col) {
               return col.tableData.groupOrder > -1;
@@ -1102,10 +1288,10 @@ var DataManager = /*#__PURE__*/ (function () {
               return list.sort(
                 columnDef.tableData.groupSort === "desc"
                   ? function (a, b) {
-                      return _this7.sort(b.value, a.value, columnDef.type);
+                      return _this11.sort(b.value, a.value, columnDef.type);
                     }
                   : function (a, b) {
-                      return _this7.sort(a.value, b.value, columnDef.type);
+                      return _this11.sort(a.value, b.value, columnDef.type);
                     }
               );
             }
@@ -1120,8 +1306,8 @@ var DataManager = /*#__PURE__*/ (function () {
                 element.groups = sortGroups(element.groups, column);
                 sortGroupData(element.groups, level + 1);
               } else {
-                if (_this7.orderBy >= 0 && _this7.orderDirection) {
-                  element.data = _this7.sortList(element.data);
+                if (_this11.orderBy >= 0 && _this11.orderDirection) {
+                  element.data = _this11.sortList(element.data);
                 }
               }
             });
@@ -1129,9 +1315,7 @@ var DataManager = /*#__PURE__*/ (function () {
 
           sortGroupData(this.sortedData, 1);
         } else if (this.isDataType("tree")) {
-          this.sortedData = (0, _toConsumableArray2["default"])(
-            this.treefiedData
-          );
+          this.sortedData = (0, _toConsumableArray2.default)(this.treefiedData);
 
           if (this.orderBy != -1) {
             this.sortedData = this.sortList(this.sortedData);
@@ -1139,7 +1323,7 @@ var DataManager = /*#__PURE__*/ (function () {
             var sortTree = function sortTree(list) {
               list.forEach(function (item) {
                 if (item.tableData.childRows) {
-                  item.tableData.childRows = _this7.sortList(
+                  item.tableData.childRows = _this11.sortList(
                     item.tableData.childRows
                   );
                   sortTree(item.tableData.childRows);
@@ -1150,11 +1334,9 @@ var DataManager = /*#__PURE__*/ (function () {
             sortTree(this.sortedData);
           }
         } else if (this.isDataType("normal")) {
-          this.sortedData = (0, _toConsumableArray2["default"])(
-            this.searchedData
-          );
+          this.sortedData = (0, _toConsumableArray2.default)(this.searchedData);
 
-          if (this.orderBy != -1) {
+          if (this.orderBy != -1 && this.applySort) {
             this.sortedData = this.sortList(this.sortedData);
           }
         }
@@ -1165,7 +1347,7 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "pageData",
       value: function pageData() {
-        this.pagedData = (0, _toConsumableArray2["default"])(this.sortedData);
+        this.pagedData = (0, _toConsumableArray2.default)(this.sortedData);
 
         if (this.paging) {
           var startIndex = this.currentPage * this.pageSize;
@@ -1180,4 +1362,4 @@ var DataManager = /*#__PURE__*/ (function () {
   return DataManager;
 })();
 
-exports["default"] = DataManager;
+exports.default = DataManager;

@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(
   require("@babel/runtime/helpers/extends")
@@ -62,15 +62,15 @@ var _reactBeautifulDnd = require("react-beautiful-dnd");
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
-    var Super = (0, _getPrototypeOf2["default"])(Derived),
+    var Super = (0, _getPrototypeOf2.default)(Derived),
       result;
     if (hasNativeReflectConstruct) {
-      var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor;
+      var NewTarget = (0, _getPrototypeOf2.default)(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
       result = Super.apply(this, arguments);
     }
-    return (0, _possibleConstructorReturn2["default"])(this, result);
+    return (0, _possibleConstructorReturn2.default)(this, result);
   };
 }
 
@@ -88,20 +88,20 @@ function _isNativeReflectConstruct() {
 
 /* eslint-enable no-unused-vars */
 var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
-  (0, _inherits2["default"])(MTableGroupbar, _React$Component);
+  (0, _inherits2.default)(MTableGroupbar, _React$Component);
 
   var _super = _createSuper(MTableGroupbar);
 
   function MTableGroupbar(props) {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MTableGroupbar);
+    (0, _classCallCheck2.default)(this, MTableGroupbar);
     _this = _super.call(this, props);
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "getItemStyle",
       function (isDragging, draggableStyle) {
-        return (0, _objectSpread2["default"])(
+        return (0, _objectSpread2.default)(
           {
             // some basic styles to make the items look a bit nicer
             userSelect: "none",
@@ -112,8 +112,8 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
         );
       }
     );
-    (0, _defineProperty2["default"])(
-      (0, _assertThisInitialized2["default"])(_this),
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
       "getListStyle",
       function (isDraggingOver) {
         return {
@@ -132,14 +132,14 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
     return _this;
   }
 
-  (0, _createClass2["default"])(MTableGroupbar, [
+  (0, _createClass2.default)(MTableGroupbar, [
     {
       key: "render",
       value: function render() {
         var _this2 = this;
 
         return /*#__PURE__*/ React.createElement(
-          _Toolbar["default"],
+          _Toolbar.default,
           {
             style: {
               padding: 0,
@@ -162,7 +162,7 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
                 },
                 _this2.props.groupColumns.length > 0 &&
                   /*#__PURE__*/ React.createElement(
-                    _Typography["default"],
+                    _Typography.default,
                     {
                       variant: "caption",
                       style: {
@@ -182,7 +182,7 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
                     function (provided, snapshot) {
                       return /*#__PURE__*/ React.createElement(
                         "div",
-                        (0, _extends2["default"])(
+                        (0, _extends2.default)(
                           {
                             ref: provided.innerRef,
                           },
@@ -196,54 +196,54 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
                           }
                         ),
                         /*#__PURE__*/ React.createElement(
-                          _Chip["default"],
-                          (0, _extends2["default"])(
-                            {},
-                            provided.dragHandleProps,
-                            {
-                              onClick: function onClick() {
-                                return _this2.props.onSortChanged(columnDef);
+                          _Chip.default,
+                          (0, _extends2.default)({}, provided.dragHandleProps, {
+                            onClick: function onClick() {
+                              return _this2.props.onSortChanged(columnDef);
+                            },
+                            label: /*#__PURE__*/ React.createElement(
+                              "div",
+                              {
+                                style: {
+                                  display: "flex",
+                                  alignItems: "center",
+                                },
                               },
-                              label: /*#__PURE__*/ React.createElement(
+                              /*#__PURE__*/ React.createElement(
                                 "div",
-                                null,
+                                {
+                                  style: {
+                                    float: "left",
+                                  },
+                                },
+                                columnDef.title
+                              ),
+                              columnDef.tableData.groupSort &&
                                 /*#__PURE__*/ React.createElement(
-                                  "div",
+                                  _this2.props.icons.SortArrow,
                                   {
                                     style: {
-                                      float: "left",
+                                      transition: "300ms ease all",
+                                      transform:
+                                        columnDef.tableData.groupSort === "asc"
+                                          ? "rotate(-180deg)"
+                                          : "none",
+                                      fontSize: 18,
                                     },
-                                  },
-                                  columnDef.title
-                                ),
-                                columnDef.tableData.groupSort &&
-                                  /*#__PURE__*/ React.createElement(
-                                    _this2.props.icons.SortArrow,
-                                    {
-                                      style: {
-                                        transition: "300ms ease all",
-                                        transform:
-                                          columnDef.tableData.groupSort ===
-                                          "asc"
-                                            ? "rotate(-180deg)"
-                                            : "none",
-                                        fontSize: 18,
-                                      },
-                                    }
-                                  )
-                              ),
-                              style: {
-                                boxShadow: "none",
-                                textTransform: "none",
-                              },
-                              onDelete: function onDelete() {
-                                return _this2.props.onGroupRemoved(
-                                  columnDef,
-                                  index
-                                );
-                              },
-                            }
-                          )
+                                  }
+                                )
+                            ),
+                            style: {
+                              boxShadow: "none",
+                              textTransform: "none",
+                            },
+                            onDelete: function onDelete() {
+                              return _this2.props.onGroupRemoved(
+                                columnDef,
+                                index
+                              );
+                            },
+                          })
                         )
                       );
                     }
@@ -251,7 +251,7 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
                 }),
                 _this2.props.groupColumns.length === 0 &&
                   /*#__PURE__*/ React.createElement(
-                    _Typography["default"],
+                    _Typography.default,
                     {
                       variant: "caption",
                       style: {
@@ -273,10 +273,10 @@ var MTableGroupbar = /*#__PURE__*/ (function (_React$Component) {
 
 MTableGroupbar.defaultProps = {};
 MTableGroupbar.propTypes = {
-  localization: _propTypes["default"].shape({
-    groupedBy: _propTypes["default"].string,
-    placeholder: _propTypes["default"].string,
+  localization: _propTypes.default.shape({
+    groupedBy: _propTypes.default.string,
+    placeholder: _propTypes.default.string,
   }),
 };
 var _default = MTableGroupbar;
-exports["default"] = _default;
+exports.default = _default;

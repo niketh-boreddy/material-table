@@ -9,6 +9,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.defaultProps = void 0;
 
+var _objectSpread2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/objectSpread")
+);
+
 var _extends2 = _interopRequireDefault(
   require("@babel/runtime/helpers/extends")
 );
@@ -34,7 +38,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 var _colorManipulator = require("@material-ui/core/styles/colorManipulator");
 
 var OverlayLoading = function OverlayLoading(props) {
-  return /*#__PURE__*/ _react["default"].createElement(
+  return /*#__PURE__*/ _react.default.createElement(
     "div",
     {
       style: {
@@ -47,7 +51,7 @@ var OverlayLoading = function OverlayLoading(props) {
         ),
       },
     },
-    /*#__PURE__*/ _react["default"].createElement(
+    /*#__PURE__*/ _react.default.createElement(
       "div",
       {
         style: {
@@ -58,8 +62,8 @@ var OverlayLoading = function OverlayLoading(props) {
           textAlign: "center",
         },
       },
-      /*#__PURE__*/ _react["default"].createElement(
-        _CircularProgress["default"],
+      /*#__PURE__*/ _react.default.createElement(
+        _CircularProgress.default,
         null
       )
     )
@@ -67,13 +71,66 @@ var OverlayLoading = function OverlayLoading(props) {
 };
 
 OverlayLoading.propTypes = {
-  theme: _propTypes["default"].any,
+  theme: _propTypes.default.any,
+};
+
+var OverlayError = function OverlayError(props) {
+  return /*#__PURE__*/ _react.default.createElement(
+    "div",
+    {
+      style: {
+        display: "table",
+        width: "100%",
+        height: "100%",
+        backgroundColor: (0, _colorManipulator.fade)(
+          props.theme.palette.background.paper,
+          0.7
+        ),
+      },
+    },
+    /*#__PURE__*/ _react.default.createElement(
+      "div",
+      {
+        style: {
+          display: "table-cell",
+          width: "100%",
+          height: "100%",
+          verticalAlign: "middle",
+          textAlign: "center",
+        },
+      },
+      /*#__PURE__*/ _react.default.createElement(
+        "span",
+        null,
+        props.error.message
+      ),
+      " ",
+      /*#__PURE__*/ _react.default.createElement(props.icon, {
+        onClick: props.retry,
+        style: {
+          cursor: "pointer",
+          position: "relative",
+          top: 5,
+        },
+      })
+    )
+  );
+};
+
+OverlayError.propTypes = {
+  error: _propTypes.default.oneOfType([
+    _propTypes.default.object,
+    _propTypes.default.string,
+  ]),
+  retry: _propTypes.default.func,
+  theme: _propTypes.default.any,
+  icon: _propTypes.default.any,
 };
 
 var Container = function Container(props) {
-  return /*#__PURE__*/ _react["default"].createElement(
-    _Paper["default"],
-    (0, _extends2["default"])(
+  return /*#__PURE__*/ _react.default.createElement(
+    _Paper.default,
+    (0, _extends2.default)(
       {
         elevation: 2,
       },
@@ -92,6 +149,7 @@ var defaultProps = {
     Body: MComponents.MTableBody,
     Cell: MComponents.MTableCell,
     Container: Container,
+    EditCell: MComponents.MTableEditCell,
     EditField: MComponents.MTableEditField,
     EditRow: MComponents.MTableEditRow,
     FilterRow: MComponents.MTableFilterRow,
@@ -99,164 +157,186 @@ var defaultProps = {
     GroupRow: MComponents.MTableGroupRow,
     Header: MComponents.MTableHeader,
     OverlayLoading: OverlayLoading,
-    Pagination: _TablePagination["default"],
+    OverlayError: OverlayError,
+    Pagination: _TablePagination.default,
     Row: MComponents.MTableBodyRow,
     Toolbar: MComponents.MTableToolbar,
   },
   data: [],
   icons: {
     /* eslint-disable react/display-name */
-    Add: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Add: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "add_box"
       );
     }),
-    Check: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Check: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "check"
       );
     }),
-    Clear: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Clear: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "clear"
       );
     }),
-    Delete: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Delete: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "delete_outline"
       );
     }),
-    DetailPanel: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    DetailPanel: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "chevron_right"
       );
     }),
-    Edit: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Edit: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "edit"
       );
     }),
-    Export: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Export: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "save_alt"
       );
     }),
-    Filter: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Filter: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "filter_list"
       );
     }),
-    FirstPage: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    FirstPage: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "first_page"
       );
     }),
-    LastPage: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    LastPage: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "last_page"
       );
     }),
-    NextPage: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    NextPage: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "chevron_right"
       );
     }),
-    PreviousPage: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    PreviousPage: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "chevron_left"
       );
     }),
-    ResetSearch: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    ResetSearch: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "clear"
       );
     }),
-    Search: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    Resize: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
+          ref: ref,
+          style: (0, _objectSpread2.default)({}, props.style, {
+            transform: "rotate(90deg)",
+          }),
+        }),
+        "drag_handle"
+      );
+    }),
+    Search: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "search"
       );
     }),
-    SortArrow: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    SortArrow: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "arrow_downward"
       );
     }),
-    ThirdStateCheck: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    ThirdStateCheck: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "remove"
       );
     }),
-    ViewColumn: _react["default"].forwardRef(function (props, ref) {
-      return /*#__PURE__*/ _react["default"].createElement(
-        _Icon["default"],
-        (0, _extends2["default"])({}, props, {
+    ViewColumn: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
           ref: ref,
         }),
         "view_column"
+      );
+    }),
+    Retry: _react.default.forwardRef(function (props, ref) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _Icon.default,
+        (0, _extends2.default)({}, props, {
+          ref: ref,
+        }),
+        "replay"
       );
     }),
     /* eslint-enable react/display-name */
@@ -275,22 +355,29 @@ var defaultProps = {
     exportButton: false,
     exportDelimiter: ",",
     filtering: false,
+    groupTitle: false,
     header: true,
+    headerSelectionProps: {},
+    hideFilterIcons: false,
     loadingType: "overlay",
     padding: "default",
+    searchAutoFocus: false,
     paging: true,
     pageSize: 5,
     pageSizeOptions: [5, 10, 20],
     paginationType: "normal",
+    paginationPosition: "bottom",
     showEmptyDataSourceMessage: true,
     showFirstLastPageButtons: true,
     showSelectAllCheckbox: true,
     search: true,
     showTitle: true,
     showTextRowsSelected: true,
+    tableLayout: "auto",
     toolbarButtonAlignment: "right",
     searchFieldAlignment: "right",
     searchFieldStyle: {},
+    searchFieldVariant: "standard",
     selection: false,
     selectionProps: {},
     sorting: true,
@@ -298,8 +385,10 @@ var defaultProps = {
     defaultExpanded: false,
     detailPanelColumnAlignment: "left",
     thirdSortClick: true,
+    overflowY: "auto",
   },
   localization: {
+    error: "Data could not be retrieved",
     grouping: {
       groupedBy: "Grouped By:",
       placeholder: "Drag headers here to group by",
@@ -321,6 +410,9 @@ var defaultProps = {
       addTooltip: "Add",
       deleteTooltip: "Delete",
       editTooltip: "Edit",
+      bulkEditTooltip: "Edit All",
+      bulkEditApprove: "Save all changes",
+      bulkEditCancel: "Discard all changes",
     },
   },
   style: {},

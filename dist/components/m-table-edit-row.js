@@ -7,18 +7,20 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true,
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _extends2 = _interopRequireDefault(
   require("@babel/runtime/helpers/extends")
 );
 
-var _objectSpread2 = _interopRequireDefault(
-  require("@babel/runtime/helpers/objectSpread")
-);
+var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
 
 var _objectWithoutProperties2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectWithoutProperties")
+);
+
+var _objectSpread2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/objectSpread")
 );
 
 var _classCallCheck2 = _interopRequireDefault(
@@ -27,6 +29,10 @@ var _classCallCheck2 = _interopRequireDefault(
 
 var _createClass2 = _interopRequireDefault(
   require("@babel/runtime/helpers/createClass")
+);
+
+var _assertThisInitialized2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/assertThisInitialized")
 );
 
 var _inherits2 = _interopRequireDefault(
@@ -39,6 +45,10 @@ var _possibleConstructorReturn2 = _interopRequireDefault(
 
 var _getPrototypeOf2 = _interopRequireDefault(
   require("@babel/runtime/helpers/getPrototypeOf")
+);
+
+var _defineProperty2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/defineProperty")
 );
 
 var _TableCell = _interopRequireDefault(require("@material-ui/core/TableCell"));
@@ -55,18 +65,20 @@ var React = _interopRequireWildcard(require("react"));
 
 var _utils = require("../utils");
 
+var CommonValues = _interopRequireWildcard(require("../utils/common-values"));
+
 function _createSuper(Derived) {
   var hasNativeReflectConstruct = _isNativeReflectConstruct();
   return function _createSuperInternal() {
-    var Super = (0, _getPrototypeOf2["default"])(Derived),
+    var Super = (0, _getPrototypeOf2.default)(Derived),
       result;
     if (hasNativeReflectConstruct) {
-      var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor;
+      var NewTarget = (0, _getPrototypeOf2.default)(this).constructor;
       result = Reflect.construct(Super, arguments, NewTarget);
     } else {
       result = Super.apply(this, arguments);
     }
-    return (0, _possibleConstructorReturn2["default"])(this, result);
+    return (0, _possibleConstructorReturn2.default)(this, result);
   };
 }
 
@@ -84,15 +96,46 @@ function _isNativeReflectConstruct() {
 
 /* eslint-enable no-unused-vars */
 var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
-  (0, _inherits2["default"])(MTableEditRow, _React$Component);
+  (0, _inherits2.default)(MTableEditRow, _React$Component);
 
   var _super = _createSuper(MTableEditRow);
 
   function MTableEditRow(props) {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MTableEditRow);
+    (0, _classCallCheck2.default)(this, MTableEditRow);
     _this = _super.call(this, props);
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "handleSave",
+      function () {
+        var newData = _this.state.data;
+        delete newData.tableData;
+
+        _this.props.onEditingApproved(
+          _this.props.mode,
+          _this.state.data,
+          _this.props.data
+        );
+      }
+    );
+    (0, _defineProperty2.default)(
+      (0, _assertThisInitialized2.default)(_this),
+      "handleKeyDown",
+      function (e) {
+        if (e.keyCode === 13 && e.target.type !== "textarea") {
+          _this.handleSave();
+        } else if (
+          e.keyCode === 13 &&
+          e.target.type === "textarea" &&
+          e.shiftKey
+        ) {
+          _this.handleSave();
+        } else if (e.keyCode === 27) {
+          _this.props.onEditingCanceled(_this.props.mode, _this.props.data);
+        }
+      }
+    );
     _this.state = {
       data: props.data
         ? JSON.parse(JSON.stringify(props.data))
@@ -101,16 +144,13 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
     return _this;
   }
 
-  (0, _createClass2["default"])(MTableEditRow, [
+  (0, _createClass2.default)(MTableEditRow, [
     {
       key: "createRowData",
       value: function createRowData() {
         return this.props.columns
           .filter(function (column) {
-            return (
-              (column.initialEditValue || column.initialEditValue === 0) &&
-              column.field
-            );
+            return "initialEditValue" in column && column.field;
           })
           .reduce(function (prev, column) {
             prev[column.field] = column.initialEditValue;
@@ -123,6 +163,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
       value: function renderColumns() {
         var _this2 = this;
 
+        var size = CommonValues.elementSize(this.props);
         var mapArr = this.props.columns
           .filter(function (columnDef) {
             return !columnDef.hidden && !(columnDef.tableData.groupOrder > -1);
@@ -135,6 +176,33 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
               typeof _this2.state.data[columnDef.field] !== "undefined"
                 ? _this2.state.data[columnDef.field]
                 : (0, _utils.byString)(_this2.state.data, columnDef.field);
+
+            var getCellStyle = function getCellStyle(columnDef, value) {
+              var cellStyle = {
+                color: "inherit",
+              };
+
+              if (typeof columnDef.cellStyle === "function") {
+                cellStyle = (0, _objectSpread2.default)(
+                  {},
+                  cellStyle,
+                  columnDef.cellStyle(value, _this2.props.data)
+                );
+              } else {
+                cellStyle = (0, _objectSpread2.default)(
+                  {},
+                  cellStyle,
+                  columnDef.cellStyle
+                );
+              }
+
+              if (columnDef.disableClick) {
+                cellStyle.cursor = "default";
+              }
+
+              return (0, _objectSpread2.default)({}, cellStyle);
+            };
+
             var style = {};
 
             if (index === 0) {
@@ -162,7 +230,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
               allowEditing = true;
             }
 
-            if (typeof columnDef.editable == "function") {
+            if (typeof columnDef.editable === "function") {
               allowEditing = columnDef.editable(columnDef, _this2.props.data);
             }
 
@@ -175,50 +243,105 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
               return /*#__PURE__*/ React.createElement(
                 _this2.props.components.Cell,
                 {
+                  size: size,
                   icons: _this2.props.icons,
                   columnDef: columnDef,
                   value: readonlyValue,
                   key: columnDef.tableData.id,
                   rowData: _this2.props.data,
+                  style: getCellStyle(columnDef, value),
                 }
               );
             } else {
               var editComponent = columnDef.editComponent,
-                cellProps = (0, _objectWithoutProperties2["default"])(
-                  columnDef,
-                  ["editComponent"]
-                );
+                cellProps = (0, _objectWithoutProperties2.default)(columnDef, [
+                  "editComponent",
+                ]);
               var EditComponent =
                 editComponent || _this2.props.components.EditField;
+              var error = {
+                isValid: true,
+                helperText: "",
+              };
+
+              if (columnDef.validate) {
+                var validateResponse = columnDef.validate(_this2.state.data);
+
+                switch ((0, _typeof2.default)(validateResponse)) {
+                  case "object":
+                    error = (0, _objectSpread2.default)({}, validateResponse);
+                    break;
+
+                  case "boolean":
+                    error = {
+                      isValid: validateResponse,
+                      helperText: "",
+                    };
+                    break;
+
+                  case "string":
+                    error = {
+                      isValid: false,
+                      helperText: validateResponse,
+                    };
+                    break;
+                }
+              }
+
               return /*#__PURE__*/ React.createElement(
-                _TableCell["default"],
+                _TableCell.default,
                 {
+                  size: size,
                   key: columnDef.tableData.id,
                   align:
                     ["numeric"].indexOf(columnDef.type) !== -1
                       ? "right"
                       : "left",
+                  style: getCellStyle(columnDef, value),
                 },
                 /*#__PURE__*/ React.createElement(EditComponent, {
                   key: columnDef.tableData.id,
                   columnDef: cellProps,
                   value: value,
+                  error: !error.isValid,
+                  helperText: error.helperText,
+                  locale: _this2.props.localization.dateTimePickerLocalization,
                   rowData: _this2.state.data,
                   onChange: function onChange(value) {
-                    var data = (0, _objectSpread2["default"])(
+                    var data = (0, _objectSpread2.default)(
                       {},
                       _this2.state.data
                     );
                     (0, _utils.setByString)(data, columnDef.field, value); // data[columnDef.field] = value;
 
-                    _this2.setState({
-                      data: data,
-                    });
+                    _this2.setState(
+                      {
+                        data: data,
+                      },
+                      function () {
+                        if (_this2.props.onBulkEditRowChanged) {
+                          _this2.props.onBulkEditRowChanged(
+                            _this2.props.data,
+                            data
+                          );
+                        }
+                      }
+                    );
                   },
                   onRowDataChange: function onRowDataChange(data) {
-                    _this2.setState({
-                      data: data,
-                    });
+                    _this2.setState(
+                      {
+                        data: data,
+                      },
+                      function () {
+                        if (_this2.props.onBulkEditRowChanged) {
+                          _this2.props.onBulkEditRowChanged(
+                            _this2.props.data,
+                            data
+                          );
+                        }
+                      }
+                    );
                   },
                 })
               );
@@ -232,25 +355,43 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
       value: function renderActions() {
         var _this3 = this;
 
-        var localization = (0, _objectSpread2["default"])(
+        if (this.props.mode === "bulk") {
+          return /*#__PURE__*/ React.createElement(_TableCell.default, {
+            padding: "none",
+            key: "key-actions-column",
+          });
+        }
+
+        var size = CommonValues.elementSize(this.props);
+        var localization = (0, _objectSpread2.default)(
           {},
           MTableEditRow.defaultProps.localization,
           this.props.localization
         );
+        var isValid = this.props.columns.every(function (column) {
+          if (column.validate) {
+            var response = column.validate(_this3.state.data);
+
+            switch ((0, _typeof2.default)(response)) {
+              case "object":
+                return response.isValid;
+
+              case "string":
+                return response.length === 0;
+
+              case "boolean":
+                return response;
+            }
+          } else {
+            return true;
+          }
+        });
         var actions = [
           {
             icon: this.props.icons.Check,
             tooltip: localization.saveTooltip,
-            onClick: function onClick() {
-              var newData = _this3.state.data;
-              delete newData.tableData;
-
-              _this3.props.onEditingApproved(
-                _this3.props.mode,
-                _this3.state.data,
-                _this3.props.data
-              );
-            },
+            disabled: !isValid,
+            onClick: this.handleSave,
           },
           {
             icon: this.props.icons.Clear,
@@ -264,14 +405,18 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           },
         ];
         return /*#__PURE__*/ React.createElement(
-          _TableCell["default"],
+          _TableCell.default,
           {
+            size: size,
             padding: "none",
             key: "key-actions-column",
-            style: {
-              width: 42 * actions.length,
-              padding: "0px 5px",
-            },
+            style: (0, _objectSpread2.default)(
+              {
+                width: 42 * actions.length,
+                padding: "0px 5px",
+              },
+              this.props.options.editCellStyle
+            ),
           },
           /*#__PURE__*/ React.createElement(
             "div",
@@ -284,6 +429,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
               data: this.props.data,
               actions: actions,
               components: this.props.components,
+              size: size,
             })
           )
         );
@@ -302,14 +448,19 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
     {
       key: "render",
       value: function render() {
-        var localization = (0, _objectSpread2["default"])(
+        var size = CommonValues.elementSize(this.props);
+        var localization = (0, _objectSpread2.default)(
           {},
           MTableEditRow.defaultProps.localization,
           this.props.localization
         );
         var columns;
 
-        if (this.props.mode === "add" || this.props.mode === "update") {
+        if (
+          this.props.mode === "add" ||
+          this.props.mode === "update" ||
+          this.props.mode === "bulk"
+        ) {
           columns = this.renderColumns();
         } else {
           var colSpan = this.props.columns.filter(function (columnDef) {
@@ -317,17 +468,18 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           }).length;
           columns = [
             /*#__PURE__*/ React.createElement(
-              _TableCell["default"],
+              _TableCell.default,
               {
+                size: size,
                 padding:
                   this.props.options.actionsColumnIndex === 0
                     ? "none"
                     : undefined,
-                key: "key-selection-cell",
+                key: "key-edit-cell",
                 colSpan: colSpan,
               },
               /*#__PURE__*/ React.createElement(
-                _Typography["default"],
+                _Typography.default,
                 {
                   variant: "h6",
                 },
@@ -341,7 +493,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           columns.splice(
             0,
             0,
-            /*#__PURE__*/ React.createElement(_TableCell["default"], {
+            /*#__PURE__*/ React.createElement(_TableCell.default, {
               padding: "none",
               key: "key-selection-cell",
             })
@@ -352,7 +504,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           columns.splice(
             0,
             0,
-            /*#__PURE__*/ React.createElement(_TableCell["default"], {
+            /*#__PURE__*/ React.createElement(_TableCell.default, {
               padding: "none",
               key: "key-tree-data-cell",
             })
@@ -389,7 +541,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           columns.splice(
             index,
             0,
-            /*#__PURE__*/ React.createElement(_TableCell["default"], {
+            /*#__PURE__*/ React.createElement(_TableCell.default, {
               padding: "none",
               key: "key-detail-panel-cell",
             })
@@ -404,7 +556,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
             columns.splice(
               0,
               0,
-              /*#__PURE__*/ React.createElement(_TableCell["default"], {
+              /*#__PURE__*/ React.createElement(_TableCell.default, {
                 padding: "none",
                 key: "key-group-cell" + columnDef.tableData.id,
               })
@@ -426,7 +578,10 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
           localizationProp = _this$props.localization,
           options = _this$props.options,
           actions = _this$props.actions,
-          rowProps = (0, _objectWithoutProperties2["default"])(_this$props, [
+          errorState = _this$props.errorState,
+          onBulkEditRowChanged = _this$props.onBulkEditRowChanged,
+          scrollWidth = _this$props.scrollWidth,
+          rowProps = (0, _objectWithoutProperties2.default)(_this$props, [
             "detailPanel",
             "isTreeData",
             "onRowClick",
@@ -442,15 +597,24 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
             "localization",
             "options",
             "actions",
+            "errorState",
+            "onBulkEditRowChanged",
+            "scrollWidth",
           ]);
         return /*#__PURE__*/ React.createElement(
           React.Fragment,
           null,
           /*#__PURE__*/ React.createElement(
-            _TableRow["default"],
-            (0, _extends2["default"])({}, rowProps, {
-              style: this.getStyle(),
-            }),
+            _TableRow.default,
+            (0, _extends2.default)(
+              {
+                onKeyDown: this.handleKeyDown,
+              },
+              rowProps,
+              {
+                style: this.getStyle(),
+              }
+            ),
             columns
           )
         );
@@ -460,7 +624,7 @@ var MTableEditRow = /*#__PURE__*/ (function (_React$Component) {
   return MTableEditRow;
 })(React.Component);
 
-exports["default"] = MTableEditRow;
+exports.default = MTableEditRow;
 MTableEditRow.defaultProps = {
   actions: [],
   index: 0,
@@ -471,28 +635,34 @@ MTableEditRow.defaultProps = {
     cancelTooltip: "Cancel",
     deleteText: "Are you sure you want to delete this row?",
   },
+  onBulkEditRowChanged: function onBulkEditRowChanged() {},
 };
 MTableEditRow.propTypes = {
-  actions: _propTypes["default"].array,
-  icons: _propTypes["default"].any.isRequired,
-  index: _propTypes["default"].number.isRequired,
-  data: _propTypes["default"].object,
-  detailPanel: _propTypes["default"].oneOfType([
-    _propTypes["default"].func,
-    _propTypes["default"].arrayOf(
-      _propTypes["default"].oneOfType([
-        _propTypes["default"].object,
-        _propTypes["default"].func,
+  actions: _propTypes.default.array,
+  icons: _propTypes.default.any.isRequired,
+  index: _propTypes.default.number.isRequired,
+  data: _propTypes.default.object,
+  detailPanel: _propTypes.default.oneOfType([
+    _propTypes.default.func,
+    _propTypes.default.arrayOf(
+      _propTypes.default.oneOfType([
+        _propTypes.default.object,
+        _propTypes.default.func,
       ])
     ),
   ]),
-  options: _propTypes["default"].object.isRequired,
-  onRowSelected: _propTypes["default"].func,
-  path: _propTypes["default"].arrayOf(_propTypes["default"].number),
-  columns: _propTypes["default"].array,
-  onRowClick: _propTypes["default"].func,
-  onEditingApproved: _propTypes["default"].func,
-  onEditingCanceled: _propTypes["default"].func,
-  localization: _propTypes["default"].object,
-  getFieldValue: _propTypes["default"].func,
+  options: _propTypes.default.object.isRequired,
+  onRowSelected: _propTypes.default.func,
+  path: _propTypes.default.arrayOf(_propTypes.default.number),
+  columns: _propTypes.default.array,
+  onRowClick: _propTypes.default.func,
+  onEditingApproved: _propTypes.default.func,
+  onEditingCanceled: _propTypes.default.func,
+  localization: _propTypes.default.object,
+  getFieldValue: _propTypes.default.func,
+  errorState: _propTypes.default.oneOfType([
+    _propTypes.default.object,
+    _propTypes.default.bool,
+  ]),
+  onBulkEditRowChanged: _propTypes.default.func,
 };
