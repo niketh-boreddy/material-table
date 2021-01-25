@@ -1,9 +1,8 @@
 import { Grid, MuiThemeProvider, Button } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import React, { Component } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import MaterialTable from "../src";
-import Typography from "@material-ui/core/Typography";
 
 let direction = "ltr";
 // direction = 'rtl';
@@ -31,25 +30,26 @@ for (let i = 0; i < 1; i++) {
   bigData.push(d);
 }
 
-class App extends Component {
-  tableRef = React.createRef();
+const App = () => {
+  const tableRef = React.createRef();
+  const [currPage, setCurrPage] = useState(0);
+  const colRenderCount = 0;
 
-  colRenderCount = 0;
-
-  state = {
+  var currPage1 = 0;
+  const state = {
     text: "text",
     selecteds: 0,
     data: [
       {
         id: 1,
         name: "A1",
-        surname: "B",
+        surname: "Bo",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
         birthCity: 0,
         sex: "Male",
         type: "adult",
-        insertDateTime: "1994-11-23T08:15:30-05:00",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
         time: new Date(1900, 1, 1, 14, 23, 35),
       },
       {
@@ -61,14 +61,14 @@ class App extends Component {
         birthCity: 34,
         sex: "Female",
         type: "adult",
-        insertDateTime: "1994-11-05T13:15:30Z",
+        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
         time: new Date(1900, 1, 1, 14, 23, 35),
         parentId: 1,
       },
       {
         id: 3,
         name: "A3",
-        surname: "B",
+        surname: "Bee",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
         birthCity: 34,
@@ -81,7 +81,7 @@ class App extends Component {
       {
         id: 4,
         name: "A4",
-        surname: "Dede Dede Dede Dede Dede Dede Dede Dede",
+        surname: "Dede",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
         birthCity: 34,
@@ -94,7 +94,7 @@ class App extends Component {
       {
         id: 5,
         name: "A5",
-        surname: "C",
+        surname: "Ci",
         isMarried: false,
         birthDate: new Date(1987, 1, 1),
         birthCity: 34,
@@ -117,8 +117,8 @@ class App extends Component {
         parentId: 5,
       },
       {
-        id: 11,
-        name: "A1",
+        id: 7,
+        name: "A7",
         surname: "B",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
@@ -129,9 +129,9 @@ class App extends Component {
         time: new Date(1900, 1, 1, 14, 23, 35),
       },
       {
-        id: 21,
-        name: "A2",
-        surname: "B",
+        id: 8,
+        name: "A8",
+        surname: "Bee",
         isMarried: false,
         birthDate: new Date(1987, 1, 1),
         birthCity: 34,
@@ -142,9 +142,9 @@ class App extends Component {
         parentId: 1,
       },
       {
-        id: 31,
-        name: "A3",
-        surname: "B",
+        id: 9,
+        name: "A9",
+        surname: "Bo",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
         birthCity: 34,
@@ -155,8 +155,8 @@ class App extends Component {
         parentId: 1,
       },
       {
-        id: 41,
-        name: "A4",
+        id: 10,
+        name: "A10",
         surname: "Dede",
         isMarried: true,
         birthDate: new Date(1987, 1, 1),
@@ -168,8 +168,8 @@ class App extends Component {
         parentId: 3,
       },
       {
-        id: 51,
-        name: "A5",
+        id: 11,
+        name: "A11",
         surname: "C",
         isMarried: false,
         birthDate: new Date(1987, 1, 1),
@@ -178,239 +178,11 @@ class App extends Component {
         type: "child",
         insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
         time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 61,
-        name: "A6",
-        surname: "C",
-        isMarried: true,
-        birthDate: new Date(1989, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 5,
       },
       {
         id: 12,
-        name: "A1",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 0,
-        sex: "Male",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 22,
-        name: "A2",
-        surname: "B",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 32,
-        name: "A3",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 42,
-        name: "A4",
-        surname: "Dede",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 3,
-      },
-      {
-        id: 52,
-        name: "A5",
-        surname: "C",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 62,
-        name: "A6",
-        surname: "C",
-        isMarried: true,
-        birthDate: new Date(1989, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 5,
-      },
-      {
-        id: 13,
-        name: "A1",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 0,
-        sex: "Male",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 23,
-        name: "A2",
-        surname: "B",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 33,
-        name: "A3",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 43,
-        name: "A4",
-        surname: "Dede",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 3,
-      },
-      {
-        id: 53,
-        name: "A5",
-        surname: "C",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 63,
-        name: "A6",
-        surname: "C",
-        isMarried: true,
-        birthDate: new Date(1989, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 5,
-      },
-      {
-        id: 14,
-        name: "A1",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 0,
-        sex: "Male",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 24,
-        name: "A2",
-        surname: "B",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "adult",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 34,
-        name: "A3",
-        surname: "B",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 1,
-      },
-      {
-        id: 44,
-        name: "A4",
-        surname: "Dede",
-        isMarried: true,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-        parentId: 3,
-      },
-      {
-        id: 54,
-        name: "A5",
-        surname: "C",
-        isMarried: false,
-        birthDate: new Date(1987, 1, 1),
-        birthCity: 34,
-        sex: "Female",
-        type: "child",
-        insertDateTime: new Date(2018, 1, 1, 12, 23, 44),
-        time: new Date(1900, 1, 1, 14, 23, 35),
-      },
-      {
-        id: 64,
-        name: "A6",
-        surname: "C",
+        name: "A12",
+        surname: "Ci",
         isMarried: true,
         birthDate: new Date(1989, 1, 1),
         birthCity: 34,
@@ -422,23 +194,14 @@ class App extends Component {
       },
     ],
     columns: [
-      {
-        title: "Adı",
-        field: "name",
-        filterPlaceholder: "Adı filter",
-        tooltip: "This is tooltip text",
-        editPlaceholder: "This is placeholder",
-        maxWidth: 50,
-      },
+      { title: "Adı", field: "name", filterPlaceholder: "Adı filter" },
       {
         title: "Soyadı",
         field: "surname",
         initialEditValue: "test",
-        tooltip: "This is tooltip text",
-        editable: "never",
-        resizable: false,
+        defaultGroupOrder: 0,
       },
-      { title: "Evli", field: "isMarried" },
+      { title: "Evli", field: "isMarried", type: "boolean" },
       {
         title: "Cinsiyet",
         field: "sex",
@@ -465,7 +228,6 @@ class App extends Component {
             src={rowData.avatar}
           />
         ),
-        tooltip: "delakjdslkjdaskljklsdaj",
       },
       { title: "Id", field: "id" },
       { title: "First Name", field: "first_name", defaultFilter: "De" },
@@ -473,202 +235,54 @@ class App extends Component {
     ],
   };
 
-  render() {
-    return (
-      <>
-        <MuiThemeProvider theme={theme}>
-          <div style={{ maxWidth: "100%", direction }}>
-            <Grid container>
-              <Grid item xs={12}>
-                {this.state.selectedRows && this.state.selectedRows.length}
-                <MaterialTable
-                  tableRef={this.tableRef}
-                  columns={this.state.columns}
-                  data={this.state.data}
-                  title="Demo Title"
-                  onFilterChange={(appliedFilter) => {
-                    console.log("selected Filters : ", appliedFilter);
-                  }}
-                  // cellEditable={{
-                  //   cellStyle: {},
-                  //   onCellEditApproved: (
-                  //     newValue,
-                  //     oldValue,
-                  //     rowData,
-                  //     columnDef
-                  //   ) => {
-                  //     return new Promise((resolve, reject) => {
-                  //       console.log("newValue: " + newValue);
-                  //       setTimeout(resolve, 4000);
-                  //     });
-                  //   },
-                  // }}
-                  options={{
-                    tableLayout: "fixed",
-                    columnResizable: true,
-                    headerSelectionProps: {
-                      color: "primary",
-                    },
-                    selection: false,
-                    selectionProps: (rowData) => {
-                      rowData.tableData.disabled = rowData.name === "A1";
+  const handleClick = (event, rowData) => {
+    console.log(rowData);
+    console.log(event);
+    var data1 = state.data;
+    state.data = data1;
+    tableRef.current.onChangePage(null, currPage1);
+  };
 
-                      return {
-                        disabled: rowData.name === "A1",
-                        color: "primary",
-                      };
-                    },
-                  }}
-                  // editable={{
-                  //   onBulkUpdate: (changedRows) =>
-                  //     new Promise((resolve, reject) => {
-                  //       console.log(changedRows);
-                  //       setTimeout(() => {
-                  //         {
-                  //           /* const data = this.state.data;
-                  //           data.push(newData);
-                  //           this.setState({ data }, () => resolve()); */
-                  //         }
-                  //         resolve();
-                  //       }, 1000);
-                  //     }),
-                  //   onRowAdd: (newData) =>
-                  //     new Promise((resolve, reject) => {
-                  //       setTimeout(() => {
-                  //         {
-                  //           /* const data = this.state.data;
-                  //           data.push(newData);
-                  //           this.setState({ data }, () => resolve()); */
-                  //         }
-                  //         resolve();
-                  //       }, 1000);
-                  //     }),
-                  //   onRowUpdate: (newData, oldData) =>
-                  //     new Promise((resolve, reject) => {
-                  //       setTimeout(() => {
-                  //         {
-                  //           /* const data = this.state.data;
-                  //           const index = data.indexOf(oldData);
-                  //           data[index] = newData;
-                  //           this.setState({ data }, () => resolve()); */
-                  //         }
-                  //         resolve();
-                  //       }, 1000);
-                  //     }),
-                  //   onRowDelete: (oldData) =>
-                  //     new Promise((resolve, reject) => {
-                  //       setTimeout(() => {
-                  //         {
-                  //           /* let data = this.state.data;
-                  //           const index = data.indexOf(oldData);
-                  //           data.splice(index, 1);
-                  //           this.setState({ data }, () => resolve()); */
-                  //         }
-                  //         resolve();
-                  //       }, 1000);
-                  //     }),
-                  // }}
-                  localization={{
-                    body: {
-                      emptyDataSourceMessage: "No records to display",
-                      filterRow: {
-                        filterTooltip: "Filter",
-                        filterPlaceHolder: "Filtaaer",
-                      },
-                    },
-                  }}
-                  onSearchChange={(e) => console.log("search changed: " + e)}
-                  onColumnDragged={(oldPos, newPos) =>
-                    console.log(
-                      "Dropped column from " + oldPos + " to position " + newPos
-                    )
-                  }
-                  // parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
-                />
-              </Grid>
+  const handlePageChange = (page) => {
+    console.log(page);
+    //setCurrPage(page);
+    currPage1 = page;
+  };
+
+  return (
+    <>
+      <MuiThemeProvider theme={theme}>
+        <div style={{ maxWidth: "100%", direction }}>
+          <Grid container>
+            <Grid item xs={12}>
+              <MaterialTable
+                tableRef={tableRef}
+                columns={state.columns}
+                data={state.data}
+                title="Demo Title"
+                options={{
+                  columnsButton: true,
+                  selection: true,
+                  grouping: true,
+                  defaultExpanded: (row) => row.surname === "C",
+                }}
+                onChangePage={(page) => {
+                  handlePageChange(page);
+                }}
+                onSearchChange={(e) => console.log("search changed: " + e)}
+                onColumnDragged={(oldPos, newPos) =>
+                  console.log(
+                    "Dropped column from " + oldPos + " to position " + newPos
+                  )
+                }
+              />
             </Grid>
-            {this.state.text}
-            <button
-              onClick={() => this.tableRef.current.onAllSelected(true)}
-              style={{ margin: 10 }}
-            >
-              Select
-            </button>
-            {/* <MaterialTable
-              title={
-                <Typography variant="h6" color="primary">
-                  Remote Data Preview
-                </Typography>
-              }
-              columns={[
-                {
-                  title: "Avatar",
-                  field: "avatar",
-                  render: (rowData) => (
-                    <img
-                      style={{ height: 36, borderRadius: "50%" }}
-                      src={rowData.avatar}
-                    />
-                  ),
-                },
-                {
-                  title: "Id",
-                  field: "id",
-                  filterOnItemSelect: true,
-                  filterPlaceholder: "placeholder",
-                  lookup: {
-                    1: "1",
-                    2: "2",
-                    3: "3",
-                    4: "4",
-                    5: "5",
-                    6: "6",
-                    7: "7",
-                    8: "8",
-                    9: "9",
-                    10: "10",
-                    11: "11",
-                    12: "12",
-                  },
-                },
-                { title: "First Name", field: "first_name" },
-                { title: "Last Name", field: "last_name" },
-              ]}
-              options={{
-                filtering: true,
-                grouping: true,
-                groupTitle: (group) => group.data.length,
-                searchFieldVariant: "outlined",
-              }}
-              localization={{
-                toolbar: {
-                  searchPlaceholder: "Outlined Search Field",
-                },
-              }}
-              data={(query) =>
-                new Promise((resolve, reject) => {
-                  let url = "https://reqres.in/api/users?";
-                  url += "per_page=" + query.pageSize;
-                  url += "&page=" + (query.page + 1);
-                  console.log(query);
-                  fetch(url)
-                    .then((response) => response.json())
-                    .then((result) => {
-                      resolve({
-                        data: result.data,
-                        page: result.page - 1,
-                        totalCount: result.total,
-                      });
-                    });
-                })
-              }
-            /> */}
-          </div>
-        </MuiThemeProvider>
-      </>
-    );
-  }
-}
+          </Grid>
+        </div>
+      </MuiThemeProvider>
+    </>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));
 
