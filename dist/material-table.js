@@ -799,7 +799,7 @@ var MaterialTable = /*#__PURE__*/ (function (_React$Component) {
               showActionsColumn:
                 props.actions &&
                 props.actions.filter(function (a) {
-                  return !a.isFreeAction.length > 0;
+                  return !a.isFreeAction;
                 }).length > 0,
               showSelectAllCheckbox: props.options.showSelectAllCheckbox,
               orderBy: _this.state.orderBy,

@@ -859,7 +859,7 @@ export default class MaterialTable extends React.Component {
           detailPanelColumnAlignment={props.options.detailPanelColumnAlignment}
           showActionsColumn={
             props.actions &&
-            props.actions.filter((a) => !a.isFreeAction.length > 0).length > 0
+            props.actions.filter((a) => !a.isFreeAction).length > 0
           }
           showSelectAllCheckbox={props.options.showSelectAllCheckbox}
           orderBy={this.state.orderBy}
