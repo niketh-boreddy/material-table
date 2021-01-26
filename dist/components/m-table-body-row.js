@@ -219,8 +219,8 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
         var size = CommonValues.elementSize(this.props);
         var actions = this.props.actions.filter(function (a) {
           return !a.isFreeAction;
-        });
-        var width = actions.length * CommonValues.baseIconSize(this.props);
+        }); // const width = actions.length * CommonValues.baseIconSize(this.props);
+
         return /*#__PURE__*/ React.createElement(
           _TableCell.default,
           {
@@ -229,7 +229,7 @@ var MTableBodyRow = /*#__PURE__*/ (function (_React$Component) {
             key: "key-actions-column",
             style: (0, _objectSpread2.default)(
               {
-                width: width,
+                //width: width,
                 padding: "0px 5px",
                 boxSizing: "border-box",
               },

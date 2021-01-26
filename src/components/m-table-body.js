@@ -21,8 +21,11 @@ class MTableBody extends React.Component {
       if (this.props.options.selection) {
         addColumn++;
       }
-      if (this.props.actions) {
-        addColumn += this.props.actions.filter((a) => !a.isFreeAction).length;
+      if (
+        this.props.actions &&
+        this.props.actions.filter((a) => !a.isFreeAction).length > 0
+      ) {
+        addColumn++;
       }
       if (this.props.hasDetailPanel) {
         addColumn++;

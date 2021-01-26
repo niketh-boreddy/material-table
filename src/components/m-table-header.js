@@ -222,7 +222,7 @@ export class MTableHeader extends React.Component {
       ...MTableHeader.defaultProps.localization,
       ...this.props.localization,
     };
-    const width = CommonValues.actionsColumnWidth(this.props);
+    //const width = CommonValues.actionsColumnWidth(this.props);
     return (
       <TableCell
         key="key-actions-column"
@@ -230,7 +230,7 @@ export class MTableHeader extends React.Component {
         className={this.props.classes.header}
         style={{
           ...this.props.headerStyle,
-          width: width,
+          //width: width,
           textAlign: "center",
           boxSizing: "border-box",
         }}

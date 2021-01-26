@@ -281,6 +281,26 @@ const App = () => {
                 onChangePage={(page) => {
                   handlePageChange(page);
                 }}
+                actions={[
+                  (rowData) => ({
+                    icon: "save",
+                    tooltip: "Deploy",
+                  }),
+                  (rowData) => ({
+                    icon: "library_add",
+                    tooltip: "Deployment in Progress",
+                  }),
+                  (rowData) => ({
+                    icon: "edit",
+                    tooltip: "Deploy",
+                    hidden: rowData.name != "A12",
+                  }),
+                  (rowData) => ({
+                    icon: "delete",
+                    tooltip: "Deployment in Progress",
+                    hidden: rowData.name != "A11",
+                  }),
+                ]}
                 cellEditable={{
                   onCellEditApproved: (
                     newValue,

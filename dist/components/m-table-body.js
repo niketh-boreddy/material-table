@@ -106,10 +106,13 @@ var MTableBody = /*#__PURE__*/ (function (_React$Component) {
             addColumn++;
           }
 
-          if (this.props.actions) {
-            addColumn += this.props.actions.filter(function (a) {
+          if (
+            this.props.actions &&
+            this.props.actions.filter(function (a) {
               return !a.isFreeAction;
-            }).length;
+            }).length > 0
+          ) {
+            addColumn++;
           }
 
           if (this.props.hasDetailPanel) {

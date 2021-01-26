@@ -365,8 +365,8 @@ var MTableHeader = /*#__PURE__*/ (function (_React$Component) {
           {},
           MTableHeader.defaultProps.localization,
           this.props.localization
-        );
-        var width = CommonValues.actionsColumnWidth(this.props);
+        ); //const width = CommonValues.actionsColumnWidth(this.props);
+
         return /*#__PURE__*/ React.createElement(
           _TableCell.default,
           {
@@ -374,7 +374,7 @@ var MTableHeader = /*#__PURE__*/ (function (_React$Component) {
             padding: "checkbox",
             className: this.props.classes.header,
             style: (0, _objectSpread2.default)({}, this.props.headerStyle, {
-              width: width,
+              //width: width,
               textAlign: "center",
               boxSizing: "border-box",
             }),
