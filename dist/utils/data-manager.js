@@ -72,33 +72,29 @@ var DataManager = /*#__PURE__*/ (function () {
     (0, _defineProperty2.default)(this, "sorted", false);
     (0, _defineProperty2.default)(this, "paged", false);
     (0, _defineProperty2.default)(this, "rootGroupsIndex", {});
-    (0, _defineProperty2.default)(
-      this,
-      "startCellEditable",
-      function (rowData, columnDef) {
-        rowData.tableData.editCellList = [].concat(
-          (0, _toConsumableArray2.default)(
-            rowData.tableData.editCellList || []
-          ),
-          [columnDef]
-        );
-      }
-    );
-    (0, _defineProperty2.default)(
-      this,
-      "finishCellEditable",
-      function (rowData, columnDef) {
-        if (rowData.tableData.editCellList) {
-          var index = rowData.tableData.editCellList.findIndex(function (c) {
-            return c.tableData.id === columnDef.tableData.id;
-          });
+    (0, _defineProperty2.default)(this, "startCellEditable", function (
+      rowData,
+      columnDef
+    ) {
+      rowData.tableData.editCellList = [].concat(
+        (0, _toConsumableArray2.default)(rowData.tableData.editCellList || []),
+        [columnDef]
+      );
+    });
+    (0, _defineProperty2.default)(this, "finishCellEditable", function (
+      rowData,
+      columnDef
+    ) {
+      if (rowData.tableData.editCellList) {
+        var index = rowData.tableData.editCellList.findIndex(function (c) {
+          return c.tableData.id === columnDef.tableData.id;
+        });
 
-          if (index !== -1) {
-            rowData.tableData.editCellList.splice(index, 1);
-          }
+        if (index !== -1) {
+          rowData.tableData.editCellList.splice(index, 1);
         }
       }
-    );
+    });
     (0, _defineProperty2.default)(
       this,
       "clearBulkEditChangedRows",
@@ -106,16 +102,15 @@ var DataManager = /*#__PURE__*/ (function () {
         _this.bulkEditChangedRows = {};
       }
     );
-    (0, _defineProperty2.default)(
-      this,
-      "onBulkEditRowChanged",
-      function (oldData, newData) {
-        _this.bulkEditChangedRows[oldData.tableData.id] = {
-          oldData: oldData,
-          newData: newData,
-        };
-      }
-    );
+    (0, _defineProperty2.default)(this, "onBulkEditRowChanged", function (
+      oldData,
+      newData
+    ) {
+      _this.bulkEditChangedRows[oldData.tableData.id] = {
+        oldData: oldData,
+        newData: newData,
+      };
+    });
     (0, _defineProperty2.default)(this, "expandTreeForNodes", function (data) {
       data.forEach(function (row) {
         var currentRow = row;
@@ -131,66 +126,64 @@ var DataManager = /*#__PURE__*/ (function () {
         }
       });
     });
-    (0, _defineProperty2.default)(
-      this,
-      "findDataByPath",
-      function (renderData, path) {
-        if (_this.isDataType("tree")) {
-          var node = path.reduce(
-            function (result, current) {
-              return (
-                result &&
-                result.tableData &&
-                result.tableData.childRows &&
-                result.tableData.childRows[current]
-              );
+    (0, _defineProperty2.default)(this, "findDataByPath", function (
+      renderData,
+      path
+    ) {
+      if (_this.isDataType("tree")) {
+        var node = path.reduce(
+          function (result, current) {
+            return (
+              result &&
+              result.tableData &&
+              result.tableData.childRows &&
+              result.tableData.childRows[current]
+            );
+          },
+          {
+            tableData: {
+              childRows: renderData,
             },
-            {
-              tableData: {
-                childRows: renderData,
-              },
-            }
-          );
-          return node;
-        } else {
-          var data = {
-            groups: renderData,
-          };
+          }
+        );
+        return node;
+      } else {
+        var data = {
+          groups: renderData,
+        };
 
-          var _node = path.reduce(function (result, current) {
-            if (result.groups.length > 0) {
-              return result.groups[current];
-            } else if (result.data) {
-              return result.data[current];
-            } else {
-              return undefined;
-            }
-          }, data);
+        var _node = path.reduce(function (result, current) {
+          if (result.groups.length > 0) {
+            return result.groups[current];
+          } else if (result.data) {
+            return result.data[current];
+          } else {
+            return undefined;
+          }
+        }, data);
 
-          return _node;
-        }
+        return _node;
       }
-    );
-    (0, _defineProperty2.default)(
-      this,
-      "getFieldValue",
-      function (rowData, columnDef) {
-        var lookup =
-          arguments.length > 2 && arguments[2] !== undefined
-            ? arguments[2]
-            : true;
-        var value =
-          typeof rowData[columnDef.field] !== "undefined"
-            ? rowData[columnDef.field]
-            : (0, _2.byString)(rowData, columnDef.field);
+    });
+    (0, _defineProperty2.default)(this, "getFieldValue", function (
+      rowData,
+      columnDef
+    ) {
+      var lookup =
+        arguments.length > 2 && arguments[2] !== undefined
+          ? arguments[2]
+          : true;
+      var value =
+        typeof rowData[columnDef.field] !== "undefined"
+          ? rowData[columnDef.field]
+          : (0, _2.byString)(rowData, columnDef.field);
 
-        if (columnDef.lookup && lookup) {
-          value = columnDef.lookup[value];
-        }
-
-        return value;
+      if (columnDef.lookup && lookup) {
+        value = columnDef.lookup[value];
       }
-    );
+
+      return value;
+    });
     (0, _defineProperty2.default)(this, "getRenderState", function () {
       if (_this.filtered === false) {
         _this.filterData();

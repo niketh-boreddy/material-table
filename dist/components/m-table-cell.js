@@ -133,10 +133,9 @@ var MTableCell = /*#__PURE__*/ (function (_React$Component) {
           width: width,
           maxWidth: _this.props.columnDef.maxWidth,
           minWidth: _this.props.columnDef.minWidth,
-          boxSizing: "border-box",
-          fontSize: "inherit",
-          fontFamily: "inherit",
-          fontWeight: "inherit",
+          boxSizing: "border-box", // fontSize: "inherit",
+          // fontFamily: "inherit",
+          // fontWeight: "inherit",
         };
 
         if (typeof _this.props.columnDef.cellStyle === "function") {
