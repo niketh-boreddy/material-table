@@ -1,22 +1,20 @@
 /* eslint-disable no-unused-vars */
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-
-import * as React from 'react';
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import IconButton from "@material-ui/core/IconButton";
+import PropTypes from "prop-types";
+import Checkbox from "@material-ui/core/Checkbox";
+import * as React from "react";
 /* eslint-enable no-unused-vars */
 
-
 export default class MTableGroupRow extends React.Component {
-
-  rotateIconStyle = isOpen => ({
-    transform: isOpen ? 'rotate(90deg)' : 'none'
+  rotateIconStyle = (isOpen) => ({
+    transform: isOpen ? "rotate(90deg)" : "none",
   });
 
   render() {
-    let colSpan = this.props.columns.filter(columnDef => !columnDef.hidden).length;
+    let colSpan = this.props.columns.filter((columnDef) => !columnDef.hidden)
+      .length;
     this.props.options.selection && colSpan++;
     this.props.detailPanel && colSpan++;
     this.props.actions && this.props.actions.length > 0 && colSpan++;
@@ -24,11 +22,12 @@ export default class MTableGroupRow extends React.Component {
 
     let detail;
     if (this.props.groupData.isExpanded) {
-      if (this.props.groups.length > (this.props.level + 1)) { // Is there another group
+      if (this.props.groups.length > this.props.level + 1) {
+        // Is there another group
         detail = this.props.groupData.groups.map((groupData, index) => (
           <this.props.components.GroupRow
             actions={this.props.actions}
-            key={groupData.value || ("" + index)}
+            key={groupData.value || "" + index}
             columns={this.props.columns}
             components={this.props.components}
             detailPanel={this.props.detailPanel}
@@ -40,6 +39,7 @@ export default class MTableGroupRow extends React.Component {
             path={[...this.props.path, index]}
             onGroupExpandChanged={this.props.onGroupExpandChanged}
             onRowSelected={this.props.onRowSelected}
+            onGroupRowSelected={this.props.onGroupRowSelected}
             onRowClick={this.props.onRowClick}
             onToggleDetailPanel={this.props.onToggleDetailPanel}
             onTreeExpandChanged={this.props.onTreeExpandChanged}
@@ -48,10 +48,17 @@ export default class MTableGroupRow extends React.Component {
             options={this.props.options}
             hasAnyEditingRow={this.props.hasAnyEditingRow}
             isTreeData={this.props.isTreeData}
+            localization={{
+              ...this.props.components.Body.defaultProps.localization.editRow,
+              ...this.props.localization.editRow,
+            }}
+            cellEditable={this.props.cellEditable}
+            onCellEditStarted={this.props.onCellEditStarted}
+            onCellEditFinished={this.props.onCellEditFinished}
+            scrollWidth={this.props.scrollWidth}
           />
         ));
-      }
-      else {
+      } else {
         detail = this.props.groupData.data.map((rowData, index) => {
           if (rowData.tableData.editing) {
             return (
@@ -70,6 +77,8 @@ export default class MTableGroupRow extends React.Component {
                 onEditingCanceled={this.props.onEditingCanceled}
                 onEditingApproved={this.props.onEditingApproved}
                 getFieldValue={this.props.getFieldValue}
+                onBulkEditRowChanged={this.props.onBulkEditRowChanged}
+                scrollWidth={this.props.scrollWidth}
               />
             );
           } else {
@@ -93,6 +102,10 @@ export default class MTableGroupRow extends React.Component {
                 onEditingCanceled={this.props.onEditingCanceled}
                 onEditingApproved={this.props.onEditingApproved}
                 hasAnyEditingRow={this.props.hasAnyEditingRow}
+                cellEditable={this.props.cellEditable}
+                onCellEditStarted={this.props.onCellEditStarted}
+                onCellEditFinished={this.props.onCellEditFinished}
+                scrollWidth={this.props.scrollWidth}
               />
             );
           }
@@ -112,7 +125,9 @@ export default class MTableGroupRow extends React.Component {
     }
 
     let title = column.title;
-    if (typeof title !== "string") {
+    if (typeof this.props.options.groupTitle === "function") {
+      title = this.props.options.groupTitle(this.props.groupData);
+    } else if (typeof title !== "string") {
       title = React.cloneElement(title);
     }
 
@@ -129,7 +144,10 @@ export default class MTableGroupRow extends React.Component {
             icons={this.props.icons}
           >
             <IconButton
-              style={{ transition: 'all ease 200ms', ...this.rotateIconStyle(this.props.groupData.isExpanded) }}
+              style={{
+                transition: "all ease 200ms",
+                ...this.rotateIconStyle(this.props.groupData.isExpanded),
+              }}
               onClick={(event) => {
                 this.props.onGroupExpandChanged(this.props.path);
               }}
@@ -138,13 +156,26 @@ export default class MTableGroupRow extends React.Component {
             </IconButton>
 
             <Checkbox
-              checked={this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount === this.props.groupData.childrenCount}
-              indeterminate={this.props.groupData.selectedCount > 0 && this.props.groupData.selectedCount < this.props.groupData.childrenCount}
+              checked={
+                this.props.groupData.selectedCount > 0 &&
+                this.props.groupData.selectedCount ===
+                  this.props.groupData.childrenCount
+              }
+              indeterminate={
+                this.props.groupData.selectedCount > 0 &&
+                this.props.groupData.selectedCount <
+                  this.props.groupData.childrenCount
+              }
               onClick={(e) => e.stopPropagation()}
               value={this.props.groupData.value.toString()}
-              onChange={(event) => this.props.onGroupRowSelected(event, this.props.path, this.props.groupData)}
+              onChange={(event) =>
+                this.props.onGroupRowSelected(
+                  event,
+                  this.props.path,
+                  this.props.groupData
+                )
+              }
             />
-
           </this.props.components.Cell>
         </TableRow>
         {detail}
@@ -157,14 +188,17 @@ MTableGroupRow.defaultProps = {
   columns: [],
   groups: [],
   options: {},
-  level: 0
+  level: 0,
 };
 
 MTableGroupRow.propTypes = {
   actions: PropTypes.array,
   columns: PropTypes.arrayOf(PropTypes.object),
   components: PropTypes.object,
-  detailPanel: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.object)]),
+  detailPanel: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
   getFieldValue: PropTypes.func,
   groupData: PropTypes.object,
   groups: PropTypes.arrayOf(PropTypes.object),
@@ -183,6 +217,11 @@ MTableGroupRow.propTypes = {
   onEditingApproved: PropTypes.func,
   options: PropTypes.object,
   path: PropTypes.arrayOf(PropTypes.number),
+  scrollWidth: PropTypes.number.isRequired,
+  cellEditable: PropTypes.object,
+  onCellEditStarted: PropTypes.func,
+  onCellEditFinished: PropTypes.func,
+  onBulkEditRowChanged: PropTypes.func,
 };
 
-            //<!--<b>{title}{separator}</b>-->
+//<!--<b>{title}{separator}</b>-->
