@@ -9,6 +9,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _extends2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/extends")
+);
+
 var _objectSpread2 = _interopRequireDefault(
   require("@babel/runtime/helpers/objectSpread")
 );
@@ -244,6 +248,44 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
           }
         }
 
+        var selectionCheckBox;
+
+        if (this.props.options.selection) {
+          var checkboxProps = this.props.options.selectionProps || {};
+
+          if (typeof checkboxProps === "function") {
+            checkboxProps = checkboxProps(this.props.data);
+          }
+
+          selectionCheckBox = /*#__PURE__*/ React.createElement(
+            _Checkbox.default,
+            (0, _extends2.default)(
+              {
+                checked:
+                  this.props.groupData.selectedCount > 0 &&
+                  this.props.groupData.selectedCount ===
+                    this.props.groupData.childrenCount,
+                indeterminate:
+                  this.props.groupData.selectedCount > 0 &&
+                  this.props.groupData.selectedCount <
+                    this.props.groupData.childrenCount,
+                onClick: function onClick(e) {
+                  return e.stopPropagation();
+                },
+                value: this.props.groupData.value.toString(),
+                onChange: function onChange(event) {
+                  return _this2.props.onGroupRowSelected(
+                    event,
+                    _this2.props.path,
+                    _this2.props.groupData
+                  );
+                },
+              },
+              checkboxProps
+            )
+          );
+        }
+
         var freeCells = [];
 
         for (var i = 0; i < this.props.level; i++) {
@@ -303,27 +345,7 @@ var MTableGroupRow = /*#__PURE__*/ (function (_React$Component) {
                   null
                 )
               ),
-              /*#__PURE__*/ React.createElement(_Checkbox.default, {
-                checked:
-                  this.props.groupData.selectedCount > 0 &&
-                  this.props.groupData.selectedCount ===
-                    this.props.groupData.childrenCount,
-                indeterminate:
-                  this.props.groupData.selectedCount > 0 &&
-                  this.props.groupData.selectedCount <
-                    this.props.groupData.childrenCount,
-                onClick: function onClick(e) {
-                  return e.stopPropagation();
-                },
-                value: this.props.groupData.value.toString(),
-                onChange: function onChange(event) {
-                  return _this2.props.onGroupRowSelected(
-                    event,
-                    _this2.props.path,
-                    _this2.props.groupData
-                  );
-                },
-              })
+              selectionCheckBox
             )
           ),
           detail

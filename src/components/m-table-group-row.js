@@ -113,6 +113,39 @@ export default class MTableGroupRow extends React.Component {
       }
     }
 
+    let selectionCheckBox;
+    if (this.props.options.selection) {
+      let checkboxProps = this.props.options.selectionProps || {};
+      if (typeof checkboxProps === "function") {
+        checkboxProps = checkboxProps(this.props.data);
+      }
+
+      selectionCheckBox = (
+        <Checkbox
+          checked={
+            this.props.groupData.selectedCount > 0 &&
+            this.props.groupData.selectedCount ===
+              this.props.groupData.childrenCount
+          }
+          indeterminate={
+            this.props.groupData.selectedCount > 0 &&
+            this.props.groupData.selectedCount <
+              this.props.groupData.childrenCount
+          }
+          onClick={(e) => e.stopPropagation()}
+          value={this.props.groupData.value.toString()}
+          onChange={(event) =>
+            this.props.onGroupRowSelected(
+              event,
+              this.props.path,
+              this.props.groupData
+            )
+          }
+          {...checkboxProps}
+        />
+      );
+    }
+
     const freeCells = [];
 
     for (let i = 0; i < this.props.level; i++) {
@@ -155,27 +188,7 @@ export default class MTableGroupRow extends React.Component {
               <this.props.icons.DetailPanel />
             </IconButton>
 
-            <Checkbox
-              checked={
-                this.props.groupData.selectedCount > 0 &&
-                this.props.groupData.selectedCount ===
-                  this.props.groupData.childrenCount
-              }
-              indeterminate={
-                this.props.groupData.selectedCount > 0 &&
-                this.props.groupData.selectedCount <
-                  this.props.groupData.childrenCount
-              }
-              onClick={(e) => e.stopPropagation()}
-              value={this.props.groupData.value.toString()}
-              onChange={(event) =>
-                this.props.onGroupRowSelected(
-                  event,
-                  this.props.path,
-                  this.props.groupData
-                )
-              }
-            />
+            {selectionCheckBox}
           </this.props.components.Cell>
         </TableRow>
         {detail}

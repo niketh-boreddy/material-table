@@ -274,7 +274,7 @@ const App = () => {
                 title="Demo Title"
                 options={{
                   columnsButton: true,
-                  selection: true,
+                  selection: false,
                   grouping: true,
                   defaultExpanded: (row) => row.surname === "C",
                 }}
